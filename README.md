@@ -43,4 +43,6 @@ This means that we can quickly create new experiments, plug-ins, try out new ide
 ## Future work 
 
 * Running Bowerbird in the web: - https://github.com/Suchiman/Runny
-* Running Bowerbird in Unity - https://worldofzero.com/videos/runtime-c-scripting-embedding-the-net-roslyn-compiler-in-unity/
+* Running Bowerbird in Unity
+  * https://worldofzero.com/videos/runtime-c-scripting-embedding-the-net-roslyn-compiler-in-unity/
+  * https://assetstore.unity.com/packages/tools/integration/roslyn-c-runtime-compiler-142753
