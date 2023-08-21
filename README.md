@@ -3,9 +3,9 @@
 Bowerbird simplifies and accelerates C# plug-in development by allowing you to dynamically compile assemblies 
 on the fly for your favorite tool's C# API.
 
-# What is Bowerbird 
+## What is it?  
 
-It is a set of libraries and conventions based on Roslyn for enabling dynamic (scripted) C# plug-in development 
+Bowerbird a set of libraries and conventions based on Roslyn for enabling dynamic (scripted) C# plug-in development 
 in different environments.  
 
 ## Problem
@@ -26,17 +26,21 @@ Other examples include:
 * AutoCAD
 * Unity
 * Rhino
+  
+## Solution
+
+By using a dynamic compilation library based on Roslyn and Ptarmigan one generic Bowerbird plug-in 
+can host many other plug-ins which can be dynamically compiled and modified without restarting the host application.
+This means that we can quickly create new experiments, plug-ins, try out new ideas, or test hypotheses or our code.  
 
 ## Inspiration 
 
 * MCG
 * pyRevit
+* [Revit.ScriptCS](https://github.com/sridharbaldava/Revit.ScriptCS)
 * Unity 
 
 ## Future work 
 
-Running Bowerbird in the web: 
-* https://github.com/Suchiman/Runny
-
-Running Bowerbird 
-* https://worldofzero.com/videos/runtime-c-scripting-embedding-the-net-roslyn-compiler-in-unity/
+* Running Bowerbird in the web: - https://github.com/Suchiman/Runny
+* Running Bowerbird in Unity - https://worldofzero.com/videos/runtime-c-scripting-embedding-the-net-roslyn-compiler-in-unity/
