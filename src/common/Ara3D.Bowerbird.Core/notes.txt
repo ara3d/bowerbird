@@ -1,0 +1,5 @@
+﻿Features:
+* Save and load settings from a JSON file
+* When starting up, don't recompile everything if nothing has changed. 
+* Support for nugets 
+* 

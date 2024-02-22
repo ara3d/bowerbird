@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>Bowerbird Dynamically Compiled Plug-ins</Name>
+    <FullClassName>Ara3D.Bowerbird.Revit.BowerbirdApp</FullClassName>
+    <Text>Create C# Plug-ins and Assemblies at Run-time</Text>
+    <Description>Create C# Assemblies and Plug-ins at Run-time</Description>
+    <VisibilityMode>NotVisibleInFamily</VisibilityMode>
+    <Assembly>Ara3D.Bowerbird\Ara3D.Bowerbird.Revit2023.dll</Assembly>
+    <AddInId>8F4295CE-00A0-4E39-A64E-412DD8F2814B</AddInId>
+    <VendorId>com.ara3d</VendorId>
+    <VendorDescription>Ara3D.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>
