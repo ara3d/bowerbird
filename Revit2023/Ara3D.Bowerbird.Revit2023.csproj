@@ -136,7 +136,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>call cd "$(ProjectDir)" 
-call "post-build.bat" "$(OutDir)"</PostBuildEvent>
+    <PostBuildEvent>cd "$(ProjectDir)" 
+call post-build.bat "$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
