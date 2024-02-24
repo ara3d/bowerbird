@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Ara3D.Bowerbird.Core;
 
 namespace Ara3D.Bowerbird.Revit
 {

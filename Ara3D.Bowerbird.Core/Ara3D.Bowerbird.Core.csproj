@@ -2,18 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Ara3D.Domo" Version="1.2.1" />
-    <PackageReference Include="Ara3D.Services" Version="1.2.1" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\domo\Ara3D.Domo\Ara3D.Domo.csproj" />
+    <ProjectReference Include="..\..\src\Ara3D.Services\Ara3D.Services.csproj" />
+    <ProjectReference Include="..\..\src\Ara3D.Utils\Ara3D.Utils.csproj" />
+    <ProjectReference Include="..\Ara3D.Bowerbird.Interfaces\Ara3D.Bowerbird.Interfaces.csproj" />
     <ProjectReference Include="..\Ara3D.Utils.Roslyn\Ara3D.Utils.Roslyn.csproj" />
   </ItemGroup>
 

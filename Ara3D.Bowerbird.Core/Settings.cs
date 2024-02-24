@@ -33,7 +33,6 @@ namespace Ara3D.Bowerbird.Core
 
     public interface IPluginCommand : INamedCommand
     {
-        string Name { get; }
         Guid Id { get; }
         string Description { get; }
     }

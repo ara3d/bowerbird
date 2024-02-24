@@ -2,7 +2,7 @@
 <RevitAddIns>
   <AddIn Type="Application">
     <Name>Bowerbird Dynamically Compiled Plug-ins</Name>
-    <FullClassName>Ara3D.Bowerbird.Revit.BowerbirdApp</FullClassName>
+    <FullClassName>Ara3D.Bowerbird.Revit.BowerbirdRevitApp</FullClassName>
     <Text>Create C# Plug-ins and Assemblies at Run-time</Text>
     <Description>Create C# Assemblies and Plug-ins at Run-time</Description>
     <VisibilityMode>NotVisibleInFamily</VisibilityMode>

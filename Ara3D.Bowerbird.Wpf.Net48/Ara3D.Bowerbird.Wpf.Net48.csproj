@@ -99,16 +99,28 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\common\Ara3D.Bowerbird.Core\Ara3D.Bowerbird.Core.csproj">
-      <Project>{e3729fda-8859-48c9-8dc8-c25cc96a3a17}</Project>
+    <ProjectReference Include="..\..\domo\Ara3D.Domo\Ara3D.Domo.csproj">
+      <Project>{8BFD0CE5-7A21-401F-BACD-6062BBD4F2AE}</Project>
+      <Name>Ara3D.Domo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ara3D.Services\Ara3D.Services.csproj">
+      <Project>{54EDAD8E-0960-462B-A4F1-4E82C9F8275F}</Project>
+      <Name>Ara3D.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ara3D.Utils\Ara3D.Utils.csproj">
+      <Project>{6B8EA878-A82D-43AF-BFEF-0E5106117F55}</Project>
+      <Name>Ara3D.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ara3D.Bowerbird.Core\Ara3D.Bowerbird.Core.csproj">
+      <Project>{c71dc6b8-afc4-441d-ae7a-9b7eabf94630}</Project>
       <Name>Ara3D.Bowerbird.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\common\Ara3D.Bowerbird.Interfaces\Ara3D.Bowerbird.Interfaces.csproj">
-      <Project>{7ddefd3e-4b99-4685-b7d7-0a43bbe4e3f4}</Project>
+    <ProjectReference Include="..\Ara3D.Bowerbird.Interfaces\Ara3D.Bowerbird.Interfaces.csproj">
+      <Project>{cd065991-5f6e-4554-a7f8-12e542aece9b}</Project>
       <Name>Ara3D.Bowerbird.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\common\Ara3D.Utils.Roslyn\Ara3D.Utils.Roslyn.csproj">
-      <Project>{ad215465-a6bb-4724-9bc4-da05b9408776}</Project>
+    <ProjectReference Include="..\Ara3D.Utils.Roslyn\Ara3D.Utils.Roslyn.csproj">
+      <Project>{D8946DBB-4DD8-4C90-BFD3-8243B0786945}</Project>
       <Name>Ara3D.Utils.Roslyn</Name>
     </ProjectReference>
   </ItemGroup>

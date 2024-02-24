@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -17,7 +18,7 @@ namespace Ara3D.Bowerbird.Revit
                     throw new Exception("Bowerbird application was never instantiated");
                 
                 BowerbirdRevitApp.Instance.Run(commandData.Application);
-                //Debug.WriteLine("Executed");
+                Debug.WriteLine("Executed");
 				
                 return Result.Succeeded;
 			}
