@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Ara3D.Bowerbird.Core;
+using Ara3D.Bowerbird.Interfaces;
+using Ara3D.Bowerbird.Wpf.Net48.Lib;
+using Ara3D.Domo;
 using Ara3D.Services;
+using Ara3D.Utils;
 using Autodesk.Revit.UI;
+using Application = Ara3D.Services.Application;
 
 namespace Ara3D.Bowerbird.Revit
 {
@@ -35,10 +43,35 @@ namespace Ara3D.Bowerbird.Revit
             }
         }
 
+        public static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            if (args.Name.Contains("Bowerbird.Revit2023") && !args.Name.Contains("resources"))
+            {
+                return typeof(BowerbirdRevitApp).Assembly;
+
+                //var filename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+                //filename = Path.Combine(filename, "MaterialDesignTheme.Wpf.dll");
+                /*
+                if (File.Exists(filename))
+                {
+                    return Assembly.LoadFrom(filename);
+                }
+                */
+            }
+            return null;
+        }
+
         public Result OnStartup(UIControlledApplication application)
         {
             UicApp = application;
+
             Instance = this;
+            Debug.WriteLine($"Current culture = {CultureInfo.CurrentCulture}");
+            Debug.WriteLine($"Current UI culture = {CultureInfo.CurrentUICulture}");
+            Debug.WriteLine($"Default current culture = {CultureInfo.DefaultThreadCurrentCulture}");
+            Debug.WriteLine($"Default current UI culture = {CultureInfo.DefaultThreadCurrentUICulture}");
+
             var rvtRibbonPanel = application.CreateRibbonPanel("Ara 3D");
             var pushButtonData = new PushButtonData("Bowerbird", "Bowerbird", 
                 Assembly.GetExecutingAssembly().Location,
@@ -55,57 +88,40 @@ namespace Ara3D.Bowerbird.Revit
         }
 
         public IApplication App { get; }
-        public LoggingService Logger { get; }
-        public BowerbirdService Service { get; }
+        public LoggingService Logging { get; }
+        public BowerbirdService Bowerbird { get; }
         public BowerbirdOptions Options { get; }
-        public BowerbirdWindow Window { get; private set; }
+        public BowerbirdMainWindow Window { get; private set; }
 
         public BowerbirdRevitApp()
         {
             App = new Application();
-            Logger = new LoggingService("Bowerbird", App);
             Options = BowerbirdOptions.CreateFromName("Ara 3D", "Bowerbird for Revit");
-            Service = new BowerbirdService(App, Logger, Options);
-            Service.Compiler.RecompileEvent += CompilerOnRecompileEvent;
-        }
-
-        private void CompilerOnRecompileEvent(object sender, EventArgs e)
-        {
-            if (Window != null && Window.IsVisible)
-            {
-                Window.CommandListBox.Items.Clear();
-                foreach (var t in Service.Compiler.ExportedTypes)
-                {
-                    Window.CommandListBox.Items.Add(t.Name);
-                }
-            }
-        }
-
-        public void Compile()
-        {
-            Service.Compiler.Compile();
-        }
-
-        public void OnLogEntry(LogEntry entry)
-        {
-            Debug.WriteLine($"Log entry: {entry.Text}");
-            if (Window != null)
-                Window.ConsoleListBox.Items.Add(entry.ToString());
+            Logging = new LoggingService("Bowerbird", App);
+            Bowerbird = new BowerbirdService(App, Logging, Options);
         }
 
         public void Run(UIApplication application)
         {
-            Logger.Log("Running command");
+            Logging.Log("Running Bowerbird Revit application");
+
+            Debug.WriteLine($"Current culture = {CultureInfo.CurrentCulture}");
+            Debug.WriteLine($"Current UI culture = {CultureInfo.CurrentUICulture}");
+            Debug.WriteLine($"Default current culture = {CultureInfo.DefaultThreadCurrentCulture}");
+            Debug.WriteLine($"Default current UI culture = {CultureInfo.DefaultThreadCurrentUICulture}");
+
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
+            Window = Window ?? new BowerbirdMainWindow();
+
+            Window.Show();
+            Window.BowerbirdPanel.RegisterServices(Bowerbird, Logging);
 
             /*
             MyExportCommand.ExportView3D(application.ActiveUIDocument.Document,
-                (Autodesk.Revit.DB.View3D)application.ActiveUIDocument.ActiveGraphicalView);
-            
-            window.Show();
+                (Autodesk.Revit.DB.View3D)application.ActiveUIDocument.ActiveGraphicalView);            
             Service.Compile();
             */
-            Window = Window ?? new BowerbirdWindow(this);
-            Window.Show();
         }
     }
 }

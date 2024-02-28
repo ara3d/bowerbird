@@ -4,18 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ara3D.Bowerbird.Wpf.Net48"
+        xmlns:lib="clr-namespace:Ara3D.Bowerbird.Wpf.Net48.Lib;assembly=Ara3D.Bowerbird.Wpf.Net48.Lib"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-	        <ColumnDefinition></ColumnDefinition>
-			<ColumnDefinition></ColumnDefinition>
-			<ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <ListView Grid.Column="0" x:Name="ListView0"></ListView>
-		<ListView Grid.Column="1"  x:Name="ListView1"></ListView>
-		<ListView Grid.Column="2"  x:Name="ListView2"></ListView>
-		<ListView Grid.Column="3"  x:Name="ListView3"></ListView>
-    </Grid>
+	<Grid>
+		<lib:BowerbirdPanel x:FieldModifier="public" x:Name="BowerbirdPanel"/>
+	</Grid>
 </Window>

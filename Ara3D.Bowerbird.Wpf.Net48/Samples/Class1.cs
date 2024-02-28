@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ara3D.Bowerbird.Wpf.Net48.Samples
+﻿namespace Ara3D.Bowerbird.Wpf.Net48.Samples
 {
     public class Class1
     {

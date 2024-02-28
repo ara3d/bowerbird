@@ -12,6 +12,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
     <WarningLevel>0</WarningLevel>
+    <AssemblyVersion>1.2.1</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -30,6 +31,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>Ara3D.Bowerbird.Revit</RootNamespace>
@@ -75,10 +77,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BowerbirdRevitApp.cs" />
-    <Compile Include="BowerbirdWindow.xaml.cs">
-      <DependentUpon>BowerbirdWindow.xaml</DependentUpon>
+    <Compile Include="BowerbirdMainWindow.xaml.cs">
+      <DependentUpon>BowerbirdMainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BowerbirdPanel.xaml.cs">
+      <DependentUpon>BowerbirdPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BowerbirdRevitApp.cs" />
     <Compile Include="BowerbirdExternalCommand.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Resources.Designer.cs">
@@ -106,23 +111,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="BowerbirdWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis">
-      <Version>4.8.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
-      <Version>4.8.0</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.2</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\domo\Ara3D.Domo\Ara3D.Domo.csproj">
+      <Project>{8BFD0CE5-7A21-401F-BACD-6062BBD4F2AE}</Project>
+      <Name>Ara3D.Domo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Ara3D.Services\Ara3D.Services.csproj">
       <Project>{54EDAD8E-0960-462B-A4F1-4E82C9F8275F}</Project>
       <Name>Ara3D.Services</Name>
@@ -143,6 +135,44 @@
       <Project>{D8946DBB-4DD8-4C90-BFD3-8243B0786945}</Project>
       <Name>Ara3D.Utils.Roslyn</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers">
+      <Version>3.3.4</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common">
+      <Version>4.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
+      <Version>4.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Buffers">
+      <Version>4.5.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Numerics.Vectors">
+      <Version>4.5.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
+      <Version>6.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Text.Encoding.CodePages">
+      <Version>8.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Threading.Tasks.Extensions">
+      <Version>4.5.4</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="BowerbirdMainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BowerbirdPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

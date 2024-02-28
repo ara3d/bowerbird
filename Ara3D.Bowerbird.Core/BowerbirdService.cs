@@ -1,38 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
-using Ara3D.Domo;
+using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Services;
 using Ara3D.Utils;
 using Ara3D.Utils.Roslyn;
 
 namespace Ara3D.Bowerbird.Core
 {
-    public class BowerbirdDataModel
+    public class BowerbirdService : 
+        SingletonModelBackedService<BowerbirdDataModel>, 
+        IBowerbirdService
     {
-        public IReadOnlyList<Type> Types = Array.Empty<Type>();
-        public IReadOnlyList<string> Files = Array.Empty<string>();
-        public IReadOnlyList<string> Diagnostics = Array.Empty<string>();
-        public string Dll = "";
-        public BowerbirdOptions Options = new BowerbirdOptions();
-        public bool ParseSuccess;
-        public bool EmitSuccess;
-        public bool LoadSuccess;
-    }
-        
-    public class BowerbirdService : BaseService
-    {
-        public DirectoryPath Directory => Compiler.Directory; 
         public DirectoryCompiler Compiler { get; }
         public ILogger Logger { get; }
-        public CancellationTokenSource TokenSource { get; private set; }
         public BowerbirdOptions Options { get; }
         public Assembly Assembly => Compiler?.Assembly;
-        public SingletonRepository<BowerbirdDataModel> Repo { get; } = new SingletonRepository<BowerbirdDataModel>();
 
-        public BowerbirdService(IApplication app, ILogger logger, BowerbirdOptions options)
+        public BowerbirdService(IApplication app, ILoggingService logger, BowerbirdOptions options)
             : base(app)
         {
             Logger = logger;
@@ -43,6 +28,7 @@ namespace Ara3D.Bowerbird.Core
             Compiler.RecompileEvent += Compiler_RecompileEvent;
         }
 
+        // TODO: make this a command.
         public void Compile()
         {
             Compiler.Compile();
@@ -62,11 +48,12 @@ namespace Ara3D.Bowerbird.Core
 
         public void UpdateDataModel()
         {
-            Repo.Value = new BowerbirdDataModel()
+            Repository.Value = new BowerbirdDataModel()
             {
                 Dll = Assembly?.Location ?? "",
-                Types = Compiler?.ExportedTypes?.OrderBy(t => t.FullName).ToArray() ?? Array.Empty<Type>(),
-                Files = Compiler?.Input?.SourceFiles?.Select(sf => sf.FilePath.Value).OrderBy(x => x).ToArray() ?? Array.Empty<string>(),
+                Directory = Compiler?.Directory,
+                TypeNames = Compiler?.ExportedTypes?.Select(t => t.FullName).OrderBy(t => t).ToArray() ?? Array.Empty<string>(),
+                Files = Compiler?.Input?.SourceFiles?.Select(sf => sf.FilePath).OrderBy(x => x.Value).ToArray() ?? Array.Empty<FilePath>(),
                 Diagnostics = Compiler?.Compilation?.Diagnostics?.Select(d => d.ToString()).ToArray() ?? Array.Empty<string>(),
                 ParseSuccess = Compiler?.Input?.HasParseErrors == false,
                 EmitSuccess = Compiler?.CompilationSuccess == true,
