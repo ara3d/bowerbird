@@ -1,7 +1,4 @@
 ﻿using System.Windows;
-using Ara3D.Bowerbird.Interfaces;
-using Ara3D.Domo;
-using Ara3D.Utils;
 
 namespace Ara3D.Bowerbird.Wpf.Net48
 {

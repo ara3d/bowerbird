@@ -4,15 +4,11 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Ara3D.Bowerbird.Core;
 using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Bowerbird.Wpf.Net48.Lib;
-using Ara3D.Domo;
 using Ara3D.Services;
-using Ara3D.Utils;
 using Autodesk.Revit.UI;
 using Application = Ara3D.Services.Application;
 
