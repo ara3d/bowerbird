@@ -1,18 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\..\domo\Ara3D.Domo\Ara3D.Domo.csproj" />
-    <ProjectReference Include="..\..\src\Ara3D.Logging\Ara3D.Logging.csproj" />
     <ProjectReference Include="..\..\src\Ara3D.Services\Ara3D.Services.csproj" />
-    <ProjectReference Include="..\..\src\Ara3D.Utils\Ara3D.Utils.csproj" />
     <ProjectReference Include="..\Ara3D.Bowerbird.Interfaces\Ara3D.Bowerbird.Interfaces.csproj" />
     <ProjectReference Include="..\Ara3D.Utils.Roslyn\Ara3D.Utils.Roslyn.csproj" />
   </ItemGroup>
-
 </Project>

@@ -2,7 +2,7 @@
 using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Domo;
 using Ara3D.Services;
-using Ara3D.Utils;
+using Ara3D.Logging;
 
 namespace Ara3D.Bowerbird.Wpf.Net48.Lib
 {
