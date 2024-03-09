@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using Ara3D.Bowerbird.Interfaces;
+using Ara3D.Logging;
 using Ara3D.Services;
 using Ara3D.Utils;
 using Ara3D.Utils.Roslyn;
@@ -17,7 +18,7 @@ namespace Ara3D.Bowerbird.Core
         public BowerbirdOptions Options { get; }
         public Assembly Assembly => Compiler?.Assembly;
 
-        public BowerbirdService(IApplication app, ILoggingService logger, BowerbirdOptions options)
+        public BowerbirdService(IApplication app, ILogger logger, BowerbirdOptions options)
             : base(app)
         {
             Logger = logger;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using Ara3D.Logging;
 
 namespace Ara3D.Utils.Roslyn
 {

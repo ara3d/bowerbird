@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Domo;
+using Ara3D.Logging;
 using Ara3D.Services;
 using Ara3D.Utils;
 
