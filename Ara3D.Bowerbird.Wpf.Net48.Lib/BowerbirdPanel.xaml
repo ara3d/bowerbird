@@ -6,15 +6,29 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 	<Grid>
+		<Menu>
+			<MenuItem></MenuItem>
+		</Menu>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition></ColumnDefinition>
-			<ColumnDefinition></ColumnDefinition>
-			<ColumnDefinition></ColumnDefinition>
-			<ColumnDefinition></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="5"></ColumnDefinition>
+			<ColumnDefinition Width="2*"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
-		<ListView Grid.Column="0" x:Name="ListView0"></ListView>
-		<ListView Grid.Column="1"  x:Name="ListView1"></ListView>
-		<ListView Grid.Column="2"  x:Name="ListView2"></ListView>
-		<ListView Grid.Column="3"  x:Name="ListView3"></ListView>
+		<ListBox Grid.Column="0" x:Name="FileListBox"></ListBox>
+		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+		<TabControl Grid.Column="2">
+			<TabItem Header="Log">
+				<ListBox x:Name="LogListBox"></ListBox>
+			</TabItem>
+			<TabItem Header="Errors" >
+				<ListBox x:Name="ErrorListBox"></ListBox>
+			</TabItem>
+			<TabItem Header="Settings">
+				<StackPanel>
+					<TextBlock>Directory with Source files:</TextBlock>
+					<CheckBox>Recompile when files change</CheckBox>
+				</StackPanel>
+			</TabItem>
+		</TabControl>
 	</Grid>
 </UserControl>

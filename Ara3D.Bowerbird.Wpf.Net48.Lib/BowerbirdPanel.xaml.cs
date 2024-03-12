@@ -21,14 +21,10 @@ namespace Ara3D.Bowerbird.Wpf.Net48.Lib
 
         public void DataModelChanged(IModel<BowerbirdDataModel> model)
         {
-            ListView1.ItemsSource = model.Value.Files;
-            ListView2.ItemsSource = model.Value.Diagnostics;
-            ListView3.ItemsSource = model.Value.TypeNames;
         }
 
         public void LogEntryAdded(IModel<LogEntry> entry)
         {
-            ListView0.Items.Add(entry.Value.Message);
         }
     }
 }

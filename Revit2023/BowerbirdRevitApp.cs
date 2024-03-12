@@ -41,19 +41,11 @@ namespace Ara3D.Bowerbird.Revit
 
         public static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
+            // TODO: upgrade this code for different Revit versions. 
             if (args.Name.Contains("Bowerbird.Revit2023") && !args.Name.Contains("resources"))
             {
+                // NOTE: this is horrible, but we have to do it. The assembly can't be found otherwise?! 
                 return typeof(BowerbirdRevitApp).Assembly;
-
-                //var filename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-                //filename = Path.Combine(filename, "MaterialDesignTheme.Wpf.dll");
-                /*
-                if (File.Exists(filename))
-                {
-                    return Assembly.LoadFrom(filename);
-                }
-                */
             }
             return null;
         }
@@ -61,12 +53,7 @@ namespace Ara3D.Bowerbird.Revit
         public Result OnStartup(UIControlledApplication application)
         {
             UicApp = application;
-
             Instance = this;
-            Debug.WriteLine($"Current culture = {CultureInfo.CurrentCulture}");
-            Debug.WriteLine($"Current UI culture = {CultureInfo.CurrentUICulture}");
-            Debug.WriteLine($"Default current culture = {CultureInfo.DefaultThreadCurrentCulture}");
-            Debug.WriteLine($"Default current UI culture = {CultureInfo.DefaultThreadCurrentUICulture}");
 
             var rvtRibbonPanel = application.CreateRibbonPanel("Ara 3D");
             var pushButtonData = new PushButtonData("Bowerbird", "Bowerbird", 
@@ -101,23 +88,12 @@ namespace Ara3D.Bowerbird.Revit
         {
             Logging.Log("Running Bowerbird Revit application");
 
-            Debug.WriteLine($"Current culture = {CultureInfo.CurrentCulture}");
-            Debug.WriteLine($"Current UI culture = {CultureInfo.CurrentUICulture}");
-            Debug.WriteLine($"Default current culture = {CultureInfo.DefaultThreadCurrentCulture}");
-            Debug.WriteLine($"Default current UI culture = {CultureInfo.DefaultThreadCurrentUICulture}");
-
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             Window = Window ?? new BowerbirdMainWindow();
 
             Window.Show();
             Window.BowerbirdPanel.RegisterServices(Bowerbird, Logging);
-
-            /*
-            MyExportCommand.ExportView3D(application.ActiveUIDocument.Document,
-                (Autodesk.Revit.DB.View3D)application.ActiveUIDocument.ActiveGraphicalView);            
-            Service.Compile();
-            */
         }
     }
 }
