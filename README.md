@@ -1,12 +1,7 @@
-# Bowerbird
+# <img width="64" src="https://github.com/ara3d/bowerbird/assets/1759994/badd9bb6-61cd-409f-9088-19a9db3f519d"/> Bowerbird
 
-![Bowerbird-logo](https://github.com/ara3d/bowerbird/assets/1759994/badd9bb6-61cd-409f-9088-19a9db3f519d)
-
-Bowerbird accelerates C# plug-in development by allowing you to dynamically compile assemblies 
-on the fly for your favorite tool's C# API.
-
-Bowerbird also allows you to do quickly create simple scripts and tools using C# in the same way you would 
-use Python or another language. 
+Bowerbird accelerates C# tool and plug-in development by allowing you to dynamically compile assemblies 
+on the fly for your favorite tool's C# API. 
 
 ## Problem
 
