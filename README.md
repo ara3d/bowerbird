@@ -1,5 +1,7 @@
 # Bowerbird
 
+<img width="256" alt="Bowerbird-Github-Small" src="https://github.com/ara3d/bowerbird/assets/1759994/6f6f9fac-15b1-48a4-b8dd-5cbe88a0175a">
+
 Bowerbird accelerates C# plug-in development by allowing you to dynamically compile assemblies 
 on the fly for your favorite tool's C# API.
 
