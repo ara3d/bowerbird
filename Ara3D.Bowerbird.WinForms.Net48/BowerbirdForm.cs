@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Ara3D.Bowerbird.Core;
 using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Domo;
 using Ara3D.Logging;
@@ -17,97 +12,73 @@ namespace Ara3D.Bowerbird.WinForms.Net48
 {
     public partial class BowerbirdForm : Form
     {
-        public IBowerbirdService BowerbirdService { get; private set; }
-        public ILoggingService LoggingService { get; private set; }
+        public IApplication App { get; } 
+        public IBowerbirdService BowerbirdService { get; }
+        public ILogger Logger { get; }
+
+        public static readonly DirectoryPath SamplesSrcFolder
+            = PathUtil.GetCallerSourceFolder().RelativeFolder("Samples");
+
+        public static readonly BowerbirdOptions Options =
+            BowerbirdOptions.CreateFromName("Ara 3D", "Bowerbird WinForms Demo");
 
         public BowerbirdForm()
         {
             InitializeComponent();
-        }
+            App = new Services.Application();
 
-        public void RegisterServices(IBowerbirdService bowerbird, ILoggingService logging)
-        {
-            if (BowerbirdService != null) throw new Exception("Bowerbird service was already initialized");
-            if (LoggingService != null) throw new Exception("Logging service was already initialized");
-            BowerbirdService = bowerbird;
-            LoggingService = logging;
-            LoggingService.Repository.OnModelAdded(LogEntryAdded);
+            Logger = Logger.Create("Bowerbird", OnLogMsg);
+            Logger.Log($"Welcome to Bowerbird by https://ara3d.com");
+            
+            Logger.Log($"Copying script files from {SamplesSrcFolder} to {Options.ScriptsFolder}");
+            SamplesSrcFolder.CopyDirectory(Options.ScriptsFolder);
+            
+            BowerbirdService = new BowerbirdService(App, Logger, Options);
             BowerbirdService.Repository.OnModelChanged(DataModelChanged);
+            DataModelChanged(BowerbirdService.Model);
+
+            checkBoxAutoRecompile.CheckedChanged += CheckBoxAutoRecompileOnCheckedChanged;
+
+            BowerbirdService.Compile();
         }
 
+        
+        public void UpdateListBox(ListBox listBox, IEnumerable<object> items)
+        {
+            listBox.Items.Clear();
+            foreach (var x in items)
+                listBox.Items.Add(x);
+        }
+        
         public void DataModelChanged(IModel<BowerbirdDataModel> model)
         {
+            textBoxOutputDll.Text = model.Value.Dll;
+            textBoxLibraryDir.Text = model.Value.Options.LibrariesFolder ?? "";
+            textBoxSourceFiles.Text = model.Value.Options.ScriptsFolder ?? "";
+            checkBoxAutoRecompile.Checked = BowerbirdService.AutoRecompile;
+
+            checkBoxEmit.Checked = model.Value.EmitSuccess;
+            checkBoxEmit.Text = "Emit " + (model.Value.EmitSuccess ? "Successful" : "Failed");
+            checkBoxParse.Checked = model.Value.ParseSuccess;
+            checkBoxParse.Text = "Parse " + (model.Value.ParseSuccess ? "Successful" : "Failed");
+            checkBoxLoad.Checked = model.Value.LoadSuccess;
+            checkBoxLoad.Text = "Load " + (model.Value.LoadSuccess ? "Successful" : "Failed");
+
+            UpdateListBox(listBoxFiles, model.Value.Files);
+            UpdateListBox(listBoxAssemblies, model.Value.Assemblies);
+            UpdateListBox(listBoxTypes, model.Value.TypeNames);
+            UpdateListBox(listBoxErrors, model.Value.Diagnostics);
+            UpdateListBox(listBoxCommands, model.Value.Commands);
         }
 
-        public void LogEntryAdded(IModel<LogEntry> entry)
+        private void CheckBoxAutoRecompileOnCheckedChanged(object sender, EventArgs e)
         {
-            listBoxLog.Items.Add(entry.ToString());
+            BowerbirdService.AutoRecompile = checkBoxAutoRecompile.Checked;
         }
 
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        public void OnLogMsg(string msg)
         {
-
-        }
-
-        private void tabPage3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBoxFiles_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void compileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void recompileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void clearConsoleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
+            richTextBoxLog.AppendText(msg + Environment.NewLine);
         }
 
         private void aboutBowerbirdButtonClick(object sender, EventArgs e)
@@ -117,7 +88,25 @@ namespace Ara3D.Bowerbird.WinForms.Net48
 
         private void clearLogButonClick(object sender, EventArgs e)
         {
-            listBoxLog.Items.Clear();
+            richTextBoxLog.Clear();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBoxCommands_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBoxCommands_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var i = listBoxCommands.SelectedIndex;
+            if (i < 0) return;
+            var command = BowerbirdService.Commands[i];
+            command.Execute();
         }
     }
 }

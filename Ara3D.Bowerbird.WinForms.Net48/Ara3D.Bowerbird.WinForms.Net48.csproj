@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Samples\SampleCommands.cs" />
     <EmbeddedResource Include="BowerbirdForm.resx">
       <DependentUpon>BowerbirdForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -96,10 +97,15 @@
       <Project>{6B8EA878-A82D-43AF-BFEF-0E5106117F55}</Project>
       <Name>Ara3D.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ara3D.Bowerbird.Core\Ara3D.Bowerbird.Core.csproj">
+      <Project>{C71DC6B8-AFC4-441D-AE7A-9B7EABF94630}</Project>
+      <Name>Ara3D.Bowerbird.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ara3D.Bowerbird.Interfaces\Ara3D.Bowerbird.Interfaces.csproj">
       <Project>{CD065991-5F6E-4554-A7F8-12E542AECE9B}</Project>
       <Name>Ara3D.Bowerbird.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

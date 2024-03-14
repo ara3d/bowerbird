@@ -17,7 +17,7 @@ namespace Ara3D.Utils.Roslyn
         public CompilerOptions Options { get; private set; }
         public List<FilePath> Refs { get; } = new List<FilePath>();
 
-        public CompilerInput Input => Compilation.Input;
+        public CompilerInput Input => Compilation?.Input;
         public DirectoryPath Directory => Watcher.Directory;
         public DirectoryWatcher Watcher { get; }
         public bool AutoRecompile { get; set; } = true;
