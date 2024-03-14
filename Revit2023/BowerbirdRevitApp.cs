@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Windows.Media.Imaging;
 using Ara3D.Bowerbird.Core;
 using Ara3D.Bowerbird.Interfaces;
-using Ara3D.Bowerbird.Wpf.Net48.Lib;
+using Ara3D.Bowerbird.WinForms.Net48;
 using Ara3D.Services;
 using Autodesk.Revit.UI;
 using Application = Ara3D.Services.Application;
@@ -74,26 +74,21 @@ namespace Ara3D.Bowerbird.Revit
         public LoggingService Logging { get; }
         public BowerbirdService Bowerbird { get; }
         public BowerbirdOptions Options { get; }
-        public BowerbirdMainWindow Window { get; private set; }
+        public BowerbirdForm Window { get; private set; }
 
         public BowerbirdRevitApp()
         {
-            App = new Application();
-            Options = BowerbirdOptions.CreateFromName("Ara 3D", "Bowerbird for Revit");
-            Logging = new LoggingService("Bowerbird", App);
-            Bowerbird = new BowerbirdService(App, Logging, Options);
+            //App = new Application();
+            //Options = BowerbirdOptions.CreateFromName("Ara 3D", "Bowerbird for Revit");
+            //Logging = new LoggingService("Bowerbird", App);
+            //Bowerbird = new BowerbirdService(App, Logging, Options);
         }
 
         public void Run(UIApplication application)
         {
-            Logging.Log("Running Bowerbird Revit application");
-
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-
-            Window = Window ?? new BowerbirdMainWindow();
-
+            Window = Window ?? new BowerbirdForm();
             Window.Show();
-            Window.BowerbirdPanel.RegisterServices(Bowerbird, Logging);
         }
     }
 }

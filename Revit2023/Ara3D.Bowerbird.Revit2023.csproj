@@ -29,7 +29,8 @@
     <ProjectGuid>{F831E5C7-ABC5-476A-88CB-638783F266D0}</ProjectGuid>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp></NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup>
@@ -72,16 +73,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.ValueTuple" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BowerbirdMainWindow.xaml.cs">
-      <DependentUpon>BowerbirdMainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="BowerbirdPanel.xaml.cs">
-      <DependentUpon>BowerbirdPanel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="BowerbirdRevitApp.cs" />
     <Compile Include="BowerbirdExternalCommand.cs" />
     <Compile Include="Menu.cs" />
@@ -134,6 +130,10 @@
       <Project>{cd065991-5f6e-4554-a7f8-12e542aece9b}</Project>
       <Name>Ara3D.Bowerbird.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ara3D.Bowerbird.WinForms.Net48\Ara3D.Bowerbird.WinForms.Net48.csproj">
+      <Project>{1e290060-8249-4bb0-a41e-ed238d2f6346}</Project>
+      <Name>Ara3D.Bowerbird.WinForms.Net48</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ara3D.Utils.Roslyn\Ara3D.Utils.Roslyn.csproj">
       <Project>{D8946DBB-4DD8-4C90-BFD3-8243B0786945}</Project>
       <Name>Ara3D.Utils.Roslyn</Name>
@@ -167,19 +167,10 @@
       <Version>4.5.4</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Page Include="BowerbirdMainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="BowerbirdPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent></PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>cd "$(ProjectDir)" 
