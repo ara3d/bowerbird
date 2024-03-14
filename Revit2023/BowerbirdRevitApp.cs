@@ -88,6 +88,11 @@ namespace Ara3D.Bowerbird.Revit
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             Window = Window ?? new BowerbirdForm();
+            Window.FormClosing += (sender, args) =>
+            {
+                Window.Hide();
+                args.Cancel = true;
+            };
             Window.Show();
         }
     }
