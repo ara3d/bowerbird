@@ -1,15 +1,14 @@
-# Bowerbird
+# <img width="64" src="https://github.com/ara3d/bowerbird/assets/1759994/badd9bb6-61cd-409f-9088-19a9db3f519d"/> Bowerbird
 
-Bowerbird accelerates C# plug-in development by allowing you to dynamically compile assemblies 
-on the fly for your favorite tool's C# API.
-
-Bowerbird also allows you to do quickly create simple scripts and tools using C# in the same way you would 
-use Python or another language. 
+Bowerbird accelerates C# tool and plug-in development by allowing you to dynamically compile assemblies 
+on the fly for your favorite tool's C# API. 
 
 ## Problem
 
 There are several popular tools, particularly in the realm of 3D design software, which have an SDK with a C# API 
-for developing plug-ins.  Two main challenges with plug-in development are:
+for developing plug-ins. Our current focus is Autodesk Revit. 
+
+Two main challenges with plug-in development are:
 
 1. A lot of overhead and boilerplate for creating new tools
 2. A slow development cycle of build, compile, copy, and restart host application.   
@@ -32,7 +31,7 @@ code from source, clone that repository, and build the solution.
 
 ## Details: Bowerbird for Revit 
 
-The Revit Bowerbird plug-in is currently only built for Revit 2023. This will change in the future. 
+The Revit Bowerbird plug-in is currently only built for Revit 2023. This will change in the future (maybe with your help?).
 
 Scripts are loaded from the folder: 
 
