@@ -96,8 +96,8 @@ Please submit issues, suggestions, and questions [via the issues tracker](https:
 
 ## Inspiration 
 
-* [pyRevit](https://github.com/eirannejad/pyRevit)
-* [Revit.ScriptCS](https://github.com/sridharbaldava/Revit.ScriptCS)
+* [pyRevit](https://github.com/eirannejad/pyRevit) by [Ehsan Iran-Nejad](https://github.com/eirannejad).
+* [Revit.ScriptCS](https://github.com/sridharbaldava/Revit.ScriptCS) by [Sridhar Baldava](https://github.com/sridharbaldava)
 
 
 
