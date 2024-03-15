@@ -7,8 +7,7 @@ using Ara3D.Logging;
 
 namespace Ara3D.Utils.Roslyn
 {
-    // TODO: make a class called "LongRunningTask" 
-    public class DirectoryCompiler
+    public class DirectoryCompiler : IDisposable
     {
         public ILogger Logger { get; }
 
@@ -180,6 +179,11 @@ namespace Ara3D.Utils.Roslyn
             {
                 RecompileEvent?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        public void Dispose()
+        {
+            Watcher.Dispose();
         }
     }
 }

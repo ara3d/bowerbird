@@ -69,5 +69,32 @@ namespace Ara3D.Bowerbird.Revit {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using System.Windows.Forms;
+        ///using Ara3D.Bowerbird.Interfaces;
+        ///using Autodesk.Revit.UI;
+        ///
+        ///namespace Ara3D.Bowerbird.Revit.Samples
+        ///{
+        ///    public class CurrentDocument : IBowerbirdCommand
+        ///    {
+        ///        public string Name =&gt; &quot;Current Open Document&quot;;
+        ///
+        ///        public void Execute(object arg)
+        ///        {
+        ///            var app = (UIApplication)arg;
+        ///            var doc = app.ActiveUIDocumen [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string SampleRevitCommands {
+            get {
+                return ResourceManager.GetString("SampleRevitCommands", resourceCulture);
+            }
+        }
     }
 }

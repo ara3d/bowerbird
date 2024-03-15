@@ -29,24 +29,28 @@
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
     <ROW Directory="Addins_Dir" Directory_Parent="Revit_Dir" DefaultDir="Addins"/>
     <ROW Directory="Autodesk_Dir" Directory_Parent="CommonAppDataFolder" DefaultDir="Autodesk"/>
+    <ROW Directory="BowerbirdforRevit2023_Dir" Directory_Parent="NewFolder_Dir" DefaultDir="BOWERB~1|Bowerbird for Revit 2023"/>
     <ROW Directory="CommonAppDataFolder" Directory_Parent="TARGETDIR" DefaultDir="COMMON~1|CommonAppDataFolder" IsPseudoRoot="1"/>
-    <ROW Directory="Debug_Dir" Directory_Parent="__Dir" DefaultDir="ARA3D~1.BOW|Ara3D.Bowerbird"/>
+    <ROW Directory="LocalAppDataFolder" Directory_Parent="TARGETDIR" DefaultDir="LOCALA~1|LocalAppDataFolder" IsPseudoRoot="1"/>
+    <ROW Directory="NewFolder_Dir" Directory_Parent="LocalAppDataFolder" DefaultDir="ARA3D~1|Ara 3D"/>
+    <ROW Directory="Release_Dir" Directory_Parent="__Dir" DefaultDir="ARA3D~1.BOW|Ara3D.Bowerbird"/>
     <ROW Directory="Revit_Dir" Directory_Parent="Autodesk_Dir" DefaultDir="Revit"/>
+    <ROW Directory="Scripts_Dir" Directory_Parent="BowerbirdforRevit2023_Dir" DefaultDir="Scripts"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
     <ROW Directory="__Dir" Directory_Parent="Addins_Dir" DefaultDir="2023"/>
-    <ROW Directory="cs_Dir" Directory_Parent="Debug_Dir" DefaultDir="cs"/>
-    <ROW Directory="de_Dir" Directory_Parent="Debug_Dir" DefaultDir="de"/>
-    <ROW Directory="es_Dir" Directory_Parent="Debug_Dir" DefaultDir="es"/>
-    <ROW Directory="fr_Dir" Directory_Parent="Debug_Dir" DefaultDir="fr"/>
-    <ROW Directory="it_Dir" Directory_Parent="Debug_Dir" DefaultDir="it"/>
-    <ROW Directory="ja_Dir" Directory_Parent="Debug_Dir" DefaultDir="ja"/>
-    <ROW Directory="ko_Dir" Directory_Parent="Debug_Dir" DefaultDir="ko"/>
-    <ROW Directory="pl_Dir" Directory_Parent="Debug_Dir" DefaultDir="pl"/>
-    <ROW Directory="ptBR_Dir" Directory_Parent="Debug_Dir" DefaultDir="pt-BR"/>
-    <ROW Directory="ru_Dir" Directory_Parent="Debug_Dir" DefaultDir="ru"/>
-    <ROW Directory="tr_Dir" Directory_Parent="Debug_Dir" DefaultDir="tr"/>
-    <ROW Directory="zhHans_Dir" Directory_Parent="Debug_Dir" DefaultDir="zh-Hans"/>
-    <ROW Directory="zhHant_Dir" Directory_Parent="Debug_Dir" DefaultDir="zh-Hant"/>
+    <ROW Directory="cs_Dir" Directory_Parent="Release_Dir" DefaultDir="cs"/>
+    <ROW Directory="de_Dir" Directory_Parent="Release_Dir" DefaultDir="de"/>
+    <ROW Directory="es_Dir" Directory_Parent="Release_Dir" DefaultDir="es"/>
+    <ROW Directory="fr_Dir" Directory_Parent="Release_Dir" DefaultDir="fr"/>
+    <ROW Directory="it_Dir" Directory_Parent="Release_Dir" DefaultDir="it"/>
+    <ROW Directory="ja_Dir" Directory_Parent="Release_Dir" DefaultDir="ja"/>
+    <ROW Directory="ko_Dir" Directory_Parent="Release_Dir" DefaultDir="ko"/>
+    <ROW Directory="pl_Dir" Directory_Parent="Release_Dir" DefaultDir="pl"/>
+    <ROW Directory="ptBR_Dir" Directory_Parent="Release_Dir" DefaultDir="pt-BR"/>
+    <ROW Directory="ru_Dir" Directory_Parent="Release_Dir" DefaultDir="ru"/>
+    <ROW Directory="tr_Dir" Directory_Parent="Release_Dir" DefaultDir="tr"/>
+    <ROW Directory="zhHans_Dir" Directory_Parent="Release_Dir" DefaultDir="zh-Hans"/>
+    <ROW Directory="zhHant_Dir" Directory_Parent="Release_Dir" DefaultDir="zh-Hant"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.SideBySideGuidComponent">
     <ROW Component="APPDIR" Value="{95B1A7C4-DC07-46B4-A3FD-9201A1F464C8}"/>
@@ -54,115 +58,119 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
     <ROW Component="APPDIR" ComponentId="{95B1A7C4-DC07-46B4-A3FD-9201A1F464C8}" Directory_="APPDIR" Attributes="0"/>
-    <ROW Component="Ara3D.Bowerbird.Core.dll" ComponentId="{E2447539-158F-45AE-9C25-73FB009F506B}" Directory_="Debug_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.Core.dll"/>
-    <ROW Component="Ara3D.Bowerbird.Interfaces.dll" ComponentId="{6D060A41-FE01-472A-80B0-600AE7FBBEDC}" Directory_="Debug_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.Interfaces.dll"/>
+    <ROW Component="Ara3D" ComponentId="{A28B3A1B-AFF7-4C67-BB78-8FB25BB03766}" Directory_="NewFolder_Dir" Attributes="0"/>
+    <ROW Component="Ara3D.Bowerbird.Core.dll" ComponentId="{A6C0A024-0BC5-458F-8E32-1CBE177D2364}" Directory_="Release_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.Core.dll"/>
+    <ROW Component="Ara3D.Bowerbird.Interfaces.dll" ComponentId="{F44B9F19-A1DB-45C4-9C7A-063830582D90}" Directory_="Release_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.Interfaces.dll"/>
     <ROW Component="Ara3D.Bowerbird.Revit2023.addin" ComponentId="{4600E143-2469-45F1-A062-B3AB3ADB0121}" Directory_="__Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.Revit2023.addin" Type="0"/>
-    <ROW Component="Ara3D.Bowerbird.Revit2023.dll" ComponentId="{BC5B2C8F-508B-4A42-9466-80641767715C}" Directory_="Debug_Dir" Attributes="256" KeyPath="Ara3D.Bowerbird.Revit2023.dll"/>
-    <ROW Component="Ara3D.Bowerbird.Revit2023.dll.config" ComponentId="{DB0F115E-7EC5-406F-AD8A-E5071CCF785F}" Directory_="Debug_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.Revit2023.dll.config" Type="0"/>
-    <ROW Component="Ara3D.Bowerbird.WinForms.Net48.exe" ComponentId="{1608A958-97FE-464E-9999-281C4E66CD0B}" Directory_="Debug_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.WinForms.Net48.exe"/>
-    <ROW Component="Ara3D.Domo.dll" ComponentId="{918CDCFA-0B51-42EA-9A9B-80055DAE6E6A}" Directory_="Debug_Dir" Attributes="0" KeyPath="Ara3D.Domo.dll"/>
-    <ROW Component="Ara3D.Logging.dll" ComponentId="{AEAFA319-93E9-4AB3-9E3F-1817921C859B}" Directory_="Debug_Dir" Attributes="0" KeyPath="Ara3D.Logging.dll"/>
-    <ROW Component="Ara3D.Services.dll" ComponentId="{9610AF7B-2102-4D0F-8121-3B91A13A2F1D}" Directory_="Debug_Dir" Attributes="0" KeyPath="Ara3D.Services.dll"/>
-    <ROW Component="Ara3D.Utils.Roslyn.dll" ComponentId="{3D45FD61-DB0E-4171-8683-CFEDEEAD82BB}" Directory_="Debug_Dir" Attributes="0" KeyPath="Ara3D.Utils.Roslyn.dll"/>
-    <ROW Component="Ara3D.Utils.dll" ComponentId="{694B7E36-8294-4727-85A9-BE6D4E31DBBC}" Directory_="Debug_Dir" Attributes="0" KeyPath="Ara3D.Utils.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.dll" ComponentId="{ACFB97E2-1D11-4EED-9C59-AFFE8F3DFD52}" Directory_="Debug_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_10_ces.dll" ComponentId="{B63BA5C1-D7E4-48E6-B157-43771EA69C66}" Directory_="tr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_10_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_11_ces.dll" ComponentId="{101502F6-0229-449E-8D7D-E507852E2E3E}" Directory_="zhHans_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_11_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_12_ces.dll" ComponentId="{BFFA2C91-64E4-4B68-80C6-22789FD3ED84}" Directory_="zhHant_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_12_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_1_ces.dll" ComponentId="{4F67631A-1300-4B11-92BC-7C9C17E0F4D1}" Directory_="de_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_1_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_2_ces.dll" ComponentId="{7582477D-031F-41C6-AE21-86C6B5A05621}" Directory_="es_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_2_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_3_ces.dll" ComponentId="{935757E3-210C-4695-9B73-31B2D60D0789}" Directory_="fr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_3_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_4_ces.dll" ComponentId="{93B41493-09C9-42D0-A301-74B8A7927F72}" Directory_="it_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_4_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_5_ces.dll" ComponentId="{6208F96A-37EF-4DA3-9B35-7A7B5FEEB5A1}" Directory_="ja_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_5_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_6_ces.dll" ComponentId="{A9BD6075-1424-439E-B480-BFD86BA51B9A}" Directory_="ko_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_6_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_7_ces.dll" ComponentId="{EF6E2329-26D5-4772-B687-088EA8ED58EF}" Directory_="pl_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_7_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_8_ces.dll" ComponentId="{0A96E781-7ED2-4B45-97EC-5373E7F72D1B}" Directory_="ptBR_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_8_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_9_ces.dll" ComponentId="{818D7CB6-AA09-44DB-86CC-67A116F05838}" Directory_="ru_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_9_ces.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.resources.dll" ComponentId="{EF52B54E-91BC-462E-B738-7C3BF723DA65}" Directory_="cs_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resources.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.dll" ComponentId="{9C2FCAD3-22D0-4C4F-A9F3-811AE190D761}" Directory_="Debug_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll" ComponentId="{73665F14-C5DC-4997-BA0E-AA1D5CA60C38}" Directory_="cs_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_1" ComponentId="{2ACB03B7-14EC-46E5-9FD8-8BED08920256}" Directory_="de_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_1"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_10" ComponentId="{ADF30A33-8BD8-4093-BCAF-20EC996B52E1}" Directory_="tr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_10"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_11" ComponentId="{132B0B33-8E82-437E-8244-DDA7FDC2A65B}" Directory_="zhHans_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_11"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_12" ComponentId="{11D5AA14-3358-4752-A8F1-A01C4710A4CB}" Directory_="zhHant_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_12"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_2" ComponentId="{C1BACF3B-9450-4E21-9C02-B9ECA80D0ED6}" Directory_="es_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_2"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_3" ComponentId="{85319DE5-7E9B-443A-ACCA-D5B23593AFB9}" Directory_="fr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_3"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_4" ComponentId="{75D44E89-C910-46BA-8ED8-26F49C66E168}" Directory_="it_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_4"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_5" ComponentId="{7875BC4E-8EFD-4FDC-AB93-8E15479CCD29}" Directory_="ja_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_5"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_6" ComponentId="{5447C019-831C-462F-93A2-C368B9B10B60}" Directory_="ko_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_6"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_7" ComponentId="{52AC24A7-6027-49F1-8C91-A88B1D2041F5}" Directory_="pl_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_7"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_8" ComponentId="{CF9BB203-0FBB-4B7D-833A-E3FF9FE3D5E2}" Directory_="ptBR_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_8"/>
-    <ROW Component="Microsoft.CodeAnalysis.resources.dll_9" ComponentId="{557FB2A2-98E1-4F90-BF4D-41A0690E1857}" Directory_="ru_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_9"/>
-    <ROW Component="Microsoft.DiaSymReader.Native.amd64.dll" ComponentId="{EF677BC9-BA01-48A6-A10E-C34B3135D436}" Directory_="Debug_Dir" Attributes="256" KeyPath="Microsoft.DiaSymReader.Native.amd64.dll"/>
+    <ROW Component="Ara3D.Bowerbird.Revit2023.dll" ComponentId="{125189A2-6F55-4422-A373-AFF854D3D81A}" Directory_="Release_Dir" Attributes="256" KeyPath="Ara3D.Bowerbird.Revit2023.dll"/>
+    <ROW Component="Ara3D.Bowerbird.Revit2023.dll.config" ComponentId="{7950BE10-B86C-4342-8693-F2948A24487D}" Directory_="Release_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.Revit2023.dll.config" Type="0"/>
+    <ROW Component="Ara3D.Bowerbird.WinForms.Net48.exe" ComponentId="{36AEFCF1-FF70-46AB-A721-C120BE204F11}" Directory_="Release_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.WinForms.Net48.exe"/>
+    <ROW Component="Ara3D.Domo.dll" ComponentId="{FEBA85B8-B452-4628-8C2D-67DA85823E13}" Directory_="Release_Dir" Attributes="0" KeyPath="Ara3D.Domo.dll"/>
+    <ROW Component="Ara3D.Logging.dll" ComponentId="{CF22B9C5-1F82-47A8-A788-0FAFA95BFEFE}" Directory_="Release_Dir" Attributes="0" KeyPath="Ara3D.Logging.dll"/>
+    <ROW Component="Ara3D.Services.dll" ComponentId="{69ECEB11-60D1-4A18-8959-B78F00D53602}" Directory_="Release_Dir" Attributes="0" KeyPath="Ara3D.Services.dll"/>
+    <ROW Component="Ara3D.Utils.Roslyn.dll" ComponentId="{E51E7325-23F6-4DBD-A41A-61C6330833DF}" Directory_="Release_Dir" Attributes="0" KeyPath="Ara3D.Utils.Roslyn.dll"/>
+    <ROW Component="Ara3D.Utils.dll" ComponentId="{D4705D88-5909-4C56-98C4-07FEE77ECAE7}" Directory_="Release_Dir" Attributes="0" KeyPath="Ara3D.Utils.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.dll" ComponentId="{5AAE3A1C-6406-4616-B0FD-1CE966D9C319}" Directory_="Release_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_10_ces.dll" ComponentId="{778048F7-F4AB-4C83-B1FF-D4EB586B8169}" Directory_="tr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_10_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_11_ces.dll" ComponentId="{DD59C735-079C-466B-8A80-1A6DF0BE86BF}" Directory_="zhHans_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_11_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_12_ces.dll" ComponentId="{349E9D01-1F6F-40BD-8F2F-930B9C69FA75}" Directory_="zhHant_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_12_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_1_ces.dll" ComponentId="{CDB47043-96D6-4C12-BCD6-64DF86D4B0B9}" Directory_="de_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_1_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_2_ces.dll" ComponentId="{2285A646-4ABD-452C-8A78-37203D40A90F}" Directory_="es_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_2_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_3_ces.dll" ComponentId="{55C8CA38-0C1E-44F2-A543-2A85D1BB5764}" Directory_="fr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_3_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_4_ces.dll" ComponentId="{6074502A-1693-49F9-A5E4-36B5011F652A}" Directory_="it_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_4_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_5_ces.dll" ComponentId="{8CF5F8A9-14E0-45E6-AEA8-8756B80DCDFB}" Directory_="ja_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_5_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_6_ces.dll" ComponentId="{94E394E2-119C-4F04-9971-62002C40D6EB}" Directory_="ko_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_6_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_7_ces.dll" ComponentId="{86C83C7E-E30B-4AD5-A24F-69170AB6C971}" Directory_="pl_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_7_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_8_ces.dll" ComponentId="{9B12013E-D85E-434F-98A4-5DB9E8DEA2D2}" Directory_="ptBR_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_8_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resour_9_ces.dll" ComponentId="{D128E946-C190-4822-9AD7-4B56FE462FB1}" Directory_="ru_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resour_9_ces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.resources.dll" ComponentId="{B60A1468-0153-480F-AB57-354C43E1E7FB}" Directory_="cs_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.dll" ComponentId="{31A064FF-E7E7-41CA-8787-8CC915880CBA}" Directory_="Release_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll" ComponentId="{E1E3440E-2651-47A1-84BD-93FE290769E5}" Directory_="cs_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_1" ComponentId="{EF22CF4F-EA75-42E7-A25D-B75A723F0C78}" Directory_="de_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_1"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_10" ComponentId="{7B13EABF-C35D-45E0-A4A3-51E2E92D2A75}" Directory_="tr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_10"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_11" ComponentId="{4BE917DC-F22A-49E0-BA95-1D66375787EC}" Directory_="zhHans_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_11"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_12" ComponentId="{40A4B629-3F7A-4856-817E-3B5A2C1282DA}" Directory_="zhHant_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_12"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_2" ComponentId="{48502028-2D74-40A1-A7C6-30DF5D636F3F}" Directory_="es_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_2"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_3" ComponentId="{B8FFB271-0941-4888-B1EC-1AF46561D4B6}" Directory_="fr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_3"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_4" ComponentId="{958F6D47-840C-4CB0-B2F1-281B987B6A13}" Directory_="it_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_4"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_5" ComponentId="{C7E480AE-EFC6-47B5-A55E-B647EC3D745B}" Directory_="ja_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_5"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_6" ComponentId="{DF9D6E78-C9BC-4A67-A83D-91761030AB94}" Directory_="ko_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_6"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_7" ComponentId="{9869F8E7-A1F5-4B71-998D-6B23CA00F3AF}" Directory_="pl_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_7"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_8" ComponentId="{B5DCA7B6-F622-4288-A0E0-4EDC7D186CA4}" Directory_="ptBR_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_8"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_9" ComponentId="{34BFD5A1-BAC5-4E74-855B-0E76F7154A1E}" Directory_="ru_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_9"/>
+    <ROW Component="Microsoft.DiaSymReader.Native.amd64.dll" ComponentId="{D18B1371-9FCC-4D0B-B331-CBDF3064E676}" Directory_="Release_Dir" Attributes="256" KeyPath="Microsoft.DiaSymReader.Native.amd64.dll"/>
     <ROW Component="ProductInformation" ComponentId="{81D7E198-FBF2-4459-B819-F0F4164AA332}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
-    <ROW Component="System.Buffers.dll" ComponentId="{04E65993-6743-4DE2-B729-6125BE88B179}" Directory_="Debug_Dir" Attributes="0" KeyPath="System.Buffers.dll"/>
-    <ROW Component="System.Collections.Immutable.dll" ComponentId="{26B25C3F-81EC-4838-B5BD-13C026D6F6EC}" Directory_="Debug_Dir" Attributes="0" KeyPath="System.Collections.Immutable.dll"/>
-    <ROW Component="System.Memory.dll" ComponentId="{132D9CD2-571B-449A-A40E-74E85FF808FC}" Directory_="Debug_Dir" Attributes="0" KeyPath="System.Memory.dll"/>
-    <ROW Component="System.Numerics.Vectors.dll" ComponentId="{E36AF9E2-EA50-47D5-8896-AB14EE863734}" Directory_="Debug_Dir" Attributes="0" KeyPath="System.Numerics.Vectors.dll"/>
-    <ROW Component="System.Reflection.Metadata.dll" ComponentId="{5934F382-6137-409A-9FFB-8BD138FC2741}" Directory_="Debug_Dir" Attributes="0" KeyPath="System.Reflection.Metadata.dll"/>
-    <ROW Component="System.Runtime.CompilerServices.Unsafe.dll" ComponentId="{3C50FE10-3318-42A0-8F96-9BE9F2B402E6}" Directory_="Debug_Dir" Attributes="0" KeyPath="System.Runtime.CompilerServices.Unsafe.dll"/>
-    <ROW Component="System.Text.Encoding.CodePages.dll" ComponentId="{0B287194-85B3-45AD-8933-15AEA01419C3}" Directory_="Debug_Dir" Attributes="0" KeyPath="System.Text.Encoding.CodePages.dll"/>
-    <ROW Component="System.Threading.Tasks.Extensions.dll" ComponentId="{287B3D93-AB77-4682-A57A-9294A06DC249}" Directory_="Debug_Dir" Attributes="0" KeyPath="System.Threading.Tasks.Extensions.dll"/>
+    <ROW Component="SampleRevitCommands.cs" ComponentId="{05765D71-0583-4259-AD7B-5D66B9D75A35}" Directory_="Scripts_Dir" Attributes="0" KeyPath="SampleRevitCommands.cs" Type="0"/>
+    <ROW Component="System.Buffers.dll" ComponentId="{3DB0D664-D423-404B-BFA7-CE9566D56EC4}" Directory_="Release_Dir" Attributes="0" KeyPath="System.Buffers.dll"/>
+    <ROW Component="System.Collections.Immutable.dll" ComponentId="{7DC52B63-3171-4608-B99A-2B0E8C366FF8}" Directory_="Release_Dir" Attributes="0" KeyPath="System.Collections.Immutable.dll"/>
+    <ROW Component="System.Memory.dll" ComponentId="{7F39522F-80B9-4360-A954-04581E2A1346}" Directory_="Release_Dir" Attributes="0" KeyPath="System.Memory.dll"/>
+    <ROW Component="System.Numerics.Vectors.dll" ComponentId="{CAC86A4F-6A94-4214-8AEE-1862C558E784}" Directory_="Release_Dir" Attributes="0" KeyPath="System.Numerics.Vectors.dll"/>
+    <ROW Component="System.Reflection.Metadata.dll" ComponentId="{AD5ED4BF-482E-45AC-BD47-9B93CCAD2E8C}" Directory_="Release_Dir" Attributes="0" KeyPath="System.Reflection.Metadata.dll"/>
+    <ROW Component="System.Runtime.CompilerServices.Unsafe.dll" ComponentId="{86BE62E7-7EC2-413A-A742-BF296C79F0CC}" Directory_="Release_Dir" Attributes="0" KeyPath="System.Runtime.CompilerServices.Unsafe.dll"/>
+    <ROW Component="System.Text.Encoding.CodePages.dll" ComponentId="{930B3415-F4B1-4FF4-85DB-1444FB6A2330}" Directory_="Release_Dir" Attributes="0" KeyPath="System.Text.Encoding.CodePages.dll"/>
+    <ROW Component="System.Threading.Tasks.Extensions.dll" ComponentId="{A03A9348-9F59-47A3-A157-21B086EC8932}" Directory_="Release_Dir" Attributes="0" KeyPath="System.Threading.Tasks.Extensions.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
     <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
-    <ROW File="Ara3D.Bowerbird.Core.dll" Component_="Ara3D.Bowerbird.Core.dll" FileName="ARA3DB~1.DLL|Ara3D.Bowerbird.Core.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Bowerbird.Core.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.Interfaces.dll" Component_="Ara3D.Bowerbird.Interfaces.dll" FileName="ARA3DB~2.DLL|Ara3D.Bowerbird.Interfaces.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Bowerbird.Interfaces.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.Revit2023.dll" Component_="Ara3D.Bowerbird.Revit2023.dll" FileName="ARA3DB~3.DLL|Ara3D.Bowerbird.Revit2023.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Bowerbird.Revit2023.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.Revit2023.dll.config" Component_="Ara3D.Bowerbird.Revit2023.dll.config" FileName="ARA3DB~1.CON|Ara3D.Bowerbird.Revit2023.dll.config" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Bowerbird.Revit2023.dll.config" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.Revit2023.pdb" Component_="Ara3D.Bowerbird.Revit2023.dll" FileName="ARA3DB~1.PDB|Ara3D.Bowerbird.Revit2023.pdb" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Bowerbird.Revit2023.pdb" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.WinForms.Net48.exe" Component_="Ara3D.Bowerbird.WinForms.Net48.exe" FileName="ARA3DB~1.EXE|Ara3D.Bowerbird.WinForms.Net48.exe" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Bowerbird.WinForms.Net48.exe" SelfReg="false" DigSign="true"/>
-    <ROW File="Ara3D.Bowerbird.WinForms.Net48.exe.config" Component_="Ara3D.Bowerbird.Revit2023.dll.config" FileName="ARA3DB~2.CON|Ara3D.Bowerbird.WinForms.Net48.exe.config" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Bowerbird.WinForms.Net48.exe.config" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.WinForms.Net48.pdb" Component_="Ara3D.Bowerbird.WinForms.Net48.exe" FileName="ARA3DB~2.PDB|Ara3D.Bowerbird.WinForms.Net48.pdb" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Bowerbird.WinForms.Net48.pdb" SelfReg="false"/>
-    <ROW File="Ara3D.Domo.dll" Component_="Ara3D.Domo.dll" FileName="ARA3DD~1.DLL|Ara3D.Domo.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Domo.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Domo.xml" Component_="Ara3D.Bowerbird.Revit2023.dll.config" FileName="ARA3DD~1.XML|Ara3D.Domo.xml" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Domo.xml" SelfReg="false"/>
-    <ROW File="Ara3D.Logging.dll" Component_="Ara3D.Logging.dll" FileName="ARA3DL~1.DLL|Ara3D.Logging.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Logging.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Services.dll" Component_="Ara3D.Services.dll" FileName="ARA3DS~1.DLL|Ara3D.Services.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Services.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Utils.dll" Component_="Ara3D.Utils.dll" FileName="ARA3DU~1.DLL|Ara3D.Utils.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Utils.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Utils.Roslyn.dll" Component_="Ara3D.Utils.Roslyn.dll" FileName="ARA3DU~2.DLL|Ara3D.Utils.Roslyn.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Ara3D.Utils.Roslyn.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resources.dll" Component_="Microsoft.CodeAnalysis.CSharp.resources.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\cs\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll" Component_="Microsoft.CodeAnalysis.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\cs\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_1_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_1_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\de\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_1" Component_="Microsoft.CodeAnalysis.resources.dll_1" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\de\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_2_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_2_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\es\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_2" Component_="Microsoft.CodeAnalysis.resources.dll_2" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\es\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_3_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_3_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\fr\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_3" Component_="Microsoft.CodeAnalysis.resources.dll_3" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\fr\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_4_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_4_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\it\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_4" Component_="Microsoft.CodeAnalysis.resources.dll_4" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\it\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_5_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_5_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\ja\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_5" Component_="Microsoft.CodeAnalysis.resources.dll_5" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\ja\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_6_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_6_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\ko\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_6" Component_="Microsoft.CodeAnalysis.resources.dll_6" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\ko\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.dll" Component_="Microsoft.CodeAnalysis.CSharp.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Microsoft.CodeAnalysis.CSharp.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.pdb" Component_="Microsoft.CodeAnalysis.CSharp.dll" FileName="MICROS~1.PDB|Microsoft.CodeAnalysis.CSharp.pdb" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Microsoft.CodeAnalysis.CSharp.pdb" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.dll" Component_="Microsoft.CodeAnalysis.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Microsoft.CodeAnalysis.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.pdb" Component_="Microsoft.CodeAnalysis.dll" FileName="MICROS~2.PDB|Microsoft.CodeAnalysis.pdb" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Microsoft.CodeAnalysis.pdb" SelfReg="false"/>
-    <ROW File="Microsoft.DiaSymReader.Native.amd64.dll" Component_="Microsoft.DiaSymReader.Native.amd64.dll" FileName="MICROS~3.DLL|Microsoft.DiaSymReader.Native.amd64.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\Microsoft.DiaSymReader.Native.amd64.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_7_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_7_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\pl\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_7" Component_="Microsoft.CodeAnalysis.resources.dll_7" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\pl\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_8_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_8_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_8" Component_="Microsoft.CodeAnalysis.resources.dll_8" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\pt-BR\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_9_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_9_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\ru\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_9" Component_="Microsoft.CodeAnalysis.resources.dll_9" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\ru\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="System.Buffers.dll" Component_="System.Buffers.dll" FileName="SYSTEM~1.DLL|System.Buffers.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\System.Buffers.dll" SelfReg="false"/>
-    <ROW File="System.Collections.Immutable.dll" Component_="System.Collections.Immutable.dll" FileName="SYSTEM~2.DLL|System.Collections.Immutable.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\System.Collections.Immutable.dll" SelfReg="false"/>
-    <ROW File="System.Memory.dll" Component_="System.Memory.dll" FileName="SYSTEM~3.DLL|System.Memory.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\System.Memory.dll" SelfReg="false"/>
-    <ROW File="System.Numerics.Vectors.dll" Component_="System.Numerics.Vectors.dll" FileName="SYSTEM~4.DLL|System.Numerics.Vectors.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\System.Numerics.Vectors.dll" SelfReg="false"/>
-    <ROW File="System.Reflection.Metadata.dll" Component_="System.Reflection.Metadata.dll" FileName="SYSTEM~5.DLL|System.Reflection.Metadata.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\System.Reflection.Metadata.dll" SelfReg="false"/>
-    <ROW File="System.Runtime.CompilerServices.Unsafe.dll" Component_="System.Runtime.CompilerServices.Unsafe.dll" FileName="SYSTEM~6.DLL|System.Runtime.CompilerServices.Unsafe.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\System.Runtime.CompilerServices.Unsafe.dll" SelfReg="false"/>
-    <ROW File="System.Text.Encoding.CodePages.dll" Component_="System.Text.Encoding.CodePages.dll" FileName="SYSTEM~7.DLL|System.Text.Encoding.CodePages.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\System.Text.Encoding.CodePages.dll" SelfReg="false"/>
-    <ROW File="System.Threading.Tasks.Extensions.dll" Component_="System.Threading.Tasks.Extensions.dll" FileName="SYSTEM~8.DLL|System.Threading.Tasks.Extensions.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\System.Threading.Tasks.Extensions.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_10_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_10_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\tr\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_10" Component_="Microsoft.CodeAnalysis.resources.dll_10" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\tr\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_11_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_11_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_11" Component_="Microsoft.CodeAnalysis.resources.dll_11" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\zh-Hans\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_12_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_12_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.resources.dll_12" Component_="Microsoft.CodeAnalysis.resources.dll_12" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Debug\zh-Hant\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
     <ROW File="Ara3D.Bowerbird.Revit2023.addin" Component_="Ara3D.Bowerbird.Revit2023.addin" FileName="ARA3DB~1.ADD|Ara3D.Bowerbird.Revit2023.addin" Attributes="0" SourcePath="..\Revit2023\Ara3D.Bowerbird.Revit2023.addin" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.Core.dll" Component_="Ara3D.Bowerbird.Core.dll" FileName="ARA3DB~1.DLL|Ara3D.Bowerbird.Core.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Bowerbird.Core.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.Interfaces.dll" Component_="Ara3D.Bowerbird.Interfaces.dll" FileName="ARA3DB~2.DLL|Ara3D.Bowerbird.Interfaces.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Bowerbird.Interfaces.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.Revit2023.dll" Component_="Ara3D.Bowerbird.Revit2023.dll" FileName="ARA3DB~3.DLL|Ara3D.Bowerbird.Revit2023.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Bowerbird.Revit2023.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.Revit2023.dll.config" Component_="Ara3D.Bowerbird.Revit2023.dll.config" FileName="ARA3DB~1.CON|Ara3D.Bowerbird.Revit2023.dll.config" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Bowerbird.Revit2023.dll.config" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.Revit2023.pdb" Component_="Ara3D.Bowerbird.Revit2023.dll" FileName="ARA3DB~1.PDB|Ara3D.Bowerbird.Revit2023.pdb" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Bowerbird.Revit2023.pdb" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.WinForms.Net48.exe" Component_="Ara3D.Bowerbird.WinForms.Net48.exe" FileName="ARA3DB~1.EXE|Ara3D.Bowerbird.WinForms.Net48.exe" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Bowerbird.WinForms.Net48.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="Ara3D.Bowerbird.WinForms.Net48.exe.config" Component_="Ara3D.Bowerbird.Revit2023.dll.config" FileName="ARA3DB~2.CON|Ara3D.Bowerbird.WinForms.Net48.exe.config" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Bowerbird.WinForms.Net48.exe.config" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.WinForms.Net48.pdb" Component_="Ara3D.Bowerbird.WinForms.Net48.exe" FileName="ARA3DB~2.PDB|Ara3D.Bowerbird.WinForms.Net48.pdb" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Bowerbird.WinForms.Net48.pdb" SelfReg="false"/>
+    <ROW File="Ara3D.Domo.dll" Component_="Ara3D.Domo.dll" FileName="ARA3DD~1.DLL|Ara3D.Domo.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Domo.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Domo.xml" Component_="Ara3D.Bowerbird.Revit2023.dll.config" FileName="ARA3DD~1.XML|Ara3D.Domo.xml" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Domo.xml" SelfReg="false"/>
+    <ROW File="Ara3D.Logging.dll" Component_="Ara3D.Logging.dll" FileName="ARA3DL~1.DLL|Ara3D.Logging.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Logging.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Services.dll" Component_="Ara3D.Services.dll" FileName="ARA3DS~1.DLL|Ara3D.Services.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Services.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Utils.dll" Component_="Ara3D.Utils.dll" FileName="ARA3DU~1.DLL|Ara3D.Utils.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Utils.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Utils.Roslyn.dll" Component_="Ara3D.Utils.Roslyn.dll" FileName="ARA3DU~2.DLL|Ara3D.Utils.Roslyn.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Ara3D.Utils.Roslyn.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resources.dll" Component_="Microsoft.CodeAnalysis.CSharp.resources.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\cs\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll" Component_="Microsoft.CodeAnalysis.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\cs\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_1_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_1_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\de\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_1" Component_="Microsoft.CodeAnalysis.resources.dll_1" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\de\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_2_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_2_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\es\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_2" Component_="Microsoft.CodeAnalysis.resources.dll_2" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\es\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_3_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_3_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\fr\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_3" Component_="Microsoft.CodeAnalysis.resources.dll_3" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\fr\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_4_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_4_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\it\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_4" Component_="Microsoft.CodeAnalysis.resources.dll_4" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\it\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_5_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_5_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\ja\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_5" Component_="Microsoft.CodeAnalysis.resources.dll_5" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\ja\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_6_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_6_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\ko\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_6" Component_="Microsoft.CodeAnalysis.resources.dll_6" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\ko\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.dll" Component_="Microsoft.CodeAnalysis.CSharp.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Microsoft.CodeAnalysis.CSharp.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.pdb" Component_="Microsoft.CodeAnalysis.CSharp.dll" FileName="MICROS~1.PDB|Microsoft.CodeAnalysis.CSharp.pdb" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Microsoft.CodeAnalysis.CSharp.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.dll" Component_="Microsoft.CodeAnalysis.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Microsoft.CodeAnalysis.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.pdb" Component_="Microsoft.CodeAnalysis.dll" FileName="MICROS~2.PDB|Microsoft.CodeAnalysis.pdb" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Microsoft.CodeAnalysis.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.DiaSymReader.Native.amd64.dll" Component_="Microsoft.DiaSymReader.Native.amd64.dll" FileName="MICROS~3.DLL|Microsoft.DiaSymReader.Native.amd64.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\Microsoft.DiaSymReader.Native.amd64.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_7_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_7_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\pl\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_7" Component_="Microsoft.CodeAnalysis.resources.dll_7" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\pl\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_8_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_8_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_8" Component_="Microsoft.CodeAnalysis.resources.dll_8" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\pt-BR\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_9_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_9_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\ru\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_9" Component_="Microsoft.CodeAnalysis.resources.dll_9" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\ru\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="System.Buffers.dll" Component_="System.Buffers.dll" FileName="SYSTEM~1.DLL|System.Buffers.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\System.Buffers.dll" SelfReg="false"/>
+    <ROW File="System.Collections.Immutable.dll" Component_="System.Collections.Immutable.dll" FileName="SYSTEM~2.DLL|System.Collections.Immutable.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\System.Collections.Immutable.dll" SelfReg="false"/>
+    <ROW File="System.Memory.dll" Component_="System.Memory.dll" FileName="SYSTEM~3.DLL|System.Memory.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\System.Memory.dll" SelfReg="false"/>
+    <ROW File="System.Numerics.Vectors.dll" Component_="System.Numerics.Vectors.dll" FileName="SYSTEM~4.DLL|System.Numerics.Vectors.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\System.Numerics.Vectors.dll" SelfReg="false"/>
+    <ROW File="System.Reflection.Metadata.dll" Component_="System.Reflection.Metadata.dll" FileName="SYSTEM~5.DLL|System.Reflection.Metadata.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\System.Reflection.Metadata.dll" SelfReg="false"/>
+    <ROW File="System.Runtime.CompilerServices.Unsafe.dll" Component_="System.Runtime.CompilerServices.Unsafe.dll" FileName="SYSTEM~6.DLL|System.Runtime.CompilerServices.Unsafe.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\System.Runtime.CompilerServices.Unsafe.dll" SelfReg="false"/>
+    <ROW File="System.Text.Encoding.CodePages.dll" Component_="System.Text.Encoding.CodePages.dll" FileName="SYSTEM~7.DLL|System.Text.Encoding.CodePages.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\System.Text.Encoding.CodePages.dll" SelfReg="false"/>
+    <ROW File="System.Threading.Tasks.Extensions.dll" Component_="System.Threading.Tasks.Extensions.dll" FileName="SYSTEM~8.DLL|System.Threading.Tasks.Extensions.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\System.Threading.Tasks.Extensions.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_10_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_10_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\tr\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_10" Component_="Microsoft.CodeAnalysis.resources.dll_10" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\tr\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_11_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_11_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_11" Component_="Microsoft.CodeAnalysis.resources.dll_11" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\zh-Hans\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.resour_12_ces.dll" Component_="Microsoft.CodeAnalysis.CSharp.resour_12_ces.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_12" Component_="Microsoft.CodeAnalysis.resources.dll_12" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\Revit2023\bin\x64\Release\zh-Hant\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="SampleRevitCommands.cs" Component_="SampleRevitCommands.cs" FileName="SAMPLE~1.CS|SampleRevitCommands.cs" Attributes="0" SourcePath="..\Revit2023\Samples\SampleRevitCommands.cs" SelfReg="false"/>
+    <ROW File="SampleCommands.cs" Component_="SampleRevitCommands.cs" FileName="SAMPLE~2.CS|SampleCommands.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.WinForms.Net48\Samples\SampleCommands.cs" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
@@ -218,6 +226,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
     <ROW Directory_="APPDIR" Component_="APPDIR" ManualDelete="true"/>
+    <ROW Directory_="NewFolder_Dir" Component_="Ara3D" ManualDelete="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
     <ROW Action="AI_DOWNGRADE" Type="19" Target="4010"/>
@@ -282,9 +291,11 @@
     <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_10"/>
     <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.CSharp.resour_11_ces.dll"/>
     <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_11"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.Bowerbird.Revit2023.addin"/>
     <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.CSharp.resour_12_ces.dll"/>
     <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_12"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.Bowerbird.Revit2023.addin"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D"/>
+    <ROW Feature_="MainFeature" Component_="SampleRevitCommands.cs"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>

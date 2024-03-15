@@ -80,12 +80,14 @@
   <ItemGroup>
     <Compile Include="BowerbirdRevitApp.cs" />
     <Compile Include="BowerbirdExternalCommand.cs" />
+    <Compile Include="IRevitBowerbirdCommand.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Samples\SampleRevitCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

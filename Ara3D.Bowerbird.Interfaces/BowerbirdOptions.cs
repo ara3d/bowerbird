@@ -8,6 +8,10 @@ namespace Ara3D.Bowerbird.Interfaces
         public string OrgName { get; set; }
         public DirectoryPath ScriptsFolder { get; set; }
         public DirectoryPath LibrariesFolder { get; set; }
+        public string AppTitle => $"BETA - {AppName} v{GetType().GetAssemblyData().Version} by Ara 3D";
+
+        public static BowerbirdOptions CreateFromName(string appName)
+            => CreateFromName("Ara 3D", appName);
 
         public static BowerbirdOptions CreateFromName(string orgName, string appName)
         {

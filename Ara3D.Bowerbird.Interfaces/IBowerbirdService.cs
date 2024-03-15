@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ara3D.Services;
 
 namespace Ara3D.Bowerbird.Interfaces
 {
     public interface IBowerbirdService 
-        : ISingletonModelBackedService<BowerbirdDataModel>
+        : IBowerbirdHost, ISingletonModelBackedService<BowerbirdDataModel>, IDisposable
     {
         BowerbirdOptions Options { get; }
         bool AutoRecompile { get; set; }

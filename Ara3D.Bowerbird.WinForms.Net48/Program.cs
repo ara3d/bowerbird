@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Ara3D.Bowerbird.Core;
+using Ara3D.Bowerbird.Interfaces;
 
 namespace Ara3D.Bowerbird.WinForms.Net48
 {
@@ -16,7 +15,9 @@ namespace Ara3D.Bowerbird.WinForms.Net48
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BowerbirdForm());
+            Application.Run(new BowerbirdForm(
+                BowerbirdHost.CreateDefault(), 
+                BowerbirdOptions.CreateFromName("Ara 3D", "Bowerbird WinForms Demo")));
         }
     }
 }

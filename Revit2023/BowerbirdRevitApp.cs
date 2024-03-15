@@ -4,19 +4,22 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using Ara3D.Bowerbird.Core;
 using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Bowerbird.WinForms.Net48;
 using Ara3D.Services;
+using Ara3D.Utils;
 using Autodesk.Revit.UI;
 using Application = Ara3D.Services.Application;
 
 namespace Ara3D.Bowerbird.Revit
 {
-    public class BowerbirdRevitApp : IExternalApplication
+    public class BowerbirdRevitApp : IExternalApplication, IBowerbirdHost
     {
         public UIControlledApplication UicApp { get; private set; }
+        public UIApplication UiApp { get; private set; }
         public static BowerbirdRevitApp Instance { get; private set; }
 
         public Result OnShutdown(UIControlledApplication application)
@@ -65,35 +68,54 @@ namespace Ara3D.Bowerbird.Revit
             runButton.LargeImage = BitmapToImageSource(Resources.Bowerbird_32x32);
             runButton.ToolTip = "Compile and Load C# Scripts";
 
-            // TODO: run the scripts automatically.
-
             return Result.Succeeded;
         }
 
-        public IApplication App { get; }
-        public LoggingService Logging { get; }
-        public BowerbirdService Bowerbird { get; }
-        public BowerbirdOptions Options { get; }
         public BowerbirdForm Window { get; private set; }
 
-        public BowerbirdRevitApp()
+        public BowerbirdForm GetOrCreateWindow()
         {
-            //App = new Application();
-            //Options = BowerbirdOptions.CreateFromName("Ara 3D", "Bowerbird for Revit");
-            //Logging = new LoggingService("Bowerbird", App);
-            //Bowerbird = new BowerbirdService(App, Logging, Options);
+            if (Window == null)
+            {
+                Window = new BowerbirdForm(this, BowerbirdOptions.CreateFromName("Bowerbird for Revit 2023"));
+                Window.FormClosing += (sender, args) =>
+                {
+                    Window.Hide();
+                    args.Cancel = true;
+                };
+
+                // TODO: run certain scripts automatically.
+                
+                // TODO: run this automatically? 
+                /* 
+                var sampleText = Resources.SampleRevitCommands;
+                Window.BowerbirdService
+                    .Options
+                    .ScriptsFolder
+                    .RelativeFile("SampleRevitCommands.cs")
+                    .WriteAllText(sampleText);
+                */
+            }
+
+            Window.Show();
+            return Window;
+        }
+
+        public void FirstRun()
+        {
+
+        }
+
+        public void ExecuteCommand(IBowerbirdCommand obj)
+        {
+            obj.Execute(Instance.UiApp);
         }
 
         public void Run(UIApplication application)
         {
+            UiApp = application;
+            GetOrCreateWindow();
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-            Window = Window ?? new BowerbirdForm();
-            Window.FormClosing += (sender, args) =>
-            {
-                Window.Hide();
-                args.Cancel = true;
-            };
-            Window.Show();
         }
     }
 }

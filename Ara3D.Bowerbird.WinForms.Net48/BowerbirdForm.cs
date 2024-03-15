@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Ara3D.Bowerbird.Core;
 using Ara3D.Bowerbird.Interfaces;
+using Ara3D.Bowerbird.WinForms.Net48.Properties;
 using Ara3D.Domo;
 using Ara3D.Logging;
 using Ara3D.Services;
@@ -15,26 +16,38 @@ namespace Ara3D.Bowerbird.WinForms.Net48
         public IApplication App { get; } 
         public IBowerbirdService BowerbirdService { get; }
         public ILogger Logger { get; }
-
-        public static readonly DirectoryPath SamplesSrcFolder
-            = PathUtil.GetCallerSourceFolder().RelativeFolder("Samples");
-
-        public static readonly BowerbirdOptions Options =
-            BowerbirdOptions.CreateFromName("Ara 3D", "Bowerbird WinForms Demo");
-
-        public BowerbirdForm()
+        public BowerbirdOptions Options { get; }
+           
+        public BowerbirdForm(IBowerbirdHost host, BowerbirdOptions options)
         {
             InitializeComponent();
+
+            Closed += BowerbirdForm_Closed;
+            Options = options;
+            Text = Options.AppTitle;
+
+            /*
+            // https://stackoverflow.com/a/23736063
+            webBrowser1.DocumentText = "";
+            webBrowser1.Document.OpenNew(true);
+            webBrowser1.Document.Write(theHTML);
+            webBrowser1.Refresh();
+            */
+
             App = new Services.Application();
 
             Logger = Logger.Create("Bowerbird", OnLogMsg);
             Logger.Log($"Welcome to Bowerbird by https://ara3d.com");
             
-            Logger.Log($"Copying script files from {SamplesSrcFolder} to {Options.ScriptsFolder}");
-            SamplesSrcFolder.CopyDirectory(Options.ScriptsFolder);
-            
-            BowerbirdService = new BowerbirdService(App, Logger, Options);
+            // TODO: 
+            //Logger.Log($"Copying Sample script files to {Options.ScriptsFolder}");
+            //var sampleText = Resources.SampleCommands;
+            //Options.ScriptsFolder.Create();
+            //Options.ScriptsFolder.RelativeFile("SampleCommands.cs").WriteAllText(sampleText);
+
+            BowerbirdService = new BowerbirdService(host, App, Logger, Options);
             BowerbirdService.Repository.OnModelChanged(DataModelChanged);
+            
             DataModelChanged(BowerbirdService.Model);
 
             checkBoxAutoRecompile.CheckedChanged += CheckBoxAutoRecompileOnCheckedChanged;
@@ -42,7 +55,11 @@ namespace Ara3D.Bowerbird.WinForms.Net48
             BowerbirdService.Compile();
         }
 
-        
+        private void BowerbirdForm_Closed(object sender, EventArgs e)
+        {
+            BowerbirdService.Dispose();
+        }
+
         public void UpdateListBox(ListBox listBox, IEnumerable<object> items)
         {
             listBox.Items.Clear();
@@ -59,8 +76,10 @@ namespace Ara3D.Bowerbird.WinForms.Net48
 
             checkBoxEmit.Checked = model.Value.EmitSuccess;
             checkBoxEmit.Text = "Emit " + (model.Value.EmitSuccess ? "Successful" : "Failed");
+
             checkBoxParse.Checked = model.Value.ParseSuccess;
             checkBoxParse.Text = "Parse " + (model.Value.ParseSuccess ? "Successful" : "Failed");
+
             checkBoxLoad.Checked = model.Value.LoadSuccess;
             checkBoxLoad.Text = "Load " + (model.Value.LoadSuccess ? "Successful" : "Failed");
 
@@ -91,22 +110,67 @@ namespace Ara3D.Bowerbird.WinForms.Net48
             richTextBoxLog.Clear();
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        public IBowerbirdCommand GetSelectedCommand()
         {
-
-        }
-
-        private void listBoxCommands_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            var i = listBoxCommands.SelectedIndex;
+            if (i < 0 || i >= BowerbirdService.Commands.Count) return null;
+            return BowerbirdService.Commands[i];
         }
 
         private void listBoxCommands_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            var i = listBoxCommands.SelectedIndex;
-            if (i < 0) return;
-            var command = BowerbirdService.Commands[i];
-            command.Execute();
+            var cmd = GetSelectedCommand();
+            if (cmd == null) return;
+            BowerbirdService.ExecuteCommand(cmd);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ProcessUtil.OpenFolderInExplorer(textBoxSourceFiles.Text);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            ProcessUtil.OpenFolderInExplorer(textBoxLibraryDir.Text);
+        }
+
+        private void listBoxFiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        public FilePath GetSelectedFile()
+        {
+            var i = listBoxFiles.SelectedIndex;
+            if (i < 0 || i >= BowerbirdService.Model.Value.Files.Count) return null;
+            return BowerbirdService.Model.Value.Files[i];
+        }
+
+        private void listBoxFiles_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            GetSelectedFile()?.OpenDefaultProcess();
+        }
+
+        private void contextMenuStripCommands_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            contextMenuStripCommands.Items[0].Enabled = GetSelectedCommand() != null;
+        }
+
+        private void contextMenuStripFiles_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            contextMenuStripFiles.Items[0].Enabled = GetSelectedFile() != null;
+        }
+
+        private void runSelectedCommandToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var cmd = GetSelectedCommand();
+            if (cmd == null) return;
+            BowerbirdService.ExecuteCommand(cmd);
+        }
+
+        private void openSelectedFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetSelectedFile()?.OpenDefaultProcess();
         }
     }
 }

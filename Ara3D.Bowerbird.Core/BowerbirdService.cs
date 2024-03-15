@@ -18,11 +18,13 @@ namespace Ara3D.Bowerbird.Core
         public ILogger Logger { get; }
         public BowerbirdOptions Options { get; }
         public Assembly Assembly => Compiler?.Assembly;
+        public IBowerbirdHost Host { get; }
         public IReadOnlyList<IBowerbirdCommand> Commands { get; private set; }
 
-        public BowerbirdService(IApplication app, ILogger logger, BowerbirdOptions options)
+        public BowerbirdService(IBowerbirdHost host, IApplication app, ILogger logger, BowerbirdOptions options)
             : base(app)
         {
+            Host = host;
             Logger = logger;
             Options = options;
             CreateInitialFolders();
@@ -32,10 +34,30 @@ namespace Ara3D.Bowerbird.Core
             Commands = new List<IBowerbirdCommand>();
         }
 
+        public void ExecuteCommand(IBowerbirdCommand command)
+        {
+            try
+            {
+                Logger.Log($"Starting command execution: {command.Name}");
+                Host.ExecuteCommand(command);
+                Logger.Log($"Finished command execution: {command.Name}");
+            }
+            catch (Exception e)
+            {
+                Logger.LogError($"Command execution failed: {e}");
+            }
+        }
+
         // TODO: make this a command.
         public void Compile()
         {
             Compiler.Compile();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            Compiler.Dispose();
         }
 
         private void Compiler_RecompileEvent(object sender, EventArgs e)

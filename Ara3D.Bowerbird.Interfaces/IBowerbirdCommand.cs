@@ -3,6 +3,6 @@
     public interface IBowerbirdCommand 
     {
         string Name { get; }
-        void Execute();
+        void Execute(object argument);
     }
 }
