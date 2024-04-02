@@ -94,7 +94,7 @@
       <Project>{54EDAD8E-0960-462B-A4F1-4E82C9F8275F}</Project>
       <Name>Ara3D.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Ara3D.Utils\Ara3D.Utils.csproj">
+    <ProjectReference Include="..\..\Utils\Ara3D.Utils\Ara3D.Utils.csproj">
       <Project>{6B8EA878-A82D-43AF-BFEF-0E5106117F55}</Project>
       <Name>Ara3D.Utils</Name>
     </ProjectReference>
