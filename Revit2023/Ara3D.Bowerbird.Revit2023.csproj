@@ -108,13 +108,57 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Collections\Ara3D.Collections\Ara3D.Collections.csproj">
+      <Project>{31e7bd94-c662-4a29-8048-9801742e0a9a}</Project>
+      <Name>Ara3D.Collections</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\domo\Ara3D.Domo\Ara3D.Domo.csproj">
       <Project>{8BFD0CE5-7A21-401F-BACD-6062BBD4F2AE}</Project>
       <Name>Ara3D.Domo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Geometry\Ara3D.Geometry\Ara3D.Geometry.csproj">
+      <Project>{d5aa20aa-79d7-4d58-9caf-45a07340c354}</Project>
+      <Name>Ara3D.Geometry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ara3D.Buffers\Ara3D.Buffers.csproj">
+      <Project>{73251016-7226-48f8-8b9d-826f5661fa95}</Project>
+      <Name>Ara3D.Buffers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ara3D.Graphics\Ara3D.Graphics.csproj">
+      <Project>{d8a73fce-d522-44e6-aea6-e76ea1342cfb}</Project>
+      <Name>Ara3D.Graphics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ara3D.Interop.Assimp\Ara3D.Interop.Assimp.csproj">
+      <Project>{2bb0f7c3-4efc-4f9e-985d-cff963ae5353}</Project>
+      <Name>Ara3D.Interop.Assimp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ara3D.Interop.G3Sharp\Ara3D.Interop.G3Sharp.csproj">
+      <Project>{990ac98b-328e-44e4-ab32-b156d910fddc}</Project>
+      <Name>Ara3D.Interop.G3Sharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ara3D.Interop.Revit\Ara3D.Interop.Revit.csproj">
+      <Project>{8e3ba07a-93da-49e4-95f8-9aa5b2b00a39}</Project>
+      <Name>Ara3D.Interop.Revit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Ara3D.Logging\Ara3D.Logging.csproj">
       <Project>{0C314213-C685-48B9-B2AD-7F80DC015086}</Project>
       <Name>Ara3D.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ara3D.Serialization.BFAST\Ara3D.Serialization.BFAST.csproj">
+      <Project>{a763689e-d5c2-4a25-8a3f-9ceaf8bb3132}</Project>
+      <Name>Ara3D.Serialization.BFAST</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ara3D.Serialization.FBX\Ara3D.Serialization.FBX.vcxproj">
+      <Project>{bc1a5b04-8c37-4da5-8ca7-d6ee7ee84e0b}</Project>
+      <Name>Ara3D.Serialization.FBX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ara3D.Serialization.G3D\Ara3D.Serialization.G3D.csproj">
+      <Project>{c2a1f310-166f-49b4-b9b9-ecb937d53fe2}</Project>
+      <Name>Ara3D.Serialization.G3D</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ara3D.Serialization.VIM\Ara3D.Serialization.VIM.csproj">
+      <Project>{a4cf85b9-e63d-472b-908d-81fd7f1f70ea}</Project>
+      <Name>Ara3D.Serialization.VIM</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Ara3D.Services\Ara3D.Services.csproj">
       <Project>{54EDAD8E-0960-462B-A4F1-4E82C9F8275F}</Project>
