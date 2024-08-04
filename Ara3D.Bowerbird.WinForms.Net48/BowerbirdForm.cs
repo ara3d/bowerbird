@@ -172,5 +172,10 @@ namespace Ara3D.Bowerbird.WinForms.Net48
         {
             GetSelectedFile()?.OpenDefaultProcess();
         }
+
+        private void RecompileButton_Click(object sender, EventArgs e)
+        {
+            BowerbirdService.Compile();
+        }
     }
 }

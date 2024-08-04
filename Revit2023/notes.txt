@@ -1,4 +1,0 @@
-﻿* Right now.
-* I am having a bunch of compilation problems. 
-* I think I need a separate solution? 
-* Make everything to be a standalone?

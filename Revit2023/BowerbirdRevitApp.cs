@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Windows;
 using System.Windows.Media.Imaging;
-using Ara3D.Bowerbird.Core;
 using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Bowerbird.WinForms.Net48;
-using Ara3D.Services;
-using Ara3D.Utils;
 using Autodesk.Revit.UI;
-using Application = Ara3D.Services.Application;
 
 namespace Ara3D.Bowerbird.Revit
 {

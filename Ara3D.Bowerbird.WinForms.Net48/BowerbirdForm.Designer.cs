@@ -63,7 +63,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxSourceFiles = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.RecompileButton = new System.Windows.Forms.Button();
             this.checkBoxAutoRecompile = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -321,7 +321,7 @@
             this.tabPage3.Controls.Add(this.label1);
             this.tabPage3.Controls.Add(this.textBoxSourceFiles);
             this.tabPage3.Controls.Add(this.button4);
-            this.tabPage3.Controls.Add(this.button3);
+            this.tabPage3.Controls.Add(this.RecompileButton);
             this.tabPage3.Controls.Add(this.checkBoxAutoRecompile);
             this.tabPage3.Controls.Add(this.button1);
             this.tabPage3.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -474,15 +474,16 @@
             // 
             // button3
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.RecompileButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(4, 98);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(344, 30);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "Recompile now";
-            this.button3.UseVisualStyleBackColor = true;
+            this.RecompileButton.Location = new System.Drawing.Point(4, 98);
+            this.RecompileButton.Margin = new System.Windows.Forms.Padding(2);
+            this.RecompileButton.Name = "RecompileButton";
+            this.RecompileButton.Size = new System.Drawing.Size(344, 30);
+            this.RecompileButton.TabIndex = 7;
+            this.RecompileButton.Text = "Recompile now";
+            this.RecompileButton.UseVisualStyleBackColor = true;
+            this.RecompileButton.Click += new System.EventHandler(this.RecompileButton_Click);
             // 
             // checkBoxAutoRecompile
             // 
@@ -568,7 +569,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxSourceFiles;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button RecompileButton;
         private System.Windows.Forms.CheckBox checkBoxAutoRecompile;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button5;

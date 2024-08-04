@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -36,6 +37,7 @@ namespace Ara3D.Utils.Roslyn
         public DirectoryPath LibsDirectoryPath { get; }
         public DirectoryPath OutputFolder => Directory.RelativeFolder(BinaryFolderName);
         public FilePath BaseFilePath => OutputFolder.RelativeFile(BaseFileName);
+        public readonly List<FilePath> LoadedAssemblies;
 
         public FilePath GenerateUniqueFileName()
             => BaseFilePath.ToUniqueTimeStampedFileName();
@@ -43,6 +45,7 @@ namespace Ara3D.Utils.Roslyn
         public DirectoryCompiler(ILogger logger, DirectoryPath inputDir, DirectoryPath libsDir, bool recursive = false, 
             CompilerOptions options = null)
         {
+            LoadedAssemblies = RoslynUtils.LoadedAssemblyLocations().ToList();
             Logger = logger;
             Log("Creating directory compiler");
             Options = options ?? CompilerOptions.CreateDefault();
@@ -60,6 +63,7 @@ namespace Ara3D.Utils.Roslyn
         }
 
         public const string RefsFileName = "refs.txt";
+        public const string IncludesFileName = "includes.txt";
 
         public void Compile()
         {
@@ -79,44 +83,56 @@ namespace Ara3D.Utils.Roslyn
 
                 Log($"Compilation task started of {Directory}");
                 var refsFile = Directory.RelativeFile(RefsFileName);
-
+                
                 if (refsFile.Exists())
                 {
-                    Refs.AddRange(refsFile.ReadAllLines().Select(f => new FilePath(f)));
                     Log($"Loaded {Refs.Count} references from '{RefsFileName}'");
-
-                    foreach (var fp in Refs)
+                    var refs = refsFile.ReadAllLines();
+                    foreach (var line in refs)
                     {
-                        if (!fp.Exists())
-                            Logger.LogError($"Could not find referenced file: {fp}");
+                        if (line.IsNullOrWhiteSpace())
+                            continue;
+
+                        var fp = new FilePath(line);
+                        if (fp.Exists())
+                        {
+                            Refs.Add(fp);
+                            continue;
+                        }
+
+                        fp = LoadedAssemblies.FirstOrDefault(f => f.Value.EndsWith(line));
+                        if (fp != null && fp.Exists())
+                        {
+                            Refs.Add(fp);
+                            continue;
+                        }
+ 
+                        Logger.LogError($"Could not find referenced file: {line}");
                     }
-                }
+                }   
                 else
                 {
-                    Log($"No references file name found '{RefsFileName}'");
+                    Log($"No references file provided ({RefsFileName})");
                 }
 
                 if (LibsDirectoryPath == null)
                 {
                     Log("No library directory provided");
                 }
-                else if (LibsDirectoryPath?.Exists() == false)
+                else if (LibsDirectoryPath.Exists() == false)
                 {
                     Log($"Library directory not found: {LibsDirectoryPath}");
                 }
                 else
                 {
                     Log($"Loading references from: {LibsDirectoryPath}");
-                    foreach (var f in LibsDirectoryPath?.GetAllFilesRecursively())
+                    foreach (var f in LibsDirectoryPath.GetAllFilesRecursively())
                     {
                         Refs.Add(f);
                     }
                 }
 
                 // Add all locally loaded assemblies
-                foreach (var f in RoslynUtils.LoadedAssemblyLocations())
-                    Refs.Add(f);
-
                 Options = Options.WithNewReferences(Refs);
 
                 Log($"All references:");
@@ -126,9 +142,35 @@ namespace Ara3D.Utils.Roslyn
                 Options = Options.WithNewOutputFilePath(GenerateUniqueFileName());
                 Log($"Generated new output file name = {OutputFile}");
 
-                var inputFiles = Watcher.GetFiles().ToArray();
+                var inputFiles = Watcher.GetFiles().ToList();
                 foreach (var f in inputFiles)
-                    Log($"  Input file {f}");
+                    Log($"  Input file {f} found in directory");
+
+                var includesFile = Directory.RelativeFile(IncludesFileName);
+                if (includesFile.Exists())
+                {
+                    Log($"Loading additional input files from {IncludesFileName}");
+                    foreach (var line in includesFile.ReadAllLines())
+                    {
+                        if (!line.IsNullOrWhiteSpace())
+                        {
+                            var fp = new FilePath(line);
+                            if (!fp.Exists())
+                            {
+                                Log($"  Error: included file not found - {line}");
+                            }
+                            else
+                            {
+                                inputFiles.Add(line);
+                                Log($"   Included file found {line}");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Log($"No {IncludesFileName} file provided");
+                }
 
                 Log("Parsing input files");
                 var sourceFiles = inputFiles.ParseCSharp(Options, token);

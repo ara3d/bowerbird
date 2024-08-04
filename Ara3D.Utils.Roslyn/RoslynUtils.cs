@@ -14,10 +14,7 @@ namespace Ara3D.Utils.Roslyn
 
         public static CompilerInput ToCompilerInput(this IEnumerable<ParsedSourceFile> sourceFiles,
             CompilerOptions options = default)
-        {
-            options = options ?? CompilerOptions.CreateDefault();
-            return new CompilerInput(sourceFiles, options);
-        }
+            => new CompilerInput(sourceFiles, options ?? CompilerOptions.CreateDefault());
 
         public static IEnumerable<MetadataReference> ReferencesFromFiles(IEnumerable<FilePath> files)
             => files.Select(x => MetadataReference.CreateFromFile(x));

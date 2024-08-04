@@ -1,0 +1,304 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ara3D.Domo</name>
+    </assembly>
+    <members>
+        <member name="M:Ara3D.Domo.DomoExtensions.GetDynamicModels(Ara3D.Domo.IRepository)">
+            <summary>
+            Returns a copy of the values as mutable dynamic that you can set in a
+            thread-safe and immutable manner. A copy of the the model is created, and
+            if a value is changed, then it is committed to the repo. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.DomoExtensions.GetDynamicModel(Ara3D.Domo.IRepository)">
+            <summary>
+            For use with singleton repositories. Returns a copy of the first value as a
+            mutable dynamic that you can set in a thread-safe and immutable manner.
+            A copy of the the model is created, and if a value is changed, then it is committed
+            to the repo. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.DomoExtensions.AsDynamic(Ara3D.Domo.IModel)">
+            <summary>
+            Returns a model, that you can update dynamically.
+            Under the hood setting properties commits a copy of the model to
+            the repository. You can bind this directly to a WPF control if you want. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.DomoExtensions.Clone``1(Ara3D.Domo.IModel{``0})">
+            <summary>
+            Creates a copy of the existing model 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.DomoExtensions.Delete(Ara3D.Domo.IModel)">
+            <summary>
+            Deletes the model from its repository
+            </summary>
+        </member>
+        <member name="T:Ara3D.Domo.RepositoryChangeType">
+            <summary>
+            Represents the kind of change that happens when a change event is triggered 
+            </summary>
+        </member>
+        <member name="T:Ara3D.Domo.RepositoryChangeArgs">
+            <summary>
+            Contains information provided when a change event is triggered. 
+            </summary>
+        </member>
+        <member name="T:Ara3D.Domo.IRepositoryManager">
+            <summary>
+            Manages a collection of repositories.
+            When disposed, all repositories are deleted (disposed).
+            Provides hooks for responding to changes to repositories. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepositoryManager.AddRepository(Ara3D.Domo.IRepository)">
+            <summary>
+            Adds a repository to the store. The RepositoryManager is now
+            responsible for disposing the repository
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepositoryManager.GetRepositories">
+            <summary>
+            Geta a shallow copy of all of the repositories managed
+            by the store at the current moment. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepositoryManager.DeleteRepository(Ara3D.Domo.IRepository)">
+            <summary>
+            Removes the specified repository from the store, and disposes it. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepositoryManager.GetRepository(System.Type)">
+            <summary>
+            Retrieves a repository based on the type.  
+            </summary>
+        </member>
+        <member name="E:Ara3D.Domo.IRepositoryManager.RepositoryChanged">
+            <summary>
+            Called after a change to a repository 
+            </summary>
+        </member>
+        <member name="T:Ara3D.Domo.IRepository">
+            <summary>
+            A repository is a container for either zero or more domain models (an IAggregateRepository)
+            or a single domain model (ISingletonRepository).
+            A repository is responsible for managing the actual state of the domain model, and
+            supports Create, GetModel, Update, and Delete (CRUD) operations. 
+            Repositories are stored in a Value Store. A Repository's Guid is a compile-time constant that
+            defines its identity across processes, and versions. This is useful for serialization
+            of repositories, and having different versions of a repsitory. 
+            When disposed, all domain models are disposed.
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.IRepository.ValueType">
+            <summary>
+            The type of the model objects stored in in this particular repository 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository.GetModel(System.Guid)">
+            <summary>
+            Returns the model stored in the repository
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository.GetValue(System.Guid)">
+            <summary>
+            Returns the value stored in the repository. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository.Update(System.Guid,System.Func{System.Object,System.Object})">
+            <summary>
+            Call this function to attempt a change in the state of particular repository. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository.Validate(System.Object)">
+            <summary>
+            Returns true if the state is valid, or false otherwise.
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository.Add(System.Object)">
+            <summary>
+            Creates a new domain model given the existing state and adds it to the repository.
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository.Delete(System.Guid)">
+            <summary>
+            Deletes the specified domain model.  
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository.GetModels">
+            <summary>
+            Returns all of the managed domain models at the current moment in time. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository.ModelExists(System.Guid)">
+            <summary>
+            Returns true if the model exists, or false otherwise
+            </summary>
+        </member>
+        <member name="E:Ara3D.Domo.IRepository.RepositoryChanged">
+            <summary>
+            Called after a change to a repository 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository.Clear">
+            <summary>
+            Removes all of the models from the repository. 
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.IRepository.Count">
+            <summary>
+            Return the number of models
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.IRepository.DefaultValue">
+            <summary>
+            Returns a default value
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.IRepository.IsSingleton">
+            <summary>
+            Returns true if the 
+            </summary>
+        </member>
+        <member name="T:Ara3D.Domo.IRepository`1">
+            <summary>
+            Strongly typed repository. The T object can be any C# type, but it is strongly recommended to be immutable.
+            Reference between data models should be created via ModelReference classes.
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository`1.GetModel(System.Guid)">
+            <summary>
+            Returns the model stored in the repository. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository`1.GetValue(System.Guid)">
+            <summary>
+            Returns the value stored in the repository. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository`1.Update(System.Guid,System.Func{`0,`0})">
+            <summary>
+            Updates the value for the given model ID
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository`1.ForceValid(`0)">
+            <summary>
+            Creates a valid version of the value.
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository`1.Validate(`0)">
+            <summary>
+            Returns true if the value is valid or not. 
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository`1.Create">
+            <summary>
+            Creates a new valid value.
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository`1.Add(`0)">
+            <summary>
+            Adds a new value to the repository and returns the model.
+            The value is forced to valid.
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IRepository`1.GetModels">
+            <summary>
+            Returns a list of models 
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.IRepository`1.DefaultValue">
+            <summary>
+            Returns the default value to construct for values
+            </summary>
+        </member>
+        <member name="T:Ara3D.Domo.IAggregateRepository`1">
+            <summary>
+            An aggregate repository manages a collection of domain models. 
+            </summary>
+        </member>
+        <member name="T:Ara3D.Domo.ISingletonRepository`1">
+            <summary>
+            In a singleton repository, the Guid of the DomainModel is the same Guid as that of the Repository.
+            To be informed of changes to an underlying data model subscriptions should be made to the model
+            itself.
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.ISingletonRepository`1.Model">
+            <summary>
+            The domain model associated with the repository 
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.ISingletonRepository`1.Value">
+            <summary>
+            The value associated with the model.
+            </summary>
+        </member>
+        <member name="T:Ara3D.Domo.IModel">
+            <summary>
+            A Model is a reference to a state within a repository. The value is immutable,
+            but can be replaced with a new one, triggering a PropertyChanged
+            event. Model also implement ICustomTypeDescriptor which simplify data binding in Data Grids.
+            Models support IDynamicMetaObjectProvider, allowing them to be used in a dynamic context. 
+            The parameter name will always be String.Empty.
+            This allows Views or View Models to respond to changes in a domain model. 
+            Domain models can refer 
+            (a guid) to identify the model across different states.
+            The state type (T) can be any C# type but is strongly recommended to be immutable.
+            If the state changes the INotifyPropertyChanged will always be triggered, with a null
+            parameter name.
+            This enables domain models to support data binding to views or view models as desired.
+            When Disposed all events handlers are removed. 
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.IModel.Id">
+            <summary>
+            Represents this particular domain model. Is persistent, and does not change
+            if the underlying value changed. Useful for creating serializable references 
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.IModel.Value">
+            <summary>
+            The underlying value or entity of the model. The actual value
+            is stored in a repository using the Guid as a key. 
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.IModel.ValueType">
+            <summary>
+            The type of the value or entity.
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.IModel.Repository">
+            <summary>
+            The in-memory backing storage for the model values
+            </summary>
+        </member>
+        <member name="M:Ara3D.Domo.IModel.TriggerChangeNotification">
+            <summary>
+            Called by the repository to identify when changes happen.
+            This invokes the INotifyPropertyChanged.PropertyChanged event
+            with the parameter name set to string.Empty.
+            </summary>
+        </member>
+        <member name="T:Ara3D.Domo.IModel`1">
+            <summary>
+            Type safe model. The type parameter can be a class or struct. It is recommended that the
+            type parameter is type-safe.
+            Do not derive your classes from this class. 
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.IModel`1.Value">
+            <summary>
+            The current value associated with the model.
+            Setting the value, updates the repository. 
+            </summary>
+        </member>
+        <member name="P:Ara3D.Domo.IModel`1.Repository">
+            <summary>
+            The repository that houses this value. 
+            </summary>
+        </member>
+    </members>
+</doc>

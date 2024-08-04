@@ -48,7 +48,6 @@ namespace Ara3D.Bowerbird.Core
             }
         }
 
-        // TODO: make this a command.
         public void Compile()
         {
             Compiler.Compile();
@@ -84,7 +83,6 @@ namespace Ara3D.Bowerbird.Core
             var cmds = new List<IBowerbirdCommand>();
             foreach (var type in types)
             {
-
                 if (!typeof(IBowerbirdCommand).IsAssignableFrom(type))
                 {
                     Logger.Log($"Not instantiating {type.Name} since it is not an IBowerbirdCommand");

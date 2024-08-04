@@ -87,7 +87,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Samples\SampleRevitCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -99,7 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Bowerbird-32x32.png" />
-    <Content Include="notes.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
@@ -212,6 +210,9 @@
     <PackageReference Include="System.Threading.Tasks.Extensions">
       <Version>4.5.4</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="refs.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
