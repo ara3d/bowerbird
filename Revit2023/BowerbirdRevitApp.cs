@@ -14,6 +14,7 @@ namespace Ara3D.Bowerbird.Revit
         public UIControlledApplication UicApp { get; private set; }
         public UIApplication UiApp { get; private set; }
         public static BowerbirdRevitApp Instance { get; private set; }
+        public CommandExecutor CommandExecutor { get; set; }
 
         public Result OnShutdown(UIControlledApplication application)
         {
@@ -50,6 +51,7 @@ namespace Ara3D.Bowerbird.Revit
         {
             UicApp = application;
             Instance = this;
+            CommandExecutor = new CommandExecutor();
 
             var rvtRibbonPanel = application.CreateRibbonPanel("Ara 3D");
             var pushButtonData = new PushButtonData("Bowerbird", "Bowerbird", 
@@ -94,14 +96,9 @@ namespace Ara3D.Bowerbird.Revit
             return Window;
         }
 
-        public void FirstRun()
-        {
-
-        }
-
         public void ExecuteCommand(IBowerbirdCommand obj)
         {
-            obj.Execute(Instance.UiApp);
+            CommandExecutor.Raise(obj);
         }
 
         public void Run(UIApplication application)

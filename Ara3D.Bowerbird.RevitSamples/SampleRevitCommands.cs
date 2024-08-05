@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Ara3D.Bowerbird.Interfaces;
+using Ara3D.Logging;
 using Ara3D.Utils;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
@@ -81,6 +85,158 @@ namespace Ara3D.Bowerbird.RevitSamples
         }
     }
 
+    public class ExternalEventExample : IExternalEventHandler
+    {
+        public void Execute(UIApplication app)
+        {
+            TaskDialog.Show("External Event", "Click Close to close.");
+        }
+
+        public string GetName()
+        {
+            return "External Event Example";
+        }
+    }
+
+    public class ExternalEventDemo : IBowerbirdCommand
+    {
+        public string Name => "External event";
+
+        public void Execute(object arg)
+        {
+            var handler = new ExternalEventExample(); 
+            var ev = ExternalEvent.Create(handler);
+            ev.Raise();
+        }
+    }
+
+    public class IdlingDemo : IBowerbirdCommand
+    {
+        public TextDisplayForm Form;
+        public ILogger Logger;
+        public int MSecElapsed;
+        public const int WORK_ITEM_MSEC = 100;
+        public const int WORK_TOTAL_MSEC = 1000;
+        public string Name => "Idling Demo";
+        public Stopwatch Stopwatch = new Stopwatch();
+
+        public void Log(string msg)
+        {
+            Logger.Log(msg);
+        }
+
+        public void Execute(object arg)
+        {
+            Form = new TextDisplayForm("");
+            var uiApp = arg as UIApplication; ;
+            uiApp.Idling += Application_Idling;
+            Logger = Form.CreateLogger();
+            Form.Show();
+            Stopwatch.Start();
+        }
+
+        private void Application_Idling(object sender, Autodesk.Revit.UI.Events.IdlingEventArgs e)
+        {
+            var uiApp = sender as UIApplication;
+            if (uiApp == null) return;
+
+            // Simulate work 
+            Thread.Sleep(WORK_ITEM_MSEC);
+            MSecElapsed += WORK_ITEM_MSEC;
+            if (MSecElapsed > WORK_TOTAL_MSEC)
+            {
+                var n1 = MSecElapsed / 1000f;
+                Log($"{n1:##.00} seconds elapsed during idling");
+                MSecElapsed = 0;
+                var n2 = Stopwatch.ElapsedMilliseconds / 1000f;
+                Log($"{n2:##.00} seconds elapsed in real-time");
+                Stopwatch.Reset();
+                Stopwatch.Start();
+            }
+            e.SetRaiseWithoutDelay();
+        }
+    }
+
+    public class SelectedItemGeometry : IBowerbirdCommand
+    {
+        public string Name => "Selected Item Geometry";
+
+        public static TextDisplayForm Form;
+        public static ILogger Logger;
+
+        public static void Log(string msg)
+        {
+            Logger.Log(msg);
+        }
+
+        public void Execute(object arg)
+        {
+            if (Form == null)
+            {
+                Form = new TextDisplayForm("");
+                Form.FormClosing += (sender, args) =>
+                {
+                    args.Cancel = true;
+                    Form.Hide();
+                };
+            }
+
+            Logger = Form.CreateLogger();
+            try
+            {
+                var uidoc = (arg as UIApplication)?.ActiveUIDocument; 
+                var doc = uidoc.Document;
+                var sel = uidoc.Selection;
+                if (sel == null)
+                {
+                    Log($"No selection");
+                    return;
+                }
+                var selId = sel.GetElementIds().FirstOrDefault();
+                if (selId == null)
+                {
+                    Log($"No selection ID found");
+                    return;
+                }
+                Log($"Found selection {selId}");
+
+                var element = doc.GetElement(selId);
+                if (element == null)
+                {
+                    Log($"No element found");
+                    return;
+                }
+                
+                Log($"Element found {element.Name}");
+                var ge = element.get_Geometry(new Options()
+                {
+                    ComputeReferences = false, 
+                    DetailLevel = ViewDetailLevel.Coarse,
+                    IncludeNonVisibleObjects = false
+                });
+                
+                Log($"Retrieved geometry element {ge.Id}");
+                foreach (var go in ge)
+                {
+                    Log($"Geometry object {go.Id} is {go.GetType().Name}");
+                    var expr = go.ToExpr();
+                    Log($"Retrieved AST Expr");
+
+                    Log($"Formatting AST");
+                    expr = GeometryAbstractSyntaxTree.PrettyPrintAst(expr);
+                    Log($"{expr}");
+                }
+
+                Log($"Completed");
+            }
+            catch (Exception e)
+            {
+                Log($"Exception occurred {e}");
+            }
+            Form.Show();
+        }
+    }
+
     public class TextDisplayForm : System.Windows.Forms.Form
     {
         private System.Windows.Forms.TextBox textBox;
@@ -98,6 +254,12 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             Controls.Add(textBox);
         }
+
+        public void AddLine(string s)
+            => textBox.AppendText(s + Environment.NewLine);
+
+        public ILogger CreateLogger()
+            => new Logger(LogWriter.Create(AddLine), "");
 
         public static TextDisplayForm DisplayText(IEnumerable<string> lines)
             => DisplayText(string.Join("\r\n", lines));

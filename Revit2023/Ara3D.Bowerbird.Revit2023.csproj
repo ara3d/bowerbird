@@ -80,7 +80,7 @@
   <ItemGroup>
     <Compile Include="BowerbirdRevitApp.cs" />
     <Compile Include="BowerbirdExternalCommand.cs" />
-    <Compile Include="IRevitBowerbirdCommand.cs" />
+    <Compile Include="CommandExecutor.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
