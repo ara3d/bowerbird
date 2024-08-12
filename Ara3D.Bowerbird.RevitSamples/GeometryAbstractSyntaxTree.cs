@@ -50,6 +50,9 @@ namespace Ara3D.Bowerbird.RevitSamples
         /// </summary>
         public static string ToExpr(this GeometryObject o)
         {
+            if (o == null)
+                return "";
+
             var type = o.GetType().Name;
             switch (o)
             {

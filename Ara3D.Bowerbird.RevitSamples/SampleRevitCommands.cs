@@ -136,7 +136,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         }
 
         private void Application_Idling(object sender, Autodesk.Revit.UI.Events.IdlingEventArgs e)
-        {
+        {   
             var uiApp = sender as UIApplication;
             if (uiApp == null) return;
 
@@ -153,6 +153,131 @@ namespace Ara3D.Bowerbird.RevitSamples
                 Stopwatch.Reset();
                 Stopwatch.Start();
             }
+            e.SetRaiseWithoutDelay();
+        }
+    }
+
+    public class BackgroundDemo : IBowerbirdCommand
+    {
+        public string Name => "Background processing demo";
+
+        public Document Doc;
+        public TextDisplayForm Form;
+        public ILogger Logger;
+        public readonly Stopwatch WallTime = new Stopwatch();
+        public readonly Stopwatch IdleTime = new Stopwatch();
+        public Queue<int> Ids;
+        public bool Completed;
+        public UIApplication App;
+        public List<string> WorkOutput = new List<string>();
+
+        public void Log(string msg)
+        {
+            Logger.Log(msg);
+        }
+
+        public void Execute(object arg)
+        {
+            Completed = false;
+            Form = new TextDisplayForm("");
+            App = arg as UIApplication; ;
+            Doc = App.ActiveUIDocument.Document;
+            var collector = new FilteredElementCollector(Doc);
+            var elements = collector.WhereElementIsNotElementType().ToElements();
+            Ids = new Queue<int>(elements.Select(e => e.Id.IntegerValue));
+            App.Idling += Application_Idling;
+            Logger = Form.CreateLogger();
+            Form.Show();
+            Log($"Queue has {Ids.Count} elements");
+            WallTime.Start();
+        }
+
+        private void Application_Idling(object sender, Autodesk.Revit.UI.Events.IdlingEventArgs e)
+        {
+            if (Completed)
+            {
+                App.Idling -= Application_Idling;
+                return;
+            }
+            IdleTime.Start();
+            var uiApp = sender as UIApplication;
+            if (uiApp == null) return;
+
+            // Check if nothing is left on the queue. 
+            if (Ids.Count == 0)
+            {
+                Log($"Creating {WorkOutput.Count} items");
+                var n1 = IdleTime.ElapsedMilliseconds / 1000f;
+                var n2 = WallTime.ElapsedMilliseconds / 1000f;
+                Log($"{n1:##.00} seconds elapsed in CPU-time");
+                Log($"{n2:##.00} seconds elapsed in real-time");
+                Completed = true;
+
+                // Demonstrate that we did some non-trivial work
+                var n = 0;
+                for (var i=0; i < WorkOutput.Count; ++i)
+                {
+                    var s = WorkOutput[i];
+                    if (s == null || s.Length == 0)
+                        continue;
+                    Log($"Element {i} has geometry {s}");
+                    if (n++ > 5)
+                        break;
+                }
+                return;
+            }
+
+            // Depends on how many elements we are processing, and how much work we do. 
+            const int BATCH_SIZE = 50;
+            for (var i = 0; i < BATCH_SIZE; i++)
+            {
+                if (Ids.Count == 0)
+                    break;
+                var id = Ids.Dequeue();
+                var el = Doc.GetElement(new ElementId(id));
+                
+                //var s = el.Name;
+                var s = GetGeometryString(el);
+
+                WorkOutput.Add(s);
+            }
+            IdleTime.Stop();
+        }
+
+        public static string GetGeometryString(Element e)
+        {
+            var ge = e.get_Geometry(new Options()
+            {
+                ComputeReferences = false,
+                DetailLevel = ViewDetailLevel.Coarse,
+                IncludeNonVisibleObjects = false
+            });
+            var expr = ge.ToExpr();
+            //return GeometryAbstractSyntaxTree.PrettyPrintAst(expr);
+            return expr;
+        }
+
+        private void VERY_SLOW_DONT_DO_THIS_Application_Idling(object sender, Autodesk.Revit.UI.Events.IdlingEventArgs e)
+        {
+            if (Completed) return;
+            IdleTime.Start();
+            var uiApp = sender as UIApplication;
+            if (uiApp == null) return;
+            if (Ids.Count == 0)
+            {
+                Log($"Creating {WorkOutput.Count} items");
+                var n1 = IdleTime.ElapsedMilliseconds / 1000f;
+                var n2 = WallTime.ElapsedMilliseconds / 1000f;
+                Log($"{n1:##.00} seconds elapsed in CPU-time");
+                Log($"{n2:##.00} seconds elapsed in real-time");
+                Completed = true;
+                return;
+            }
+
+            var id = Ids.Dequeue();
+            var el = Doc.GetElement(new ElementId(id));
+            WorkOutput.Add(el.Name);
+            IdleTime.Stop();
             e.SetRaiseWithoutDelay();
         }
     }
@@ -270,6 +395,23 @@ namespace Ara3D.Bowerbird.RevitSamples
             form.Show();
             return form;
         }
+    }
+
+    public class RoomData
+    {
+        public double Perimeter;
+        public double Area;
+        public int NumWalls;
+        public int NumDoors;
+        public double LongestWall;
+        public int NumSharedRooms;
+        public double BoundingBoxAspectRatio; 
+        public double BoundingBoxLongestSide;
+        public double BoundingBoxShortestSide;
+        public int NumOutlets;
+        public double RatioOfAreaToBoundingBox;
+        public double RatioOfPerimeterToBoundingBox;
+        public bool HasChildRoom;
     }
 
     public static class RoomExtensions
