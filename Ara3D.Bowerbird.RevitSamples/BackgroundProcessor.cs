@@ -409,7 +409,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             5,
             0,
             0,
-            0});
+            0});    
             this.numericUpDownMsecPerBatch.Name = "numericUpDownMsecPerBatch";
             this.numericUpDownMsecPerBatch.Size = new System.Drawing.Size(67, 20);
             this.numericUpDownMsecPerBatch.TabIndex = 2;

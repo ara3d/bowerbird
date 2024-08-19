@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Ara3D.Bowerbird.Interfaces;
@@ -107,6 +109,21 @@ namespace Ara3D.Bowerbird.RevitSamples
             var handler = new ExternalEventExample(); 
             var ev = ExternalEvent.Create(handler);
             ev.Raise();
+        }
+    }
+
+    public class SelectedElementsJson : IBowerbirdCommand
+    {
+        public string Name => "Selected elements JSON";
+
+        public void Execute(object arg)
+        {
+            var uidoc = (arg as UIApplication)?.ActiveUIDocument;
+            var doc = uidoc.Document;
+            var sel = uidoc.Selection;
+            var elements = sel.GetElementIds().Select(id => doc.GetElement(id));
+            var text = ElementData.ToJson(elements).ToString();
+            TextDisplayForm.DisplayText(text);
         }
     }
 
@@ -360,5 +377,130 @@ namespace Ara3D.Bowerbird.RevitSamples
 
         public static FilePath WriteObjFile(this FilePath filePath, IReadOnlyList<double> vertexData, IReadOnlyList<int> indexData)
             => filePath.WriteAllLines(GetObjLines(vertexData, indexData));
+    }
+
+    public static class ElementData
+    {
+        public static StringBuilder ToJson(IEnumerable<Element> elements, StringBuilder sb = null, string indent = "")
+        {
+            if (sb == null)
+                sb = new StringBuilder();
+            sb.AppendLine($"{indent}[");
+            var first = true;
+            foreach (var e in elements)
+            {
+                if (!first)
+                    sb.AppendLine($"{indent}, ");
+                else
+                    first = false;
+                ToJson(e, sb, indent + "  ");
+            }
+            sb.AppendLine($"{indent}]");
+            return sb;
+        }
+
+        public static string ParameterToString(Parameter parameter)
+        {
+            if (parameter == null)
+                return null;
+
+            var paramName = parameter.Definition.Name;
+            
+            if (!parameter.HasValue)
+                return $"\"{paramName}\" : null";
+
+            switch (parameter.StorageType)
+            {
+                case StorageType.Integer:
+                    return $"\"{paramName}\" : {parameter.AsInteger()}";
+
+                case StorageType.Double:
+                    return $"\"{paramName}\" : {parameter.AsDouble()}";
+
+                case StorageType.String:
+                    return $"\"{paramName}\" : \"{parameter.AsString()}\"";
+
+                case StorageType.ElementId:
+                    return $"\"{paramName}\" : {parameter.AsElementId().IntegerValue}";
+            }
+
+            return $"\"{paramName}\" : {parameter.AsValueString()}";
+        }
+
+
+        public static StringBuilder ToJson(Element e, StringBuilder sb = null, string indent = "")
+        {
+            if (sb == null)
+                sb = new StringBuilder();
+            sb.AppendLine($"{indent}{{");
+            foreach (var m in e.GetType().GetMembers())
+            {
+                object val;
+                try
+                {
+                    if (m is PropertyInfo pi)
+                    {
+                        if (pi.GetIndexParameters().Length == 0)
+                            val = pi.GetValue(e);
+                        else 
+                            continue;
+                    }
+                    else if (m is MethodInfo mi)
+                    {
+                        if (mi.GetParameters().Length == 0)
+                            val = mi.Invoke(e, null);
+                        else 
+                            continue;
+                    }
+                    else if (m is FieldInfo fi)
+                    {
+                        val = fi.GetValue(e);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                catch
+                {
+                    continue;
+                }
+
+                if (val is Element subElement)
+                {
+                    sb.AppendLine($"{indent + "  "}\"{m.Name}\":");
+                    ToJson(subElement, sb, indent + "  ");
+                }
+                else if (val is IEnumerable<Element> subElements)
+                {
+                    sb.AppendLine($"{indent + "  "}\"{m.Name}\":");
+                    ToJson(subElements, sb, indent + "  ");
+                }
+                else if (val is IEnumerable<ElementId> subElementIds)
+                {
+                    var ids = subElementIds.Select(eId => eId.IntegerValue);
+                    sb.AppendLine($"{indent + "  "}\"{m.Name}\": [{ids.JoinStringsWithComma()}]");
+                }
+                else if (val is IEnumerable<Parameter> parameters)
+                {
+                    var paramStr = parameters.Select(ParameterToString).JoinStringsWithComma();
+                    sb.AppendLine($"{indent + "  "}\"{m.Name}\": {{ {paramStr} }}");
+                }
+                else
+                {
+                    if (val is ElementId id)
+                        val = id.IntegerValue;
+                    else if (val is Parameter)
+                    {
+
+                    }
+
+                    sb.AppendLine($"{indent + "  "}\"{m.Name}\": \"{val}\"");
+                }
+            }
+
+            sb.AppendLine($"{indent}}}");
+            return sb;
+        }
     }
 }
