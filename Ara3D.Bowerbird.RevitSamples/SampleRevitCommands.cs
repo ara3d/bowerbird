@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -13,6 +15,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using FilePath = Ara3D.Utils.FilePath;
+using XYZ = Autodesk.Revit.DB.XYZ;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
@@ -71,6 +74,28 @@ namespace Ara3D.Bowerbird.RevitSamples
         }
     }
 
+    public class DataTableForm : System.Windows.Forms.Form
+    {
+        public DataGridView DataGridView;
+        public DataTableBuilder Builder;
+
+        public DataTableForm(DataTableBuilder builder)
+        {
+            Builder = builder;
+            DataGridView = new DataGridView
+            {
+                Dock = DockStyle.Fill,
+                DataSource = builder.DataTable
+            };
+            Controls.Add(DataGridView);
+        }
+
+        public void AddItemsToDataTable(IEnumerable items)
+        {
+            BeginInvoke(new Action(() => Builder.AddRows(items)));
+        }
+    }
+
     public class FamilyInstanceData : IBowerbirdCommand
     {
         public string Name => "Family Instances";
@@ -117,54 +142,125 @@ namespace Ara3D.Bowerbird.RevitSamples
             Doors = doc.GetDoors().GroupByRoom();
             Sockets = doc.GetSockets().GroupByRoom();
             Windows = doc.GetWindows().GroupByRoom();
-            var text = string.Join("\r\n", Rooms.Select(RoomToString));
-            TextDisplayForm.DisplayText(text);
+
+            var builder = new DataTableBuilder(typeof(RoomData));
+            builder.AddRows(GetAllRoomData());
+            var form = new DataTableForm(builder);
+            form.Show();
+
+            //var text = string.Join("\r\n", GetAllRoomData());
+            //TextDisplayForm.DisplayText(text);
         }
+
+        public IEnumerable<RoomData> GetAllRoomData()
+            => Rooms.Select(GetRoomData);
 
         public static int GetCount(Dictionary<int, List<FamilyInstance>> dict, Room r)
         {
             return dict.TryGetValue(r.Id.IntegerValue, out var list) ? list.Count : 0;
         }
 
-        public string RoomToString(Room r)
+        public class RoomData
         {
-            var numLights = GetCount(Lights, r);
-            var numDoors = GetCount(Doors, r);
-            var numSockets = GetCount(Sockets, r);
-            var numWindows = GetCount(Windows, r);
-            
+            public string Name;
+            public int Id;
+            public int Lights;
+            public int Doors;
+            public int Sockets;
+            public int Windows;
+            public int Walls;
+            public double LimitOffset;
+            public double Area;
+            public double BoundingArea;
+            public double BoundingVolume;
+            public double BoundingHeight;
+            public double AreaToBoundingArea;
+            public double MaxSide;
+            public double MinSide;
+            public double Ratio;
+            public double Volume;
+            public double Elevation;
+            public double Perimeter;
+            public string LevelName;
+            public double UnboundedHeight;
+            public double UpperLevelElevation;
+            public double BaseOffset;
+
+            public override string ToString()
+            {
+                var sb = new StringBuilder();
+                foreach (var fi in typeof(RoomData).GetFields())
+                {
+                    var val = fi.GetValue(this);
+                    if (val is double d)
+                        val = d.ToString("0.##");
+                    sb.Append($"{fi.Name} = {val}; ");
+                }
+
+                return sb.ToString();
+            }
+        }
+
+        public RoomData GetRoomData(Room r)
+        {
             var walls = r.GetWalls().ToList();
             var numWalls = walls.Count;
+            var rd = new RoomData()
+            {
+                Name = r.Name ?? "",
+                Id = r.Id.IntegerValue,
+                Lights = GetCount(Lights, r),
+                Doors = GetCount(Doors, r),
+                Sockets = GetCount(Sockets, r),
+                Windows = GetCount(Windows, r),
+                Walls = numWalls,
+                Elevation = r.Level?.Elevation ?? 0,
+                Area = r.Area,
+                Volume = r.Volume,
+                Perimeter = r.Perimeter,
+                LevelName = r.Level?.Name ?? "",
+                UnboundedHeight = r.UnboundedHeight,
+                UpperLevelElevation = r.UpperLimit?.Elevation ?? 0,
+                BaseOffset = r.BaseOffset,
+                LimitOffset = r.LimitOffset,
+            };
+            try
+            {
+                var bb = r.get_BoundingBox(null);
+                if (bb != null)
+                {
+                    var extent = bb.Max - bb.Min;
+                    extent = new XYZ(Math.Abs(extent.X), Math.Abs(extent.Y), Math.Abs(extent.Z));
+                    rd.BoundingArea = extent.X * extent.Y;
+                    rd.BoundingVolume = extent.X * extent.Y * extent.Z;
+                    rd.BoundingHeight = extent.Z;
+                    rd.AreaToBoundingArea = rd.Area / rd.BoundingArea;
+                    rd.MinSide = Math.Min(extent.X, extent.Y);
+                    rd.MaxSide = Math.Max(extent.X, extent.Y);
+                    rd.Ratio = rd.MinSide / rd.MaxSide;
+                }
+            }
+            catch
+            {
+                // DO Nothing.
+            }
 
             foreach (var wall in walls)
             {
                 foreach (var hosted in wall.GetHostedElements())
                 {
                     if (hosted.IsCategoryType(BuiltInCategory.OST_LightingFixtures))
-                        numLights++;
+                        rd.Lights++;
                     else if (hosted.IsCategoryType(BuiltInCategory.OST_Doors))
-                        numDoors++;
+                        rd.Doors++;
                     else if (hosted.IsCategoryType(BuiltInCategory.OST_ElectricalFixtures))
-                        numSockets++;
+                        rd.Sockets++;
                     else if (hosted.IsCategoryType(BuiltInCategory.OST_Windows))
-                        numWindows++;
+                        rd.Windows++;
                 }
             }
 
-            var elevation = r.Level?.Elevation ?? 0;
-
-            return $"Name = {r.Name}, " +
-                   $"Level = {r.Level?.Name}, " +
-                   $"Elevation = {elevation:0.##}, " +
-                   $"Perimeter = {r.Perimeter:0.##}, " +
-                   $"Area = {r.Area:0.##}, " +
-                   $"Volume = {r.Volume:0.##}, " +
-                   $"Height = {r.UnboundedHeight:0.##}, " +
-                   $"Doors = {numDoors}, " +
-                   $"Windows = {numWindows}, " +
-                   $"Walls = {numWalls}, " +
-                   $"Lights = {numLights}, " +
-                   $"Sockets = {numSockets}";
+            return rd;
         }
     }
 

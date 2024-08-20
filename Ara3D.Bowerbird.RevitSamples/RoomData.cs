@@ -1,30 +1,117 @@
 ﻿using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.DB;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
+using System.Reflection;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class RoomData
+    // TODO: move this into Ara3D.Utils
+    public class DataTableBuilderOptions
     {
-        public double Perimeter;
-        public double Area;
-        public int NumWalls;
-        public int NumDoors;
-        public double LongestWall;
-        public int NumSharedRooms;
-        public double BoundingBoxAspectRatio;
-        public double BoundingBoxLongestSide;
-        public double BoundingBoxShortestSide;
-        public int NumOutlets;
-        public double RatioOfAreaToBoundingBox;
-        public double RatioOfPerimeterToBoundingBox;
-        public bool HasChildRoom;
+        public bool IncludeFields = true;
+        public bool IncludeProps = true;
+        public bool IncludeMethods = true;
+        public bool PublicOnly = true;
+        public bool DeclaredOnly = false;
     }
 
+    public class DataTableBuilder
+    {
+        public readonly Type Type;
+        public readonly IReadOnlyList<MemberInfo> Members;
+        public readonly DataTableBuilderOptions Options;
+        public readonly DataTable DataTable;
+
+        public DataTableBuilder(Type type, DataTableBuilderOptions options = null)
+        {
+            Options = options ?? new DataTableBuilderOptions();
+            Type = type;
+            DataTable = new DataTable(Type.Name);
+
+            var bindingFlags = BindingFlags.Public | BindingFlags.Instance;
+            if (!Options.PublicOnly)
+                bindingFlags |= BindingFlags.NonPublic;
+            if (Options.DeclaredOnly)
+                bindingFlags |= BindingFlags.DeclaredOnly;
+
+            var properties = Options.IncludeProps ? Type.GetProperties(bindingFlags).Where(DataTableExtensions.CanGetValue).ToArray() : Array.Empty<PropertyInfo>();
+            foreach (var property in properties)
+                DataTable.Columns.Add(property.Name, property.GetValueType());
+
+            var fields = Options.IncludeFields ? Type.GetFields(bindingFlags).ToArray() : Array.Empty<FieldInfo>();
+            foreach (var field in fields)
+                DataTable.Columns.Add(field.Name, field.GetValueType());
+
+            var methods = Options.IncludeMethods ? Type.GetMethods(bindingFlags).Where(DataTableExtensions.CanGetValue).ToArray() : Array.Empty<MethodInfo>();
+            foreach (var method in methods)
+                DataTable.Columns.Add(method.Name, method.GetValueType());
+
+            Members = properties.Cast<MemberInfo>().Concat(fields).Concat(methods).ToArray();
+        }
+
+        public DataTableBuilder AddRows(IEnumerable items)
+        {
+            foreach (var item in items)
+            {
+                var row = DataTable.NewRow();
+                foreach (var member in Members)
+                {
+                    try
+                    {
+                        row[member.Name] = member.GetValue(item) ?? DBNull.Value;
+                    }
+                    catch (Exception e)
+                    {
+                        row.SetColumnError(member.Name, $"{member.Name}: {e.Message}");
+                    }
+                }
+                DataTable.Rows.Add(row);
+            }
+            return this;
+        }
+    }
+
+    public static class DataTableExtensions
+    {
+        public static Type GetUnderlyingType(this Type type)
+            => Nullable.GetUnderlyingType(type) ?? type;
+
+        public static Type GetValueType(this MemberInfo mi)
+        {
+            if (mi is FieldInfo f) return f.FieldType.GetUnderlyingType();
+            if (mi is PropertyInfo p) return p.PropertyType.GetUnderlyingType();
+            if (mi is MethodInfo m) return m.ReturnType.GetUnderlyingType();
+            throw new Exception("Not invokable member");
+        }
+
+        public static object GetValue(this MemberInfo mi, object obj)
+        {
+            if (mi is FieldInfo f) return f.GetValue(obj);
+            if (mi is PropertyInfo p) return p.GetValue(obj);
+            if (mi is MethodInfo m) return m.Invoke(obj, Array.Empty<object>());
+            throw new Exception("Not invokable member");
+        }
+
+        public static bool CanGetValue(this MemberInfo mi)
+            => mi is FieldInfo 
+               || (mi is PropertyInfo pi && pi.CanRead && pi.GetIndexParameters().Length == 0) 
+               || (mi is MethodInfo method && method.GetParameters().Length == 0);
+
+        public static DataTableBuilder BuildDataTable(this Type self, DataTableBuilderOptions options = null)
+            => new DataTableBuilder(self, options);
+
+        public static DataTable ToDataTable<T>(this IEnumerable<T> self, DataTableBuilderOptions options = null)
+            => BuildDataTable(typeof(T), options).AddRows(self).DataTable;
+    }
+
+    public class RoomData
+    { }
+
+    // TODO: consider maybe making an Ara3D.Utils.Revit for these functions and more. 
     public static class RoomDataExtensions
     {
         public static IEnumerable<Room> GetRooms(this Document doc)
