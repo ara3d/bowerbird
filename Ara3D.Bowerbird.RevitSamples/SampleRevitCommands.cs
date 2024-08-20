@@ -71,19 +71,100 @@ namespace Ara3D.Bowerbird.RevitSamples
         }
     }
 
+    public class FamilyInstanceData : IBowerbirdCommand
+    {
+        public string Name => "Family Instances";
+
+        public void Execute(object arg)
+        {
+            var doc = (arg as UIApplication)?.ActiveUIDocument?.Document;
+            var instances = doc.GetFamilyInstances();
+            var grps = instances.GroupBy(fi => fi.Symbol.Category.Name).OrderBy(g => g.Key);
+            var text = string.Join("\r\n", grps.Select(g => $"{g.Key} = {g.Count()}"));
+            TextDisplayForm.DisplayText(text);
+        }
+    }
+
+    public class ElectricalFixtures : IBowerbirdCommand
+    {
+        public string Name => "Electrical Fixtures";
+
+        public void Execute(object arg)
+        {
+            var doc = (arg as UIApplication)?.ActiveUIDocument?.Document;
+            var sockets = doc.GetSockets();
+            var text = string.Join("\r\n", sockets.Select(s => s.GetRoomId().ToString()));
+            TextDisplayForm.DisplayText(text);
+        }
+    }
+
     public class ListRooms : IBowerbirdCommand
     {
         public string Name => "List Rooms";
+
+        public List<Room> Rooms;
+        public Dictionary<int, List<FamilyInstance>> Lights;
+        public Dictionary<int, List<FamilyInstance>> Doors;
+        public Dictionary<int, List<FamilyInstance>> Sockets;
+        public Dictionary<int, List<FamilyInstance>> Windows;
 
         public void Execute(object arg)
         {
             var doc = (arg as UIApplication)?.ActiveUIDocument?.Document;
             if (doc == null) return;
-            var filter = new RoomFilter();
-            var collector = new FilteredElementCollector(doc);
-            var rooms = collector.WherePasses(filter).ToElements().OfType<Room>();
-            var text = string.Join((string)"\r\n", (IEnumerable<string>)rooms.Select(r => $"Room {r.Name} Level {r.LevelId.IntegerValue}"));
+            Rooms = doc.GetRooms().ToList();
+            Lights = doc.GetLights().GroupByRoom();
+            Doors = doc.GetDoors().GroupByRoom();
+            Sockets = doc.GetSockets().GroupByRoom();
+            Windows = doc.GetWindows().GroupByRoom();
+            var text = string.Join("\r\n", Rooms.Select(RoomToString));
             TextDisplayForm.DisplayText(text);
+        }
+
+        public static int GetCount(Dictionary<int, List<FamilyInstance>> dict, Room r)
+        {
+            return dict.TryGetValue(r.Id.IntegerValue, out var list) ? list.Count : 0;
+        }
+
+        public string RoomToString(Room r)
+        {
+            var numLights = GetCount(Lights, r);
+            var numDoors = GetCount(Doors, r);
+            var numSockets = GetCount(Sockets, r);
+            var numWindows = GetCount(Windows, r);
+            
+            var walls = r.GetWalls().ToList();
+            var numWalls = walls.Count;
+
+            foreach (var wall in walls)
+            {
+                foreach (var hosted in wall.GetHostedElements())
+                {
+                    if (hosted.IsCategoryType(BuiltInCategory.OST_LightingFixtures))
+                        numLights++;
+                    else if (hosted.IsCategoryType(BuiltInCategory.OST_Doors))
+                        numDoors++;
+                    else if (hosted.IsCategoryType(BuiltInCategory.OST_ElectricalFixtures))
+                        numSockets++;
+                    else if (hosted.IsCategoryType(BuiltInCategory.OST_Windows))
+                        numWindows++;
+                }
+            }
+
+            var elevation = r.Level?.Elevation ?? 0;
+
+            return $"Name = {r.Name}, " +
+                   $"Level = {r.Level?.Name}, " +
+                   $"Elevation = {elevation:0.##}, " +
+                   $"Perimeter = {r.Perimeter:0.##}, " +
+                   $"Area = {r.Area:0.##}, " +
+                   $"Volume = {r.Volume:0.##}, " +
+                   $"Height = {r.UnboundedHeight:0.##}, " +
+                   $"Doors = {numDoors}, " +
+                   $"Windows = {numWindows}, " +
+                   $"Walls = {numWalls}, " +
+                   $"Lights = {numLights}, " +
+                   $"Sockets = {numSockets}";
         }
     }
 

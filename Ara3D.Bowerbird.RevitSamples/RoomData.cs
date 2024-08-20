@@ -27,8 +27,21 @@ namespace Ara3D.Bowerbird.RevitSamples
 
     public static class RoomDataExtensions
     {
+        public static IEnumerable<Room> GetRooms(this Document doc)
+            => doc.CollectElements()
+                .OfClass(typeof(SpatialElement))
+                .OfType<Room>();
+
+        public static Dictionary<int, List<FamilyInstance>> GroupByRoom(this IEnumerable<FamilyInstance> instances)
+            => instances.GroupBy(fi => fi.GetRoomId()).ToDictionary(g => g.Key, g => g.ToList());
+
         public static FilteredElementCollector CollectElements(this Document doc)
             => new FilteredElementCollector(doc);
+
+        public static IEnumerable<FamilyInstance> GetFamilyInstances(this Document doc)
+            => doc.CollectElements()
+                .OfClass(typeof(FamilyInstance))
+                .Cast<FamilyInstance>();
 
         public static IEnumerable<FamilyInstance> GetFamilyInstances(this Document doc, BuiltInCategory cat)
             => doc.CollectElements()
@@ -39,11 +52,73 @@ namespace Ara3D.Bowerbird.RevitSamples
         public static IEnumerable<FamilyInstance> GetLights(this Document doc)
             => doc.GetFamilyInstances(BuiltInCategory.OST_LightingFixtures);
 
-        public static IEnumerable<FamilyInstance> BelongingToRoom(this IEnumerable<FamilyInstance> self, Room room)
-            => self.Where(fi => fi.Room.Id == room.Id);
+        public static IEnumerable<FamilyInstance> GetSockets(this Document doc)
+            => doc.GetFamilyInstances(BuiltInCategory.OST_ElectricalFixtures);
 
-        public static int GetNumberOfLights(this Room room)
-            => room.Document.GetLights().BelongingToRoom(room).Count();
+        public static IEnumerable<FamilyInstance> GetDoors(this Document doc)
+            => doc.GetFamilyInstances(BuiltInCategory.OST_Doors);
+
+        public static IEnumerable<FamilyInstance> GetWindows(this Document doc)
+            => doc.GetFamilyInstances(BuiltInCategory.OST_Windows);
+
+        public static IEnumerable<FamilyInstance> GetWalls(this Document doc)
+            => doc.GetFamilyInstances(BuiltInCategory.OST_Walls);
+
+        public static int CountFamilyInstance(this Room room, BuiltInCategory cat)
+            => room.Document.GetFamilyInstances(cat).Count();
+
+        public static IEnumerable<Wall> GetWalls(this Room room)
+        {
+            foreach (var segment in room.GetBoundarySegments())
+            {
+                var elementId = segment.ElementId;
+                var element = room.Document.GetElement(elementId);
+                if (element is Wall wall)
+                    yield return wall;
+            }
+        }
+
+        public static bool IsCategoryType(this Element element, BuiltInCategory cat)
+            => element.Category.Id.IntegerValue == (int)cat
+               || element is FamilyInstance fi && fi.Symbol.IsCategoryType(cat);
+
+        public static IEnumerable<Element> GetHostedElements(this HostObject self)
+            => self.Document.GetElements(self.FindInserts(true, false, true, true));
+
+        public static IEnumerable<Element> GetElements(this Document doc, IEnumerable<ElementId> ids)
+            => ids.Select(doc.GetElement);
+
+        public static IEnumerable<BoundarySegment> GetBoundarySegments(this Room room)
+        {
+            var options = new SpatialElementBoundaryOptions();
+            var boundaries = room.GetBoundarySegments(options);
+            if (boundaries == null)
+                yield break;
+            foreach (var boundaryList in boundaries)
+                foreach (var segment in boundaryList)
+                    yield return segment;
+        }
+
+        public static int GetRoomId(this FamilyInstance self)
+        {
+            try { return self.Room?.Id.IntegerValue ?? -1; }
+            catch { return -1; }
+        }
+
+        public static IEnumerable<FamilyInstance> BelongingToRoom(this IEnumerable<FamilyInstance> self, Room room)
+            => self.Where(fi => fi.GetRoomId() == room.Id.IntegerValue);
+
+        public static IEnumerable<FamilyInstance> GetLights(this Room room)
+            => room.Document.GetLights().BelongingToRoom(room);
+
+        public static IEnumerable<FamilyInstance> GetDoors(this Room room)
+            => room.Document.GetDoors().BelongingToRoom(room);
+
+        public static IEnumerable<FamilyInstance> GetWindows(this Room room)
+            => room.Document.GetWindows().BelongingToRoom(room);
+
+        public static IEnumerable<FamilyInstance> GetSockets(this Room room)
+            => room.Document.GetSockets().BelongingToRoom(room);
 
         public static double SpaceArea(Document doc, Room room)
         {
