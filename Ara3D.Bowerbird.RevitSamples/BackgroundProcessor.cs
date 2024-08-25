@@ -6,7 +6,11 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.DB.Events;
 using Ara3D.Bowerbird.Interfaces;
 using System.Linq;
+using System.Threading;
 using Ara3D.Utils;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Runtime.InteropServices;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
@@ -15,6 +19,9 @@ namespace Ara3D.Bowerbird.RevitSamples
     /// </summary>
     public static class ApiContext
     {
+        [DllImport("USER32.DLL")]
+        public static extern bool PostMessage(IntPtr hWnd, uint msg, uint wParam, uint lParam);
+
         public class ExternalEventHandler : IExternalEventHandler
         {
             public readonly Action<UIApplication> Action;
@@ -27,12 +34,47 @@ namespace Ara3D.Bowerbird.RevitSamples
             }
 
             public void Execute(UIApplication app)
-                => Action(app);
+            {
+                try
+                {
+                    Action(app);
+                }
+                catch (Exception ex)
+                {
+                    TaskDialog.Show("Error", ex.Message);
+                }
+            }
 
             public string GetName()
                 => Name;
         }
 
+        public static Task CreateRepeatedEvent(Action<UIApplication> action, string name, int msecInterval, CancellationToken token)
+        {
+            var ee = CreateEvent(action, name);
+            return Task.Run(() => RunRepeatedEvent(msecInterval, ee, token), token);
+        }
+
+        private static void RunRepeatedEvent(int msecInterval, ExternalEvent externalEvent, CancellationToken token)
+        {
+            try
+            {
+                while (!token.IsCancellationRequested)
+                {
+                    Thread.Sleep(msecInterval);
+                    externalEvent.Raise();
+                }
+            }
+            catch (TaskCanceledException _)
+            {
+                // We don't do anything, this is normal. 
+            }
+            catch (Exception ex)
+            {
+                TaskDialog.Show("Error", ex.Message);
+            }
+        }
+       
         public static ExternalEvent CreateEvent(Action<UIApplication> action, string name)
         {
             var eeh = new ExternalEventHandler(action, name);
@@ -52,10 +94,11 @@ namespace Ara3D.Bowerbird.RevitSamples
     /// </summary>
     public class BackgroundProcessor<T> : IDisposable
     {
-        public readonly Queue<T> Queue = new Queue<T>();
+        public ConcurrentQueue<T> Queue { get; private set; } = new ConcurrentQueue<T>();
         public int MaxMSecPerBatch { get; set; } = 100;
+        public int ExternalHeartBeatMsec { get; set; } = 500;
         public bool ExecuteNextIdleImmediately { get; set; }
-        public readonly Action<T> Action;
+        public readonly Action<T> Processor;
         public readonly UIApplication UIApp;
         public Application App => UIApp.Application;
         public bool PauseProcessing { get; set; }
@@ -65,7 +108,9 @@ namespace Ara3D.Bowerbird.RevitSamples
         private bool _enabled = false;
         public bool DoWorkDuringIdle { get; set; } = true;
         public bool DoWorkDuringProgress { get; set; } = true;
-        
+        public bool DoWorkDuringExternal { get; set; } = true;
+        public static Process Revit = Process.GetCurrentProcess(); 
+
         public bool Enabled
         {
             get => _enabled;
@@ -79,11 +124,13 @@ namespace Ara3D.Bowerbird.RevitSamples
             }
         }
 
-        public BackgroundProcessor(Action<T> action, UIApplication uiApp)
+        public BackgroundProcessor(Action<T> processor, UIApplication uiApp)
         {
-            Action = action;
+            Processor = processor;
             UIApp = uiApp;
             Attach();
+
+            ApiContext.CreateRepeatedEvent(On_ExternalEventHeartbeat, "Heartbeat", ExternalHeartBeatMsec, CancellationToken.None);
         }
 
         public void Detach()
@@ -116,13 +163,20 @@ namespace Ara3D.Bowerbird.RevitSamples
             ExceptionEvent = null;
             Detach();
         }
-        
-        private void UiApp_Idling(object sender, Autodesk.Revit.UI.Events.IdlingEventArgs e)
+
+        public void On_ExternalEventHeartbeat(UIApplication _)
         {
-            if (!DoWorkDuringIdle || PauseProcessing)
+            if (!DoWorkDuringExternal || PauseProcessing)
                 return;
             ProcessWork();
-            if (ExecuteNextIdleImmediately)
+        }
+
+        private void UiApp_Idling(object sender, Autodesk.Revit.UI.Events.IdlingEventArgs e)
+        {
+            if (!DoWorkDuringIdle || PauseProcessing || !HasWork)
+                return;
+            ProcessWork();
+            if (ExecuteNextIdleImmediately && HasWork)
                 e.SetRaiseWithoutDelay();
         }
 
@@ -135,11 +189,16 @@ namespace Ara3D.Bowerbird.RevitSamples
                 Queue.Enqueue(item);
         }
 
+        public void EnqueueWork(T item)
+        {
+            Queue.Enqueue(item);
+        }
+
         public bool HasWork
             => Queue.Count > 0;
 
         public void ClearWork()
-            => Queue.Clear();
+            => Queue = new ConcurrentQueue<T>();
 
         public void ResetStats()
         {
@@ -155,8 +214,9 @@ namespace Ara3D.Bowerbird.RevitSamples
             {
                 while (HasWork)
                 {
-                    var item = Queue.Dequeue();
-                    Action(item);
+                    if (!Queue.TryDequeue(out var item))
+                        continue;
+                    Processor(item);
                     WorkProcessedCount++;
                     
                     var elapsedTime = WorkStopwatch.ElapsedMilliseconds - startedTime;
@@ -172,6 +232,15 @@ namespace Ara3D.Bowerbird.RevitSamples
             {
                 WorkStopwatch.Stop();
             }
+        }
+
+       
+        
+        public static void PokeRevit()
+        {
+            if (Revit?.HasExited == true)
+                return;
+            PostMessage(Revit.MainWindowHandle, 0, 0, 0);
         }
     }
 
@@ -203,6 +272,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             Form.checkBoxIdleEventNoDelay.Click += CheckBoxIdleEventNoDelay_Click;
             Form.checkBoxEnabled.Click += CheckBoxEnabled_Click;
             Form.checkBoxPaused.Click += CheckBoxPauseProcessingOnClick;
+            Form.checkBoxProcessDuringExternal.Click += CheckBoxProcessDuringExternal_Click;
             Form.numericUpDownMsecPerBatch.ValueChanged += NumericUpDownMsecPerBatch_ValueChanged;
             Form.buttonClearWork.Click += ButtonClearWork_Click;
             Form.buttonResetStats.Click += ButtonResetStats_Click;
@@ -224,6 +294,11 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             DoSomeWorkEvent = ApiContext.CreateEvent(_ => Processor.ProcessWork(), "Processing some work");
             DoAllWorkEvent = ApiContext.CreateEvent(_ => Processor.ProcessWork(true), "Processing all work");
+        }
+
+        private void CheckBoxProcessDuringExternal_Click(object sender, EventArgs e)
+        {
+            Processor.DoWorkDuringExternal = Form.checkBoxProcessDuringExternal.Checked;
         }
 
         private void ButtonProcessSome_Click(object sender, EventArgs e)
@@ -371,6 +446,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxItemsQueued = new System.Windows.Forms.TextBox();
             this.buttonClearWork = new System.Windows.Forms.Button();
+            this.checkBoxProcessDuringExternal = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMsecPerBatch)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -409,7 +485,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             5,
             0,
             0,
-            0});    
+            0});
             this.numericUpDownMsecPerBatch.Name = "numericUpDownMsecPerBatch";
             this.numericUpDownMsecPerBatch.Size = new System.Drawing.Size(67, 20);
             this.numericUpDownMsecPerBatch.TabIndex = 2;
@@ -480,7 +556,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.textBoxCpuTimeOnWork);
             this.groupBox1.Controls.Add(this.buttonResetStats);
-            this.groupBox1.Location = new System.Drawing.Point(13, 324);
+            this.groupBox1.Location = new System.Drawing.Point(14, 351);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(251, 122);
             this.groupBox1.TabIndex = 18;
@@ -525,6 +601,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.checkBoxProcessDuringExternal);
             this.groupBox2.Controls.Add(this.numericUpDownMsecPerBatch);
             this.groupBox2.Controls.Add(this.checkBoxProcessDuringIdle);
             this.groupBox2.Controls.Add(this.checkBoxProcessDuringProgress);
@@ -532,7 +609,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             this.groupBox2.Controls.Add(this.checkBoxIdleEventNoDelay);
             this.groupBox2.Location = new System.Drawing.Point(14, 201);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(250, 117);
+            this.groupBox2.Size = new System.Drawing.Size(250, 144);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Options";
@@ -604,11 +681,21 @@ namespace Ara3D.Bowerbird.RevitSamples
             this.buttonClearWork.Text = "Clear Work";
             this.buttonClearWork.UseVisualStyleBackColor = true;
             // 
+            // checkBoxProcessDuringExternal
+            // 
+            this.checkBoxProcessDuringExternal.AutoSize = true;
+            this.checkBoxProcessDuringExternal.Location = new System.Drawing.Point(6, 114);
+            this.checkBoxProcessDuringExternal.Name = "checkBoxProcessDuringExternal";
+            this.checkBoxProcessDuringExternal.Size = new System.Drawing.Size(137, 17);
+            this.checkBoxProcessDuringExternal.TabIndex = 17;
+            this.checkBoxProcessDuringExternal.Text = "Process during External";
+            this.checkBoxProcessDuringExternal.UseVisualStyleBackColor = true;
+            // 
             // BackgroundProcessingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(277, 456);
+            this.ClientSize = new System.Drawing.Size(277, 486);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -649,5 +736,6 @@ namespace Ara3D.Bowerbird.RevitSamples
         public System.Windows.Forms.TextBox textBoxItemsQueued;
         public System.Windows.Forms.Button buttonClearWork;
         public System.Windows.Forms.Button buttonProcessSome;
+        public System.Windows.Forms.CheckBox checkBoxProcessDuringExternal;
     }
 }

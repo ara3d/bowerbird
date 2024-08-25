@@ -85,8 +85,18 @@ namespace Ara3D.Bowerbird.RevitSamples
             DataGridView = new DataGridView
             {
                 Dock = DockStyle.Fill,
-                DataSource = builder.DataTable
+                DataSource = builder.DataTable,
+                ReadOnly = true,
             };
+            foreach (DataGridViewColumn col in DataGridView.Columns)
+            {
+                col.ReadOnly = true;
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            }
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+                null, DataGridView, new object[] { true });
             Controls.Add(DataGridView);
         }
 

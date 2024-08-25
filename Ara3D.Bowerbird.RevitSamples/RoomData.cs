@@ -14,7 +14,7 @@ namespace Ara3D.Bowerbird.RevitSamples
     {
         public bool IncludeFields = true;
         public bool IncludeProps = true;
-        public bool IncludeMethods = true;
+        public bool IncludeMethods = false;
         public bool PublicOnly = true;
         public bool DeclaredOnly = false;
     }

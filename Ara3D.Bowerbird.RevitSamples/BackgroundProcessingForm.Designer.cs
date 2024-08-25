@@ -48,6 +48,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxItemsQueued = new System.Windows.Forms.TextBox();
             this.buttonClearWork = new System.Windows.Forms.Button();
+            this.checkBoxProcessDuringExternal = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMsecPerBatch)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -157,7 +158,7 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.textBoxCpuTimeOnWork);
             this.groupBox1.Controls.Add(this.buttonResetStats);
-            this.groupBox1.Location = new System.Drawing.Point(13, 324);
+            this.groupBox1.Location = new System.Drawing.Point(14, 351);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(251, 122);
             this.groupBox1.TabIndex = 18;
@@ -202,6 +203,7 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.checkBoxProcessDuringExternal);
             this.groupBox2.Controls.Add(this.numericUpDownMsecPerBatch);
             this.groupBox2.Controls.Add(this.checkBoxProcessDuringIdle);
             this.groupBox2.Controls.Add(this.checkBoxProcessDuringProgress);
@@ -209,7 +211,7 @@
             this.groupBox2.Controls.Add(this.checkBoxIdleEventNoDelay);
             this.groupBox2.Location = new System.Drawing.Point(14, 201);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(250, 117);
+            this.groupBox2.Size = new System.Drawing.Size(250, 144);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Options";
@@ -281,11 +283,21 @@
             this.buttonClearWork.Text = "Clear Work";
             this.buttonClearWork.UseVisualStyleBackColor = true;
             // 
+            // checkBoxProcessDuringExternal
+            // 
+            this.checkBoxProcessDuringExternal.AutoSize = true;
+            this.checkBoxProcessDuringExternal.Location = new System.Drawing.Point(6, 114);
+            this.checkBoxProcessDuringExternal.Name = "checkBoxProcessDuringExternal";
+            this.checkBoxProcessDuringExternal.Size = new System.Drawing.Size(137, 17);
+            this.checkBoxProcessDuringExternal.TabIndex = 17;
+            this.checkBoxProcessDuringExternal.Text = "Process during External";
+            this.checkBoxProcessDuringExternal.UseVisualStyleBackColor = true;
+            // 
             // BackgroundProcessingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(277, 456);
+            this.ClientSize = new System.Drawing.Size(277, 486);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -326,5 +338,6 @@
         public System.Windows.Forms.TextBox textBoxItemsQueued;
         public System.Windows.Forms.Button buttonClearWork;
         public System.Windows.Forms.Button buttonProcessSome;
+        public System.Windows.Forms.CheckBox checkBoxProcessDuringExternal;
     }
 }
