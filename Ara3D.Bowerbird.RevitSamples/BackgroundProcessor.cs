@@ -240,7 +240,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         {
             if (Revit?.HasExited == true)
                 return;
-            PostMessage(Revit.MainWindowHandle, 0, 0, 0);
+            ApiContext.PostMessage(Revit.MainWindowHandle, 0, 0, 0);
         }
     }
 
