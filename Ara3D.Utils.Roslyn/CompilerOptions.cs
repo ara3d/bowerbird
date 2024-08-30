@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -39,6 +40,10 @@ namespace Ara3D.Utils.Roslyn
 
         public static CompilerOptions CreateDefault()
             => new CompilerOptions(RoslynUtils.LoadedAssemblyLocations(), 
+                RoslynUtils.GenerateNewDllFileName(), true);
+
+        public static CompilerOptions CreateDefault(Type[] types)
+            => new CompilerOptions(types.Select(t => (FilePath)t.Assembly.Location),
                 RoslynUtils.GenerateNewDllFileName(), true);
     }
 }

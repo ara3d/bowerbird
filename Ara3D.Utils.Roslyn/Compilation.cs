@@ -33,43 +33,4 @@ namespace Ara3D.Utils.Roslyn
         }
     }
 
-    public static partial class RoslynUtils
-    {
-        public static Compilation CompileCSharpStandard(this CompilerInput input,
-            CSharpCompilation compiler = default,
-            CancellationToken token = default)
-        {
-            compiler = compiler ?? CSharpCompilation.Create(
-                input.Options.AssemblyName, 
-                input.SyntaxTrees,
-                input.Options.MetadataReferences, 
-                input.Options.CompilationOptions);
-
-            var outputPath = input.Options.OutputFile;
-            outputPath.DeleteAndCreateDirectory();
-
-            EmitResult emitResult;
-            using (var peStream = File.OpenWrite(outputPath))
-            {
-                var emitOptions = new EmitOptions(false, DebugInformationFormat.Embedded);
-                emitResult = compiler.Emit(peStream, null, null, null, null, emitOptions, 
-                    null, null, input.EmbeddedTexts, token);
-            }
-            if (!emitResult.Success)
-                outputPath.Delete();
-            return new Compilation(input, compiler, emitResult);
-        }
-
-        public static Compilation CompileCSharpStandard(this FilePath path, CompilerOptions options = default, CancellationToken token = default)
-            => path.ParseCSharp().ToCompilerInput(options).CompileCSharpStandard(default, token);
-
-        public static Compilation CompileCSharpStandard(string source, CompilerOptions options = default, CancellationToken token = default)
-            => ParseCSharp(source).ToCompilerInput(options).CompileCSharpStandard(default, token);
-
-        public static Compilation CompileCSharpStandard(this ParsedSourceFile inputFile, CompilerOptions options = default, CancellationToken token = default)
-            => inputFile.ToCompilerInput(options).CompileCSharpStandard(default, token);
-
-        public static Compilation CompileCSharpStandard(this IEnumerable<ParsedSourceFile> inputFiles, CompilerOptions options = default, CancellationToken token = default)
-            => inputFiles.ToCompilerInput(options).CompileCSharpStandard(default, token);
-    }
 }
