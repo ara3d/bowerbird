@@ -175,6 +175,52 @@ namespace Ara3D.Bowerbird.RevitSamples
         public static IEnumerable<Element> GetElements(this Document doc, IEnumerable<ElementId> ids)
             => ids.Select(doc.GetElement);
 
+        public static List<List<XYZ>> GetRoomBoundaryCoordinates(this Room room)
+        {
+            // List to hold all boundary loops
+            var boundaries = new List<List<XYZ>>();
+
+            // Create boundary options
+            var options = new SpatialElementBoundaryOptions();
+
+            // Get the boundary segments of the room
+            var boundarySegments = room.GetBoundarySegments(options);
+
+            // Check if boundary segments are available
+            if (boundarySegments != null)
+            {
+                // Iterate over each boundary loop
+                foreach (var segmentList in boundarySegments)
+                {
+                    // List to hold points of the current boundary loop
+                    var boundaryPoints = new List<XYZ>();
+
+                    // Iterate over each segment in the boundary loop
+                    foreach (var segment in segmentList)
+                    {
+                        // Get the curve of the segment
+                        var curve = segment.GetCurve();
+
+                        // Get the start point of the curve
+                        var startPoint = curve.GetEndPoint(0);
+
+                        // Add the point to the boundary points list
+                        boundaryPoints.Add(startPoint);
+                    }
+
+                    // Close the loop by adding the first point at the end if necessary
+                    if (boundaryPoints.Count > 0 && !boundaryPoints[0].IsAlmostEqualTo(boundaryPoints[boundaryPoints.Count - 1]))
+                    {
+                        boundaryPoints.Add(boundaryPoints[0]);
+                    }
+
+                    // Add the current boundary loop to the boundaries list
+                    boundaries.Add(boundaryPoints);
+                }
+            }
+
+            return boundaries;
+        }
         public static IEnumerable<BoundarySegment> GetBoundarySegments(this Room room)
         {
             var options = new SpatialElementBoundaryOptions();

@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -14,6 +16,7 @@ using Ara3D.Utils;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
+using Newtonsoft.Json;
 using FilePath = Ara3D.Utils.FilePath;
 using XYZ = Autodesk.Revit.DB.XYZ;
 
@@ -689,5 +692,50 @@ namespace Ara3D.Bowerbird.RevitSamples
             sb.AppendLine($"{indent}}}");
             return sb;
         }
+    }
+
+    // 
+    public class GeoJsonExporter : IBowerbirdCommand 
+    {
+        public string Name => "Export rooms as GeoJSON";
+
+        public void Execute(object arg)
+        {
+            var folder = new DirectoryPath(@"C:\Users\cdigg\dev\HOK\json");
+
+            var uidoc = (arg as UIApplication)?.ActiveUIDocument;
+            var doc = uidoc.Document;
+            
+            var rooms = doc.GetRooms().ToList();
+            foreach (var room in rooms)
+            {
+                var geoJson = Room(room);
+                var json = JsonConvert.SerializeObject(geoJson, Formatting.Indented);
+
+                var f = folder.RelativeFile($"room-{room.Name.ToValidFileName()}-{room.Id.IntegerValue}.json");
+                f.WriteAllText(json);
+            }
+        }
+
+        public GeoJson Room(Room room)
+        {
+            var r = new GeoJson();
+            r.PayloadGeoJson = new GeoPayload();
+            r.PayloadGeoJson.Coordinates = new List<List<List<double>>>();
+            r.Name = room.Name;
+            var tmp = room.GetRoomBoundaryCoordinates();
+            foreach (var loop in tmp)
+            {
+                var loopCoords = new List<List<double>>();
+                foreach (var c in loop)
+                {
+                    loopCoords.Add(new List<double> { c.X, c.Y, c.Z });
+                }
+                r.PayloadGeoJson.Coordinates.Add(loopCoords);
+            }
+
+            return r;
+        }
+
     }
 }
