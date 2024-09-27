@@ -7,12 +7,8 @@ namespace Ara3D.Bowerbird.RevitSamples
         // Where is this going to be documented I wonder. 
         public string ComponentType;
 
-        // What is the hash algorithm of the component? How is it computed? Why is it necessary? 
-        public string ComponentHash = "";
-
         // What is the format of this? I suggest a URI for it. 
         public string AuthorIdentifier = "";
-
         public string Context = ""; // NOTE : This is a filepath 
         public string Function = "instance"; // ??
         public string Includes = ""; // ??
@@ -22,7 +18,6 @@ namespace Ara3D.Bowerbird.RevitSamples
         public string DateCreated = "";
         public string LastModified = "20240219143423";
 
-        // What does this mean? 
         public string Name = "CUP";
 
         public string ComponentClassification; 
@@ -31,10 +26,10 @@ namespace Ara3D.Bowerbird.RevitSamples
         public string ComponentVersionGUID;
 
         // What are the valid options here? It would be nice if there was a registry somewhere of known payload data types.
-        // THe identification system, would make sense as some kind of URI. 
+        // The identification system, would make sense as some kind of URI. 
         public string PayloadDataType;
 
-        // What does this mean? 
+        // What does this mean? It doesn't seem necessary 
         public string ResponseToComponent;
 
         // Do we really want to support multiple hash definitions? 
@@ -42,7 +37,9 @@ namespace Ara3D.Bowerbird.RevitSamples
         public string HashDefinition = "MD5";
 
         // Even knowing the algorithm, if the data is encoded as JSON, whitespace should not change meaning, but it will change the hash.
+        // I don't think I would hash the payload as part of the header. 
         public string PayloadHash;
+        public string ComponentHash = "";
     }
 
     // Which of these fields are optional. 

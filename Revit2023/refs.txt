@@ -2,6 +2,7 @@ mscorlib.dll
 netstandard.dll
 System.dll
 System.Core.dll
+System.Data.dll
 System.Windows.Forms.dll
 System.ValueTuple.dll
 PresentationCore.dll
@@ -26,3 +27,4 @@ Ara3D.Logging.dll
 Ara3D.Services.dll
 Ara3D.Utils.dll
 Ara3D.Utils.Roslyn.dll
+Newtonsoft.Json.dll
