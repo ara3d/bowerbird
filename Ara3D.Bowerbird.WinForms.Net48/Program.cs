@@ -5,7 +5,7 @@ using Ara3D.Bowerbird.Interfaces;
 
 namespace Ara3D.Bowerbird.WinForms.Net48
 {
-    internal static class Program
+    public static class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -15,9 +15,17 @@ namespace Ara3D.Bowerbird.WinForms.Net48
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BowerbirdForm(
-                BowerbirdHost.CreateDefault(), 
-                BowerbirdOptions.CreateFromName("Ara 3D", "Bowerbird WinForms Demo")));
+
+            ServiceApp = new Services.Application();
+            Options = BowerbirdOptions.CreateFromName("Bowerbird WinForms Demo");
+            Host = new BowerbirdHost(ExecuteCommand);
+            BowerbirdService = new BowerbirdService(Host, ServiceApp, null, Options);
         }
+
+        public static void ExecuteCommand(IBowerbirdCommand command) => BowerbirdService.ExecuteCommand(null);
+        public static BowerbirdHost Host { get; private set; }
+        public static Services.Application ServiceApp { get; private set; }
+        public static BowerbirdOptions Options { get; private set; }
+        public static BowerbirdService BowerbirdService { get; private set; }
     }
 }

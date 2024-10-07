@@ -6,3 +6,4 @@ if not exist "%BowerbirdDir%" mkdir "%BowerbirdDir%"
 xcopy %1 "%BowerbirdDir%" /h /i /c /k /e /r /y
 xcopy ..\Ara3D.Bowerbird.WinForms.Net48\Samples\SampleCommands.cs "%ScriptsDir%" /y
 xcopy refs.txt "%ScriptsDir%" /y
+xcopy includes.txt "%ScriptsDir%" /y

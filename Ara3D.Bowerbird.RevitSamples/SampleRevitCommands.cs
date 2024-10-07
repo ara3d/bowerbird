@@ -22,6 +22,53 @@ using XYZ = Autodesk.Revit.DB.XYZ;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
+    public class AutoRun : IBowerbirdCommand
+    {
+        public string Name => "AutoRun";
+
+        public void Execute(object arg)
+        {
+            var app = (UIApplication)arg;
+            var path = new FilePath(Application.ExecutablePath);
+            var sample = path.GetDirectory().RelativeFile("Samples", "rac_basic_sample_project.rvt");
+            if (!sample.Exists())
+                return;
+            app.OpenAndActivateDocument(sample);
+            var uiDoc = app.ActiveUIDocument;
+            var view = GetDefault3DView(uiDoc);
+            if (view == null)
+                MessageBox.Show("No 3D view found");
+            else
+                uiDoc.ActiveView = view;
+        }
+
+        public static View3D GetDefault3DView(UIDocument uiDoc)
+        {
+            var doc = uiDoc.Document;
+
+            // Retrieve all 3D views that are not templates
+            var collector = new FilteredElementCollector(doc)
+                .OfClass(typeof(View3D))
+                .Cast<View3D>()
+                .Where(v => !v.IsTemplate).ToList();
+
+            // Attempt to find the default 3D view by name
+            // The default 3D view in Revit is typically named "3D" or "Default 3D"
+            var default3DView = collector.FirstOrDefault(v =>
+                v.Name.Equals("{3D}", StringComparison.InvariantCultureIgnoreCase) ||
+                v.Name.Equals("3D", StringComparison.InvariantCultureIgnoreCase) ||
+                v.Name.Equals("Default 3D", StringComparison.InvariantCultureIgnoreCase));
+
+            // If not found by name, return the first available non-template 3D view
+            if (default3DView == null)
+            {
+                default3DView = collector.FirstOrDefault();
+            }
+
+            return default3DView;
+        }
+    }
+
     /// <summary>
     /// Displays the current active document in a window
     /// </summary>

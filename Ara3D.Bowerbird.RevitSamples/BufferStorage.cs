@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Ara3D.Graphics;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.DirectContext3D;
@@ -24,7 +25,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         public int IndexCount { get; private set; }
 
         public static readonly VertexFormatBits FormatBits = VertexFormatBits.PositionNormalColored;
-        public VertexFormat VertexFormat { get; } = new VertexFormat(FormatBits);
+        public VertexFormat VertexFormat => new VertexFormat(FormatBits);
         public EffectInstance EffectInstance { get; } = new EffectInstance(FormatBits);
 
         public int VertexBufferSizeInFloat => VertexPositionNormalColored.GetSizeInFloats() * VertexCount;
@@ -33,7 +34,9 @@ namespace Ara3D.Bowerbird.RevitSamples
         public BufferStorage(PrimitiveType primitiveType, IReadOnlyList<RenderVertex> vertices, IReadOnlyList<Integer> indices)
         {
             PrimitiveType = primitiveType;
+            Debug.WriteLine("Setting the vertex buffer");
             SetVertexBuffer(vertices);
+            Debug.WriteLine("Setting the index buffer");
             if (primitiveType == PrimitiveType.TriangleList)
                 SetIndexBuffer(indices);
             else if (primitiveType == PrimitiveType.LineList)
@@ -59,6 +62,8 @@ namespace Ara3D.Bowerbird.RevitSamples
         {
             if (VertexCount != vertices.Count)
             {
+                Debug.WriteLine($"Recreating the vertex buffer to handle {vertices.Count}");
+
                 VertexBuffer?.Dispose();
                 VertexCount = vertices.Count;
                 VertexBuffer = VertexCount == 0 ? null : 
@@ -68,15 +73,20 @@ namespace Ara3D.Bowerbird.RevitSamples
             if (VertexBuffer == null)
                 return;
 
+            Debug.WriteLine($"Mapping the vertex buffer");
             VertexBuffer.Map(VertexBufferSizeInFloat);
             try
             {
+                Debug.WriteLine("Getting the vertex stream");
                 var vertexStream = VertexBuffer.GetVertexStreamPositionNormalColored();
+                Debug.WriteLine("Adding vertices");
                 foreach (var vertex in vertices)
                     vertexStream.AddVertex(vertex.ToRevit());
+                Debug.WriteLine("Finished writing vertices");
             }
             finally
             {
+                Debug.WriteLine($"Unmapping the vertex buffer");
                 VertexBuffer.Unmap();
             }
         }

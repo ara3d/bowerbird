@@ -81,7 +81,6 @@
     <Compile Include="BowerbirdRevitApp.cs" />
     <Compile Include="BowerbirdExternalCommand.cs" />
     <Compile Include="CommandExecutor.cs" />
-    <Compile Include="Menu.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -125,10 +124,6 @@
     <ProjectReference Include="..\..\Plato.Geometry\Plato.Geometry.Revit\Plato.Geometry.Revit.csproj">
       <Project>{14d01bab-2fec-468f-a90a-2c4c11a180e7}</Project>
       <Name>Plato.Geometry.Revit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Ara3D.Buffers\Ara3D.Buffers.csproj">
-      <Project>{73251016-7226-48f8-8b9d-826f5661fa95}</Project>
-      <Name>Ara3D.Buffers</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Ara3D.Graphics\Ara3D.Graphics.csproj">
       <Project>{d8a73fce-d522-44e6-aea6-e76ea1342cfb}</Project>
@@ -220,6 +215,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="includes.txt" />
     <Content Include="refs.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -229,6 +225,14 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>cd "$(ProjectDir)" 
-call post-build.bat "$(OutDir)"</PostBuildEvent>
+set AddinsDir=%25programdata%25\Autodesk\Revit\Addins
+set BowerbirdDir=%25AddinsDir%25\2023\Ara3D.Bowerbird
+set ScriptsDir=%25localappdata%25\Ara 3D\Bowerbird for Revit 2023\Scripts
+xcopy /Y *2023.addin %25AddinsDir%25\2023
+if not exist "%25BowerbirdDir%25" mkdir "%25BowerbirdDir%25"
+xcopy "$(OutDir)" "%25BowerbirdDir%25" /i /c /k /e /r /y
+xcopy ..\Ara3D.Bowerbird.WinForms.Net48\Samples\SampleCommands.cs "%25ScriptsDir%25" /y
+xcopy refs.txt "%25ScriptsDir%25" /y
+xcopy includes.txt "%25ScriptsDir%25" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

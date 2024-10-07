@@ -1,0 +1,9 @@
+C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\MyExportCommand.cs
+C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\MyExportContext.cs
+C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\SampleRevitCommands.cs
+C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\GeometryAbstractSyntaxTree.cs
+C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\BackgroundProcessor.cs
+C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\RoomData.cs
+C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\GeoJson.cs
+C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\DrawingServer.cs
+C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\BufferStorage.cs

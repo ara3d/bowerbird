@@ -15,7 +15,7 @@ namespace Ara3D.Bowerbird.Core
         IBowerbirdService
     {
         public DirectoryCompiler Compiler { get; }
-        public ILogger Logger { get; }
+        public ILogger Logger { get; set; }
         public BowerbirdOptions Options { get; }
         public Assembly Assembly => Compiler?.Assembly;
         public IBowerbirdHost Host { get; }
@@ -25,7 +25,7 @@ namespace Ara3D.Bowerbird.Core
             : base(app)
         {
             Host = host;
-            Logger = logger;
+            Logger = logger ?? new Logger(LogWriter.DebugWriter, "Bowerbird");
             Options = options;
             CreateInitialFolders();
             Compiler = new DirectoryCompiler(Logger, Options.ScriptsFolder, Options.LibrariesFolder);

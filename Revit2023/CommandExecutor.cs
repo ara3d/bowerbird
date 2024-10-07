@@ -6,7 +6,7 @@ namespace Ara3D.Bowerbird.Revit
     public class CommandExecutor : IExternalEventHandler
     {
         private IBowerbirdCommand _command;
-        private ExternalEvent _event;
+        private readonly ExternalEvent _event;
 
         public CommandExecutor()
             => _event = ExternalEvent.Create(this);

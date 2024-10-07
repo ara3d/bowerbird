@@ -16,36 +16,16 @@ namespace Ara3D.Bowerbird.WinForms.Net48
         public IApplication App { get; } 
         public IBowerbirdService BowerbirdService { get; }
         public ILogger Logger { get; }
-        public BowerbirdOptions Options { get; }
            
-        public BowerbirdForm(IBowerbirdHost host, BowerbirdOptions options)
+        public BowerbirdForm(IBowerbirdService service)
         {
             InitializeComponent();
 
             Closed += BowerbirdForm_Closed;
-            Options = options;
-            Text = Options.AppTitle;
-
-            /*
-            // https://stackoverflow.com/a/23736063
-            webBrowser1.DocumentText = "";
-            webBrowser1.Document.OpenNew(true);
-            webBrowser1.Document.Write(theHTML);
-            webBrowser1.Refresh();
-            */
-
-            App = new Services.Application();
-
-            Logger = Logger.Create("Bowerbird", OnLogMsg);
+            Logger = service.Logger = Logger.Create("Bowerbird", OnLogMsg);
             Logger.Log($"Welcome to Bowerbird by https://ara3d.com");
-            
-            // TODO: 
-            //Logger.Log($"Copying Sample script files to {Options.ScriptsFolder}");
-            //var sampleText = Resources.SampleCommands;
-            //Options.ScriptsFolder.Create();
-            //Options.ScriptsFolder.RelativeFile("SampleCommands.cs").WriteAllText(sampleText);
 
-            BowerbirdService = new BowerbirdService(host, App, Logger, Options);
+            BowerbirdService = service;
             BowerbirdService.Repository.OnModelChanged(DataModelChanged);
             
             DataModelChanged(BowerbirdService.Model);

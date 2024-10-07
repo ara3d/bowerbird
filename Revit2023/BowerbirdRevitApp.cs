@@ -1,20 +1,33 @@
 ﻿using System;
-using System.Drawing;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Media.Imaging;
+using Ara3D.Bowerbird.Core;
 using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Bowerbird.WinForms.Net48;
+using Ara3D.Logging;
+using Autodesk.Revit.ApplicationServices;
+using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
+using Plato.Geometry.Revit;
+using Bitmap = System.Drawing.Bitmap;
 
 namespace Ara3D.Bowerbird.Revit
 {
     public class BowerbirdRevitApp : IExternalApplication, IBowerbirdHost
     {
+        public static BowerbirdRevitApp Instance { get; private set; }
+
         public UIControlledApplication UicApp { get; private set; }
         public UIApplication UiApp { get; private set; }
-        public static BowerbirdRevitApp Instance { get; private set; }
+        
+        public BowerbirdOptions Options { get; private set; }
         public CommandExecutor CommandExecutor { get; set; }
+
+        public Services.Application ServiceApp { get; private set; }
+        public BowerbirdService BowerbirdService { get; private set; }
 
         public Result OnShutdown(UIControlledApplication application)
         {
@@ -42,7 +55,7 @@ namespace Ara3D.Bowerbird.Revit
             if (args.Name.Contains("Bowerbird.Revit2023") && !args.Name.Contains("resources"))
             {
                 // NOTE: this is horrible, but we have to do it. The assembly can't be found otherwise?! 
-                return typeof(BowerbirdRevitApp).Assembly;
+                return typeof(BowerbirdRevitApp).Assembly;  
             }
             return null;
         }
@@ -52,7 +65,7 @@ namespace Ara3D.Bowerbird.Revit
             UicApp = application;
             Instance = this;
             CommandExecutor = new CommandExecutor();
-
+            
             var rvtRibbonPanel = application.CreateRibbonPanel("Ara 3D");
             var pushButtonData = new PushButtonData("Bowerbird", "Bowerbird", 
                 Assembly.GetExecutingAssembly().Location,
@@ -63,33 +76,50 @@ namespace Ara3D.Bowerbird.Revit
             runButton.LargeImage = BitmapToImageSource(Resources.Bowerbird_32x32);
             runButton.ToolTip = "Compile and Load C# Scripts";
 
+            ServiceApp = new Services.Application();
+            Options = BowerbirdOptions.CreateFromName("Bowerbird for Revit 2023");
+            BowerbirdService = new BowerbirdService(this, ServiceApp, Logger.Debug, Options);
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
+            application.ControlledApplication.ApplicationInitialized += ControlledApplicationOnApplicationInitialized;
+
             return Result.Succeeded;
         }
 
+        void ControlledApplicationOnApplicationInitialized(object sender, ApplicationInitializedEventArgs e)
+        {
+            if (!(sender is Application app)) return;
+            var uiApp = new UIApplication(app);
+
+            try
+            {
+                BowerbirdService.Compile();
+                // Run the auto-run commands 
+                foreach (var cmd in BowerbirdService.Commands.Where(c => c.Name == "AutoRun"))
+                {
+                    cmd.Execute(uiApp);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Compilation and execution of auto-run failed: {ex}");
+            }
+        }
+    
+
         public BowerbirdForm Window { get; private set; }
 
-        public BowerbirdForm GetOrCreateWindow()
+        public BowerbirdForm GetOrCreateWindow(IBowerbirdService service)
         {
             if (Window == null)
             {
-                Window = new BowerbirdForm(this, BowerbirdOptions.CreateFromName("Bowerbird for Revit 2023"));
+                Window = new BowerbirdForm(service);
+                Window.Text = Options.AppTitle;
                 Window.FormClosing += (sender, args) =>
                 {
                     Window.Hide();
                     args.Cancel = true;
                 };
-
-                // TODO: run certain scripts automatically.
-                
-                // TODO: run this automatically? 
-                /* 
-                var sampleText = Resources.SampleRevitCommands;
-                Window.BowerbirdService
-                    .Options
-                    .ScriptsFolder
-                    .RelativeFile("SampleRevitCommands.cs")
-                    .WriteAllText(sampleText);
-                */
             }
 
             Window.Show();
@@ -103,9 +133,11 @@ namespace Ara3D.Bowerbird.Revit
 
         public void Run(UIApplication application)
         {
-            UiApp = application;
-            GetOrCreateWindow();
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            if (UiApp == null)
+            {
+                UiApp = application;
+            }
+            GetOrCreateWindow(BowerbirdService);
         }
     }
 }

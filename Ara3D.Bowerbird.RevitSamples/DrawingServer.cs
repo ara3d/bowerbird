@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Ara3D.Bowerbird.Interfaces;
 using Autodesk.Revit.DB;
@@ -8,6 +8,8 @@ using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.UI;
 using Plato.Geometry.Graphics;
 using Plato.Geometry.IO;
+using PrimitiveType = Autodesk.Revit.DB.DirectContext3D.PrimitiveType;
+using View = Autodesk.Revit.DB.View;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
@@ -26,6 +28,8 @@ namespace Ara3D.Bowerbird.RevitSamples
             m_boundingBox = new Outline(new XYZ(0, 0, 0), new XYZ(10, 10, 10));
 
             LoadPlyFile();
+            if (Mesh == null)
+                return;
 
             // Register this class as a server with the DirectContext3D service.
             var directContext3DService = ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
@@ -58,36 +62,36 @@ namespace Ara3D.Bowerbird.RevitSamples
         public bool UseInTransparentPass(View dBView) => true;
         public RenderMesh Mesh;
         public BufferStorage FaceBufferStorage;
-        public BufferStorage EdgeBufferStorage;
+        //public BufferStorage EdgeBufferStorage;
 
         public void RenderScene(View dBView, DisplayStyle displayStyle)
         {
+            if (Mesh == null)
+                return;
+            if (FaceBufferStorage == null)
+                FaceBufferStorage = new BufferStorage(PrimitiveType.TriangleList, Mesh.Vertices, Mesh.Indices);
             FaceBufferStorage.Render();
-            EdgeBufferStorage.Render();
         }
 
-        public void CreateBufferStorageForMesh(RenderMesh mesh)
-        {
-            FaceBufferStorage = new BufferStorage(DisplayStyle.Shading, PrimitiveType.TriangleList);
-        }
-
-        public OpenFileDialog PlyOpenFileDialog = new OpenFileDialog()
-        {
-            InitialDirectory = "C:\\Users\\cdigg\\git\\3d-format-shootout\\data\\big\\ply",
-            DefaultExt = ".ply",
-            Filter = "PLY Files (*.ply)|*.ply|All Files (*.*)|*.*",
-            Title = "Open PLY File"
-        };
+        public OpenFileDialog PlyOpenFileDialog;
 
         public void LoadPlyFile()
         {
+            if (PlyOpenFileDialog == null)
+            {
+                PlyOpenFileDialog = new OpenFileDialog()
+                {
+                    InitialDirectory = "C:\\Users\\cdigg\\git\\3d-format-shootout\\data\\big\\ply",
+                    DefaultExt = ".ply",
+                    Filter = "PLY Files (*.ply)|*.ply|All Files (*.*)|*.*",
+                    Title = "Open PLY File"
+                };
+            }
             if (PlyOpenFileDialog.ShowDialog() != DialogResult.OK)
                 return;
             var plyFile = PlyOpenFileDialog.FileName;
-            //@"C:\Users\Public\Documents\Autodesk\Revit\2021\Samples\Bowerbird\Bowerbird.ply";
             var mesh = PlyImporter.LoadMesh(plyFile);
             Mesh = mesh.ToRenderMesh(Colors.BlueViolet);
-            CreateBufferStorageForMesh(Mesh);
         }
     }
 }

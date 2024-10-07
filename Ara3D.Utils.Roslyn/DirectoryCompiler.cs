@@ -86,27 +86,39 @@ namespace Ara3D.Utils.Roslyn
                 
                 if (refsFile.Exists())
                 {
-                    Log($"Loaded {Refs.Count} references from '{RefsFileName}'");
                     var refs = refsFile.ReadAllLines();
+                    
+                    var thisFolder = new FilePath(typeof(DirectoryCompiler).Assembly.Location).GetDirectory();
+
+                    Log($"Found {refs.Length} references in '{RefsFileName}'");
                     foreach (var line in refs)
                     {
                         if (line.IsNullOrWhiteSpace())
                             continue;
 
-                        var fp = new FilePath(line);
-                        if (fp.Exists())
-                        {
-                            Refs.Add(fp);
-                            continue;
-                        }
-
-                        fp = LoadedAssemblies.FirstOrDefault(f => f.Value.EndsWith(line));
+                        var fp = LoadedAssemblies.FirstOrDefault(f => f.Value.EndsWith(line));
                         if (fp != null && fp.Exists())
                         {
                             Refs.Add(fp);
                             continue;
                         }
- 
+
+                        fp = new FilePath(line);
+                        if (fp.Exists())
+                        {
+                            Refs.Add(fp);
+                            Assembly.LoadFile(fp);
+                            continue;
+                        }
+
+                        fp = thisFolder.RelativeFile(line);
+                        if (fp.Exists())
+                        {
+                            Refs.Add(fp);
+                            Assembly.LoadFile(fp);
+                            continue;
+                        }
+
                         Logger.LogError($"Could not find referenced file: {line}");
                     }
                 }   

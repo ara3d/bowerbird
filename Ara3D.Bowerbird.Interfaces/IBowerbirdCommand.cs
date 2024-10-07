@@ -5,4 +5,4 @@
         string Name { get; }
         void Execute(object argument);
     }
-}
+}    
