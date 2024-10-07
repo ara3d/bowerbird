@@ -118,6 +118,14 @@
       <Project>{d5aa20aa-79d7-4d58-9caf-45a07340c354}</Project>
       <Name>Ara3D.Geometry</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Plato.Geometry\Plato.Geometry.CSharp\Plato.Geometry.csproj">
+      <Project>{87cc9165-ec77-44a4-9bc3-742429737c3d}</Project>
+      <Name>Plato.Geometry</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plato.Geometry\Plato.Geometry.Revit\Plato.Geometry.Revit.csproj">
+      <Project>{14d01bab-2fec-468f-a90a-2c4c11a180e7}</Project>
+      <Name>Plato.Geometry.Revit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Ara3D.Buffers\Ara3D.Buffers.csproj">
       <Project>{73251016-7226-48f8-8b9d-826f5661fa95}</Project>
       <Name>Ara3D.Buffers</Name>
