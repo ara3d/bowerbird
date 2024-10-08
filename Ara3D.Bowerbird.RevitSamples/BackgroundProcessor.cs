@@ -4,7 +4,6 @@ using System.Diagnostics;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB.Events;
-using Ara3D.Bowerbird.Interfaces;
 using System.Linq;
 using System.Threading;
 using Ara3D.Utils;
@@ -109,7 +108,8 @@ namespace Ara3D.Bowerbird.RevitSamples
         public bool DoWorkDuringIdle { get; set; } = true;
         public bool DoWorkDuringProgress { get; set; } = true;
         public bool DoWorkDuringExternal { get; set; } = true;
-        public static Process Revit = Process.GetCurrentProcess(); 
+        public static Process Revit = Process.GetCurrentProcess();
+        public Thread PokeRevitThread; 
 
         public bool Enabled
         {
@@ -129,7 +129,14 @@ namespace Ara3D.Bowerbird.RevitSamples
             Processor = processor;
             UIApp = uiApp;
             Attach();
-
+            PokeRevitThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(250);
+                    PokeRevit();
+                }
+            });
             ApiContext.CreateRepeatedEvent(On_ExternalEventHeartbeat, "Heartbeat", ExternalHeartBeatMsec, CancellationToken.None);
         }
 
@@ -161,6 +168,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         public void Dispose()
         {
             ExceptionEvent = null;
+            PokeRevitThread.Abort();
             Detach();
         }
 
@@ -234,8 +242,8 @@ namespace Ara3D.Bowerbird.RevitSamples
             }
         }
 
-       
-        
+        // Technique described by 
+        // https://forums.autodesk.com/t5/revit-api-forum/how-to-trigger-onidle-event-or-execution-of-an-externalevent/td-p/6645286
         public static void PokeRevit()
         {
             if (Revit?.HasExited == true)
@@ -245,12 +253,10 @@ namespace Ara3D.Bowerbird.RevitSamples
     }
 
     /// <summary>
-    /// This is a command for use with Bowerbird. 
+    /// This uses the background processor with the specific form. 
     /// </summary>
-    public class BackgroundProcessorCommand : IBowerbirdCommand
+    public class BackgroundUI 
     {
-        public UIApplication App;
-        public string Name => "Background Processor";
         public BackgroundProcessor<int> Processor;
         public BackgroundForm Form;
         public ExternalEvent EnableProcessorEvent;
@@ -258,11 +264,12 @@ namespace Ara3D.Bowerbird.RevitSamples
         public ExternalEvent DisposeProcessorEvent;
         public ExternalEvent DoSomeWorkEvent;
         public ExternalEvent DoAllWorkEvent;
+        public Action<int> OnWorkItem;
 
-        public void Execute(object arg)
+        public BackgroundUI(UIApplication uiapp, Action<int> onWorkItem)
         {
-            App = arg as UIApplication;
-            Processor = new BackgroundProcessor<int>(Process, App);
+            OnWorkItem = onWorkItem;
+            Processor = new BackgroundProcessor<int>(Process, uiapp);
             Form = new BackgroundForm();
             Form.Update();
             Form.Show();
@@ -280,14 +287,14 @@ namespace Ara3D.Bowerbird.RevitSamples
             Form.buttonProcessSome.Click += ButtonProcessSome_Click;
             EnableProcessorEvent = ApiContext.CreateEvent(_ => Processor.Enabled = true, "Enable processor");
             DisableProcessorEvent = ApiContext.CreateEvent(_ => Processor.Enabled = false, "Disable processor");
-
+            
             // Very important that we don't forget to disconnect Revit events in Bowerbird, otherwise we have to restart 
-            App.Application.DocumentChanged += ApplicationOnDocumentChanged;
+            uiapp.Application.DocumentChanged += ApplicationOnDocumentChanged;
 
             DisposeProcessorEvent = ApiContext.CreateEvent(_ => 
             {
                 // Cleaning up the Revit event
-                App.Application.DocumentChanged -= ApplicationOnDocumentChanged;
+                uiapp.Application.DocumentChanged -= ApplicationOnDocumentChanged;
                 Processor.Dispose();
                 Processor = null;
             }, "Disposing processor and closing form");
@@ -371,6 +378,7 @@ namespace Ara3D.Bowerbird.RevitSamples
 
         public void Process(int id)
         {
+            OnWorkItem(id);
             UpdateForm();
         }
 
@@ -388,7 +396,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             System.Windows.Forms.Application.DoEvents();
         }
     }
-
+    
     /// <summary>
     /// This form was designed using Windows designer, and then copied here manually
     /// so that it could be used from Bowerbird 

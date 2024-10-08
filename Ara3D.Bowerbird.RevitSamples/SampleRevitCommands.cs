@@ -28,9 +28,11 @@ namespace Ara3D.Bowerbird.RevitSamples
 
         public void Execute(object arg)
         {
+            // TODO: uncomment the following code, if you want to automatically open one of the sample files, and go to the default 3D view. 
+            /*
             var app = (UIApplication)arg;
             var path = new FilePath(Application.ExecutablePath);
-            var sample = path.GetDirectory().RelativeFile("Samples", "rac_basic_sample_project.rvt");
+            var sample = path.GetDirectory().RelativeFile("Samples", "rac_advanced_sample_project.rvt");
             if (!sample.Exists())
                 return;
             app.OpenAndActivateDocument(sample);
@@ -40,6 +42,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                 MessageBox.Show("No 3D view found");
             else
                 uiDoc.ActiveView = view;
+            */
         }
 
         public static View3D GetDefault3DView(UIDocument uiDoc)
@@ -52,12 +55,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                 .Cast<View3D>()
                 .Where(v => !v.IsTemplate).ToList();
 
-            // Attempt to find the default 3D view by name
-            // The default 3D view in Revit is typically named "3D" or "Default 3D"
-            var default3DView = collector.FirstOrDefault(v =>
-                v.Name.Equals("{3D}", StringComparison.InvariantCultureIgnoreCase) ||
-                v.Name.Equals("3D", StringComparison.InvariantCultureIgnoreCase) ||
-                v.Name.Equals("Default 3D", StringComparison.InvariantCultureIgnoreCase));
+            var default3DView = collector.FirstOrDefault(v => v.Name.Equals("{3D}", StringComparison.InvariantCultureIgnoreCase));
 
             // If not found by name, return the first available non-template 3D view
             if (default3DView == null)
@@ -263,7 +261,7 @@ namespace Ara3D.Bowerbird.RevitSamples
 
         public RoomData GetRoomData(Room r)
         {
-            var walls = r.GetWalls().ToList();
+            var walls = r.GetBoundaryWalls().ToList();
             var numWalls = walls.Count;
             var rd = new RoomData()
             {
@@ -727,9 +725,9 @@ namespace Ara3D.Bowerbird.RevitSamples
                 {
                     if (val is ElementId id)
                         val = id.IntegerValue;
-                    else if (val is Parameter)
+                    else if (val is Parameter p)
                     {
-
+                        val = p.AsValueString();
                     }
 
                     sb.AppendLine($"{indent + "  "}\"{m.Name}\": \"{val}\"");
@@ -738,47 +736,100 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             sb.AppendLine($"{indent}}}");
             return sb;
-        }
+        }   
     }
 
-    // 
+    // This class creates JSON files representing the room boundaries, openings, and doors.
+    // It uses the background processor to do work. 
     public class GeoJsonExporter : IBowerbirdCommand 
     {
         public string Name => "Export rooms as GeoJSON";
 
+        public Document Document;
+        public BackgroundUI Background;
+        public Dictionary<int, List<Opening>> OpeningGroups;
+        public Dictionary<int, List<FamilyInstance>> DoorGroups;
+
+        public static readonly DirectoryPath OutputFolder = new DirectoryPath(@"C:\Users\cdigg\dev\HOK\json");
+
         public void Execute(object arg)
         {
-            var folder = new DirectoryPath(@"C:\Users\cdigg\dev\HOK\json");
+            var uiapp = (arg as UIApplication);
+            Document = uiapp.ActiveUIDocument.Document;
 
-            var uidoc = (arg as UIApplication)?.ActiveUIDocument;
-            var doc = uidoc.Document;
-            
-            var rooms = doc.GetRooms().ToList();
-            foreach (var room in rooms)
-            {
-                var geoJson = Room(room);
-                var json = JsonConvert.SerializeObject(geoJson, Formatting.Indented);
+            var rooms = Document.GetRooms().ToList();
+            OpeningGroups = Document.GroupOpeningsByHost();
+            DoorGroups = Document.GroupDoorsByHost();
 
-                var f = folder.RelativeFile($"room-{room.Name.ToValidFileName()}-{room.Id.IntegerValue}.json");
-                f.WriteAllText(json);
-            }
+            Background = new BackgroundUI(uiapp, ProcessRoom);
+            Background.Processor.EnqueueWork(rooms.Select(r => r.Id.IntegerValue));
         }
 
-        public GeoJson Room(Room room)
+        public void ProcessRoom(int id)
         {
-            var r = new GeoJson();
-            r.PayloadGeoJson = new GeoPayload();
-            r.PayloadGeoJson.Coordinates = new List<List<List<double>>>();
-            r.Name = room.Name;
-            var tmp = room.GetRoomBoundaryCoordinates();
-            foreach (var loop in tmp)
+            var room = Document.GetElement(new ElementId(id)) as Room;
+            if (room == null)
+                return;
+            var openings = room.GetBoundaryOpenings(OpeningGroups);
+            var doors  = room.GetBoundaryDoors(DoorGroups);
+
+            var geoJson = ToGeoJson(room, openings, doors);
+            var json = JsonConvert.SerializeObject(geoJson, Formatting.Indented);
+
+            var f = OutputFolder.RelativeFile($"room-{room.Name.ToValidFileName()}-{room.Id.IntegerValue}.json");
+            f.WriteAllText(json);
+
+            // Add an artificial delay, otherwise the demo is finished too fast.  
+            Thread.Sleep(250);
+        }
+
+        public GeoJson ToGeoJson(Room room, IEnumerable<Opening> openings, IEnumerable<FamilyInstance> doors)
+        {
+            var r = new GeoJson
             {
-                var loopCoords = new List<List<double>>();
-                foreach (var c in loop)
+                PayloadGeoJson = new GeoPayload
                 {
-                    loopCoords.Add(new List<double> { c.X, c.Y, c.Z });
+                    Coordinates = new List<List<List<double>>>()
+                },
+                Name = room?.Name ?? "_no_room_"
+            };
+
+            if (room != null)
+            {
+                var tmp = room.GetRoomBoundaryCoordinates();
+                foreach (var loop in tmp)
+                {
+                    var loopCoords = new List<List<double>>();
+                    foreach (var c in loop)
+                    {
+                        loopCoords.Add(new List<double> { c.X, c.Y, c.Z });
+                    }
+
+                    r.PayloadGeoJson.Coordinates.Add(loopCoords);
                 }
-                r.PayloadGeoJson.Coordinates.Add(loopCoords);
+            }
+
+            foreach (var box in openings.Select(opening => opening.GetBaseBox()))
+            {
+                if (box == null)
+                    continue;
+
+                var minZ = box.Min(m => m.Z);
+                var vals = box.Select(p => new List<double> { p.X, p.Y, minZ });
+                r.Openings.Coordinates.Add(new List<List<double>>(vals));
+            }
+
+            foreach (var box in doors.Select(door => door.GetBaseBox()))
+            {
+                if (box == null)
+                    continue;
+                r.Doors.Coordinates.Add(new List<List<double>>
+                {
+                    new List<double> { box[0].X, box[0].Y, box[0].Z },
+                    new List<double> { box[1].X, box[1].Y, box[1].Z },
+                    new List<double> { box[2].X, box[2].Y, box[2].Z },
+                    new List<double> { box[3].X, box[3].Y, box[3].Z },
+                });
             }
 
             return r;

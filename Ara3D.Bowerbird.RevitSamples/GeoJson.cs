@@ -45,8 +45,9 @@ namespace Ara3D.Bowerbird.RevitSamples
     // Which of these fields are optional. 
     public class GeoJson : SMComponent
     {
-        // This name would vary depending on the 
-        public GeoPayload PayloadGeoJson;
+        public GeoPayload PayloadGeoJson = new GeoPayload();
+        public GeoPayload Doors = new GeoPayload();
+        public GeoPayload Openings = new GeoPayload();
 
         public GeoJson()
         {
@@ -63,7 +64,6 @@ namespace Ara3D.Bowerbird.RevitSamples
         // Technically this looks like a list of polygons. 
         // This level of nesting is very error-prone.
         // I recommend defining a polygon type, etc. 
-        public List<List<List<double>>> Coordinates;
+        public List<List<List<double>>> Coordinates = new List<List<List<double>>>();
     }
-
 }

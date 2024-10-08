@@ -1,4 +1,6 @@
-﻿using Ara3D.Bowerbird.Interfaces;
+﻿using System;
+using Ara3D.Bowerbird.Interfaces;
+using Ara3D.Logging;
 using Autodesk.Revit.UI;
 
 namespace Ara3D.Bowerbird.Revit
@@ -9,7 +11,9 @@ namespace Ara3D.Bowerbird.Revit
         private readonly ExternalEvent _event;
 
         public CommandExecutor()
-            => _event = ExternalEvent.Create(this);
+        {
+            _event = ExternalEvent.Create(this);
+        }
 
         public void Raise(IBowerbirdCommand command)
         {
@@ -25,8 +29,14 @@ namespace Ara3D.Bowerbird.Revit
 
         public void Execute(UIApplication app)
         {
-            _command?.Execute(app);
-            ResetCommand();
+            try
+            {
+                _command?.Execute(app);
+            }
+            finally
+            {
+                ResetCommand();
+            }
         }
 
         public string GetName()

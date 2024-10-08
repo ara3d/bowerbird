@@ -154,7 +154,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         public static int CountFamilyInstance(this Room room, BuiltInCategory cat)
             => room.Document.GetFamilyInstances(cat).Count();
 
-        public static IEnumerable<Wall> GetWalls(this Room room)
+        public static IEnumerable<Wall> GetBoundaryWalls(this Room room)
         {
             foreach (var segment in room.GetBoundarySegments())
             {
@@ -209,7 +209,8 @@ namespace Ara3D.Bowerbird.RevitSamples
                     }
 
                     // Close the loop by adding the first point at the end if necessary
-                    if (boundaryPoints.Count > 0 && !boundaryPoints[0].IsAlmostEqualTo(boundaryPoints[boundaryPoints.Count - 1]))
+                    if (boundaryPoints.Count > 0 &&
+                        !boundaryPoints[0].IsAlmostEqualTo(boundaryPoints[boundaryPoints.Count - 1]))
                     {
                         boundaryPoints.Add(boundaryPoints[0]);
                     }
@@ -221,6 +222,7 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             return boundaries;
         }
+
         public static IEnumerable<BoundarySegment> GetBoundarySegments(this Room room)
         {
             var options = new SpatialElementBoundaryOptions();
@@ -228,14 +230,20 @@ namespace Ara3D.Bowerbird.RevitSamples
             if (boundaries == null)
                 yield break;
             foreach (var boundaryList in boundaries)
-                foreach (var segment in boundaryList)
-                    yield return segment;
+            foreach (var segment in boundaryList)
+                yield return segment;
         }
 
         public static int GetRoomId(this FamilyInstance self)
         {
-            try { return self.Room?.Id.IntegerValue ?? -1; }
-            catch { return -1; }
+            try
+            {
+                return self.Room?.Id.IntegerValue ?? -1;
+            }
+            catch
+            {
+                return -1;
+            }
         }
 
         public static IEnumerable<FamilyInstance> BelongingToRoom(this IEnumerable<FamilyInstance> self, Room room)
@@ -311,13 +319,77 @@ namespace Ara3D.Bowerbird.RevitSamples
             {
                 // get the sub-faces for the face of the room
                 var subfaceList = results.GetBoundaryFaceInfo(face);
-                foreach (SpatialElementBoundarySubface subface in subfaceList)
+                foreach (var subface in subfaceList)
                     yield return subface;
 
                 // sub-faces exist in situations such as when a room-bounding wall has been
                 // horizontally split and the faces of each split wall combine to create the 
                 // entire face of the room
             }
+        }
+
+        /// <summary>
+        /// Retrieves the Opening elements grouped by their Host.
+        /// </summary>
+        public static Dictionary<int, List<Opening>> GroupOpeningsByHost(this Document doc)
+            => new FilteredElementCollector(doc).OfClass(typeof(Opening)).Cast<Opening>()
+                .GroupBy(opening => opening.Host?.Id ?? ElementId.InvalidElementId)
+                .ToDictionary(g => g.Key.IntegerValue, g => g.ToList());
+
+        /// <summary>
+        /// Retrieves the Door elements grouped by their Host.
+        /// </summary>
+        public static Dictionary<int, List<FamilyInstance>> GroupDoorsByHost(this Document doc)
+            => doc.GetDoors()
+                .GroupBy(door => door.Host?.Id ?? ElementId.InvalidElementId)
+                .ToDictionary(g => g.Key.IntegerValue, g => g.ToList());
+
+        public static IEnumerable<FamilyInstance> GetBoundaryDoors(this Room room,
+            Dictionary<int, List<FamilyInstance>> doorsByHost)
+            => room.GetBoundaryWalls().SelectMany(bw => doorsByHost.TryGetValue(bw.Id.IntegerValue, out var value)
+                ? value
+                : Enumerable.Empty<FamilyInstance>());
+
+        public static IEnumerable<Opening> GetBoundaryOpenings(this Room room,
+            Dictionary<int, List<Opening>> openingsByHost)
+            => room.GetBoundaryWalls().SelectMany(bw => openingsByHost.TryGetValue(bw.Id.IntegerValue, out var value)
+                ? value
+                : Enumerable.Empty<Opening>());
+
+        public static XYZ[] GetBaseBox(this Element e)
+        {
+            var box = e.get_BoundingBox(null);
+            if (box == null)
+                return null;
+            var z = box.Min.Z;
+            var minX = box.Min.X;
+            var minY = box.Min.Y;
+            var maxX = box.Max.X;
+            var maxY = box.Max.Y;
+            return new[] { new XYZ(minX, minY, z), new XYZ(maxX, minY, z), new XYZ(maxX, maxY, z), new XYZ(minX, maxY, z) };
+        }
+
+        public static IList<XYZ> GetBaseBox(this Opening opening)
+        {
+            if (opening.IsRectBoundary)
+                return opening.BoundaryRect.ToArray();
+            
+            var list = new List<XYZ>();
+            foreach (var curve in opening.BoundaryCurves)
+            {
+                if (curve is Line line)
+                {
+                    list.Add(line.GetEndPoint(0));
+                    list.Add(line.GetEndPoint(1));
+                }
+                else if (curve is Arc arc)
+                {
+                    list.Add(arc.GetEndPoint(0));
+                    list.Add(arc.GetEndPoint(1));
+                }
+            }
+
+            return list;
         }
     }
 }
