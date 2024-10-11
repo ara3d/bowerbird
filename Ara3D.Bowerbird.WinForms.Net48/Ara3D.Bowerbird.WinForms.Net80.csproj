@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\domo\Ara3D.Domo\Ara3D.Domo.csproj" />
+    <ProjectReference Include="..\..\src\Ara3D.Logging\Ara3D.Logging.csproj" />
+    <ProjectReference Include="..\..\Utils\Ara3D.Utils\Ara3D.Utils.csproj" />
+    <ProjectReference Include="..\Ara3D.Bowerbird.Core\Ara3D.Bowerbird.Core.csproj" />
+  </ItemGroup>
+
+</Project>

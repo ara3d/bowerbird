@@ -107,7 +107,7 @@ namespace Ara3D.Utils.Roslyn
                         if (fp.Exists())
                         {
                             Refs.Add(fp);
-                            Assembly.LoadFile(fp);
+                            Assembly.LoadFile(fp.GetFullPath());
                             continue;
                         }
 
@@ -115,7 +115,7 @@ namespace Ara3D.Utils.Roslyn
                         if (fp.Exists())
                         {
                             Refs.Add(fp);
-                            Assembly.LoadFile(fp);
+                            Assembly.LoadFile(fp.GetFullPath());
                             continue;
                         }
 
