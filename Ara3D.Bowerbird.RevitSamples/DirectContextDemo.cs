@@ -69,7 +69,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             if (Mesh == null)
                 return;
             if (FaceBufferStorage == null)
-                FaceBufferStorage = new BufferStorage(PrimitiveType.TriangleList, Mesh.Vertices, Mesh.Indices);
+                FaceBufferStorage = new BufferStorage(Mesh);
             FaceBufferStorage.Render();
         }
 

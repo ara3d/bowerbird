@@ -8,6 +8,7 @@ using Plato.DoublePrecision;
 using Plato.Geometry.Graphics;
 using Plato.Geometry.Revit;
 using PrimitiveType = Autodesk.Revit.DB.DirectContext3D.PrimitiveType;
+using RenderMesh = Plato.Geometry.Graphics.RenderMesh;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
@@ -30,6 +31,10 @@ namespace Ara3D.Bowerbird.RevitSamples
 
         public int VertexBufferSizeInFloat => VertexPositionNormalColored.GetSizeInFloats() * VertexCount;
         public int IndexBufferSizeInShort => IndexTriangle.GetSizeInShortInts() * IndexCount;
+
+        public BufferStorage(RenderMesh renderMesh)
+            : this(PrimitiveType.TriangleList, renderMesh.Vertices, renderMesh.Indices)
+        { }
 
         public BufferStorage(PrimitiveType primitiveType, IReadOnlyList<RenderVertex> vertices, IReadOnlyList<Integer> indices)
         {

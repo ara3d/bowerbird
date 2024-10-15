@@ -10,6 +10,7 @@ using Ara3D.Utils;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
@@ -48,32 +49,6 @@ namespace Ara3D.Bowerbird.RevitSamples
                 => Name;
         }
 
-        public static Task CreateRepeatedEvent(Action<UIApplication> action, string name, int msecInterval, CancellationToken token)
-        {
-            var ee = CreateEvent(action, name);
-            return Task.Run(() => RunRepeatedEvent(msecInterval, ee, token), token);
-        }
-
-        private static void RunRepeatedEvent(int msecInterval, ExternalEvent externalEvent, CancellationToken token)
-        {
-            try
-            {
-                while (!token.IsCancellationRequested)
-                {
-                    Thread.Sleep(msecInterval);
-                    externalEvent.Raise();
-                }
-            }
-            catch (TaskCanceledException _)
-            {
-                // We don't do anything, this is normal. 
-            }
-            catch (Exception ex)
-            {
-                TaskDialog.Show("Error", ex.Message);
-            }
-        }
-       
         public static ExternalEvent CreateEvent(Action<UIApplication> action, string name)
         {
             var eeh = new ExternalEventHandler(action, name);
@@ -95,7 +70,7 @@ namespace Ara3D.Bowerbird.RevitSamples
     {
         public ConcurrentQueue<T> Queue { get; private set; } = new ConcurrentQueue<T>();
         public int MaxMSecPerBatch { get; set; } = 100;
-        public int ExternalHeartBeatMsec { get; set; } = 500;
+        public int HeartBeatMsec { get; set; } = 125;
         public bool ExecuteNextIdleImmediately { get; set; }
         public readonly Action<T> Processor;
         public readonly UIApplication UIApp;
@@ -129,15 +104,16 @@ namespace Ara3D.Bowerbird.RevitSamples
             Processor = processor;
             UIApp = uiApp;
             Attach();
+            var ee = ApiContext.CreateEvent(On_ExternalEventHeartbeat, "Heartbeat");
             PokeRevitThread = new Thread(() =>
             {
                 while (true)
                 {
-                    Thread.Sleep(250);
+                    Thread.Sleep(HeartBeatMsec);
+                    ee.Raise();
                     PokeRevit();
                 }
             });
-            ApiContext.CreateRepeatedEvent(On_ExternalEventHeartbeat, "Heartbeat", ExternalHeartBeatMsec, CancellationToken.None);
         }
 
         public void Detach()
@@ -194,7 +170,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         public void EnqueueWork(IEnumerable<T> items)
         {
             foreach (var item in items)
-                Queue.Enqueue(item);
+                EnqueueWork(item);
         }
 
         public void EnqueueWork(T item)
@@ -246,7 +222,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         // https://forums.autodesk.com/t5/revit-api-forum/how-to-trigger-onidle-event-or-execution-of-an-externalevent/td-p/6645286
         public static void PokeRevit()
         {
-            if (Revit?.HasExited == true)
+            if (Revit?.HasExited == true || Revit == null)
                 return;
             ApiContext.PostMessage(Revit.MainWindowHandle, 0, 0, 0);
         }
