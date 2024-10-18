@@ -6,6 +6,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.UI;
+using Plato.DoublePrecision;
 using Plato.Geometry.Graphics;
 using Plato.Geometry.IO;
 using PrimitiveType = Autodesk.Revit.DB.DirectContext3D.PrimitiveType;

@@ -907,7 +907,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                     allPts.AddRange(pts);
                 }
 
-                roomData.Center = allPts.Average();
+                roomData.Center = allPts.ToIArray().Average();
                 foreach (var list in geoJson.Doors.Coordinates)
                 {
                     var pts = GetPointList(list);
@@ -958,7 +958,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             var scene = new Scene();
             var arrows = scene.Root.AddNode("Arrows");
 
-            var arrowMesh = Plato.Geometry.Extensions
+            var arrowMesh = Extensions2
                 .UpArrow(1, 0.2, 0.4, 12, 0.8)
                 .ToTriangleMesh()
                 .Faceted();
