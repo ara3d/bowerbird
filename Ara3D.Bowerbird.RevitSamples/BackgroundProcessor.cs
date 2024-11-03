@@ -104,13 +104,13 @@ namespace Ara3D.Bowerbird.RevitSamples
             Processor = processor;
             UIApp = uiApp;
             Attach();
-            var ee = ApiContext.CreateEvent(On_ExternalEventHeartbeat, "Heartbeat");
+            //var ee = ApiContext.CreateEvent(On_ExternalEventHeartbeat, "Heartbeat");
             PokeRevitThread = new Thread(() =>
             {
                 while (true)
                 {
                     Thread.Sleep(HeartBeatMsec);
-                    ee.Raise();
+                    //ee.Raise();
                     PokeRevit();
                 }
             });

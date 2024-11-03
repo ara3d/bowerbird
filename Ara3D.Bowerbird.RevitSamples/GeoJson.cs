@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Ara3D.Utils;
+using Plato.DoublePrecision;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
@@ -65,5 +67,42 @@ namespace Ara3D.Bowerbird.RevitSamples
         // This level of nesting is very error-prone.
         // I recommend defining a polygon type, etc. 
         public List<List<List<double>>> Coordinates = new List<List<List<double>>>();
+    }
+
+    //==
+
+    public class BuildingLayout
+    {
+        public Dictionary<int, RoomLayout> Rooms = new Dictionary<int, RoomLayout>();
+        public Dictionary<int, DoorLayout> Doors = new Dictionary<int, DoorLayout>();
+        public Dictionary<int, LevelLayout> Levels = new Dictionary<int, LevelLayout>();
+    }
+
+    public class LevelLayout
+    {
+        public int Id;
+        public string Name;
+        public double Elevation;
+        public override string ToString() => $"{Name} - {Id}";
+    }
+
+    public class RoomLayout
+    {
+        public int Id;
+        public string Name;
+        public int Level;
+        public Bounds3D Bounds;
+        public override string ToString() => $"{Name} - {Id}";
+    }
+
+    public class DoorLayout
+    {
+        public int Id;
+        public string Name;
+        public int Level;
+        public int FromRoom;
+        public int ToRoom;
+        public Bounds3D Bounds;
+        public override string ToString() => $"{Name} - {Id}";
     }
 }

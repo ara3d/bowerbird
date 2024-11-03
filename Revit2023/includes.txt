@@ -7,3 +7,5 @@ C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\RoomData.cs
 C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\GeoJson.cs
 C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\DirectContextDemo.cs
 C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\BufferStorage.cs
+C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\ChooseRoomForm.cs
+C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\ChooseRoomForm.Designer.cs

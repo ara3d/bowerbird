@@ -17,10 +17,11 @@ using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.UI;
 using Newtonsoft.Json;
 using Plato.DoublePrecision;
-using Plato.Geometry;
 using Plato.Geometry.Graphics;
-using Plato.Geometry.Memory;
+using Plato.Geometry.Revit;
 using Plato.Geometry.Scenes;
+using static Ara3D.Bowerbird.RevitSamples.MiscExtensions;
+using Debug = System.Diagnostics.Debug;
 using FilePath = Ara3D.Utils.FilePath;
 using View = Autodesk.Revit.DB.View;
 using XYZ = Autodesk.Revit.DB.XYZ;
@@ -488,7 +489,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             }
             catch (Exception e)
             {
-                Log($"Exception occurred {e}");
+                Log($"Exception occurred {e}"); 
             }
             Form.Show();
         }
@@ -534,6 +535,49 @@ namespace Ara3D.Bowerbird.RevitSamples
 
     public static class MiscExtensions
     {
+        public class BoundsConverter : JsonConverter<Bounds3D>
+        {
+            public override void WriteJson(JsonWriter writer, Bounds3D value, JsonSerializer serializer)
+            {
+                writer.WriteStartArray();
+                writer.WriteValue(value.Min.X.Value);
+                writer.WriteValue(value.Min.Y.Value);
+                writer.WriteValue(value.Min.Z.Value);
+                writer.WriteValue(value.Max.X.Value);
+                writer.WriteValue(value.Max.Y.Value);
+                writer.WriteValue(value.Max.Z.Value);
+                writer.WriteEndArray();
+            }
+
+            public override Bounds3D ReadJson(JsonReader reader, System.Type objectType, Bounds3D existingValue, bool hasExistingValue, JsonSerializer serializer)
+            {
+                Debug.Assert(reader.TokenType != JsonToken.StartArray);
+                var list = new List<double>();
+                for (var i=0; i < 6; ++i)
+                {
+                    reader.Read();
+                    var r = Convert.ToDouble(reader.Value);
+                    list.Add(r);
+                }
+                reader.Read();
+                Debug.Assert(reader.TokenType == JsonToken.EndArray);
+                return new Bounds3D(
+                    new Vector3D(list[0], list[1], list[2]), 
+                    new Vector3D(list[3], list[4], list[5]));
+            }
+        }
+
+        public static string ToJsonFieldsOnly(this object obj)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                Converters = new List<JsonConverter>() { new BoundsConverter() }
+            };
+
+            return JsonConvert.SerializeObject(obj, settings);
+        }
+    
         public static IReadOnlyList<int> GetIndexData(this TriangulatedShellComponent self)
         {
             var r = new List<int>();
@@ -840,7 +884,65 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             return r;
         }
+    }
 
+    public class BuildingLayoutExporter : IBowerbirdCommand
+    {
+        public string Name => "Building Layout Exporter";
+
+        public void Execute(object arg)
+        {
+            var uiapp = (arg as UIApplication);
+            if (uiapp == null)
+                return;
+            var doc  = uiapp.ActiveUIDocument.Document;
+            var rooms = doc.GetRooms().ToList();
+            var levels = doc.GetLevels().ToList();
+            var doors = doc.GetDoors().ToList();
+
+            var bldg = new BuildingLayout();
+            foreach (var room in rooms)
+            {
+                bldg.Rooms.Add(room.Id.IntegerValue, new RoomLayout
+                {
+                    Id = room.Id.IntegerValue,
+                    Level = room.LevelId.IntegerValue,
+                    Name = room.Name,
+                    Bounds = room.get_BoundingBox(null)?.ToPlato() ?? Bounds3D.Default,
+                });
+            }
+
+            var phase = doc.GetLastPhase();
+
+            foreach (var door in doors)
+            {
+                bldg.Doors.Add(door.Id.IntegerValue, new DoorLayout()
+                {
+                    Id = door.Id.IntegerValue,
+                    Level = door.LevelId.IntegerValue,
+                    Name = door.Name,
+                    FromRoom = door.get_FromRoom(phase)?.Id.IntegerValue ?? -1,
+                    ToRoom = door.get_ToRoom(phase)?.Id.IntegerValue ?? -1, 
+                    Bounds = door.get_BoundingBox(null)?.ToPlato() ?? Bounds3D.Default,
+                });
+            }
+
+            foreach (var level in levels)
+            {
+                bldg.Levels.Add(level.Id.IntegerValue, new LevelLayout()
+                {
+                    Id = level.Id.IntegerValue,
+                    Elevation = level.Elevation,
+                    Name = level.Name
+                });
+            }
+
+            var json = bldg.ToJsonFieldsOnly();
+            LayoutFile.WriteAllText(json);
+        }
+
+        public static FilePath LayoutFile
+            => new FilePath(@"C:\Users\cdigg\AppData\Local\Temp\layout.json");
     }
 
     // This class creates JSON files representing the room boundaries, openings, and doors.
@@ -915,11 +1017,12 @@ namespace Ara3D.Bowerbird.RevitSamples
                     roomData.DoorCenters.Add(doorCenter);
                 }
             }
-                
+
             UpdateMesh();
-            
+
             // Register this class as a server with the DirectContext3D service.
-            var directContext3DService = ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
+            var directContext3DService =
+                ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
             directContext3DService.AddServer(this);
 
             var msDirectContext3DService = directContext3DService as MultiServerService;
@@ -932,7 +1035,7 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             // Add the new server to the list of active servers.
             msDirectContext3DService.SetActiveServers(serverIds);
-            
+
             uiapp.ActiveUIDocument?.UpdateAllOpenViews();
         }
 
@@ -952,7 +1055,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         public bool UsesHandles() => false;
         public Outline GetBoundingBox(View dBView) => m_boundingBox;
         public bool UseInTransparentPass(View dBView) => true;
-        
+
         public void UpdateMesh()
         {
             var scene = new Scene();
@@ -969,7 +1072,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                 {
                     var pos = room.Center + Vector3D.UnitZ;
                     var target = doorCenter + Vector3D.UnitZ;
-                    
+
                     for (var i = 0; i < 5; i++)
                     {
                         var t = i * 0.2;
@@ -978,12 +1081,14 @@ namespace Ara3D.Bowerbird.RevitSamples
                         var len = dir.Length / 10;
                         var rot = dir.LookRotation;
 
-                        arrows.AddMesh(arrowMesh, new TRSTransform(new Transform3D(p1, rot, (1, 1, len))));
+                        arrows.AddMesh(arrowMesh,
+                            new TRSTransform(
+                                new Transform3D(p1, rot, (1, 1, len))));
                     }
                 }
             }
 
-            Mesh = ToRenderMesh(scene);
+            Mesh = scene.ToRenderMesh();
 
             var min = new XYZ();
             var max = new XYZ();
@@ -1004,47 +1109,343 @@ namespace Ara3D.Bowerbird.RevitSamples
             FaceBufferStorage.Render();
         }
 
-        //==
-
-        public static RenderMesh ToRenderMesh(Scene scene)
+        // This class creates JSON files representing the room boundaries, openings, and doors.
+        // It uses the background processor to do work. 
+        public class LayoutImporter : IBowerbirdCommand, IDirectContext3DServer
         {
-            var vertices = new List<RenderVertex>();
-            var indices = new List<Integer>();
+            public string Name => "Import layout";
 
-            foreach (var node in GetDescendants(scene.Root))
+            public Document Document;
+            public UIDocument UIDocument;
+            public BackgroundUI Background;
+            public ChooseRoomForm Form;
+            public ChooseRoomForm Form2;
+            public int SrcRoom;
+            public int DestRoom;
+            public BuildingLayout Layout = new BuildingLayout();
+            public XYZ NewPos;
+            public ExternalEvent UpdateCameraEvent;
+            
+            public void UpdateCameraCallback(UIApplication app)
             {
-                var t = node.Transform;
+                app.ActiveUIDocument.Update3DCameraPosition(NewPos);
+            }
 
-                foreach (var o in node.GetMeshObjects())
+            public void UpdateCameraFromPosition(XYZ pos)
+            {
+                NewPos = pos;
+                UpdateCameraEvent.Raise();
+            }
+
+            public void OnSrcRoomChanged(RoomLayout roomLayout)
+            {
+                SrcRoom = roomLayout.Id;
+                UpdateMesh();
+            }
+
+            public void OnDestRoomChanged(RoomLayout roomLayout)
+            {
+                DestRoom = roomLayout.Id;
+                UpdateMesh();
+            }
+        
+            public void Execute(object arg)
+            {
+                var uiapp = (arg as UIApplication);
+                UIDocument = uiapp.ActiveUIDocument;
+                Document = UIDocument.Document;
+                UpdateCameraEvent = ApiContext.CreateEvent(UpdateCameraCallback, "Update camera");
+
+                var filePath = BuildingLayoutExporter.LayoutFile;
+                var json = filePath.ReadAllText();
+
+                var settings = new JsonSerializerSettings
                 {
-                    var offset = vertices.Count;
-                    var mesh = o.Mesh;
-                    var m = o.Material;
-                    var c = (Color32)m.Color;
+                    Formatting = Formatting.Indented,
+                    Converters = new List<JsonConverter>() { new BoundsConverter() }
+                };
 
-                    var normals = mesh.ComputeVertexNormalsFaceted();
+                Layout = JsonConvert.DeserializeObject<BuildingLayout>(json, settings);
+                
+                foreach (var room in Layout.Rooms.Values)
+                    RoomCenters[room.Id] = room.Bounds.Center;
 
-                    for (var i = 0; i < mesh.Points.Count; ++i)
-                    {
-                        var p = mesh.Points[i];
-                        var n = normals[i];
-                        var p1 = t.TransformPoint(p);
-                        var n1 = t.TransformVector(n);
-                        var rv = new RenderVertex(p1, n1, Vector2D.Default, c);
-                        vertices.Add(rv);
-                    }
+                foreach (var door in Layout.Doors.Values)
+                    DoorCenters[door.Id] = door.Bounds.Center;
 
-                    foreach (var i in mesh.Indices)
-                    {
-                        indices.Add(i + offset);
-                    }
+                ComputeAllPaths();
+
+                Form = new ChooseRoomForm(Layout, OnSrcRoomChanged);
+                Form.Closing += Form_Closing;
+                Form.Show();
+
+                Form2 = new ChooseRoomForm(Layout, OnDestRoomChanged);
+                Form2.Show();
+
+                // Register this class as a server with the DirectContext3D service.
+                this.RegisterDirectDrawServer();
+
+                UIDocument?.UpdateAllOpenViews();
+            }
+
+            private void Form_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+            {
+                SrcRoom = -1;
+                try 
+                {
+                    this.UnregisterDirectDrawServer();
+                }
+                catch (Exception ex)
+                { 
+                    Debug.WriteLine(ex.Message);
                 }
             }
 
-            return new RenderMesh(vertices.ToBuffer(), indices.ToBuffer());
-        }
+            public Guid Guid { get; } = Guid.NewGuid();
+            public Outline m_boundingBox;
+            public RenderMesh Mesh;
+            public BufferStorage FaceBufferStorage;
 
-        public static IEnumerable<ISceneNode> GetDescendants(ISceneNode node)
-            => node.Children.SelectMany(GetDescendants).Prepend(node);
+            public Guid GetServerId() => Guid;
+            public ExternalServiceId GetServiceId() => ExternalServices.BuiltInExternalServices.DirectContext3DService;
+            public string GetName() => Name;
+            public string GetVendorId() => "Ara 3D Inc.";
+            public string GetDescription() => "Demonstrates using the DirectContext3D API";
+            public bool CanExecute(View dBView) => dBView.ViewType == ViewType.ThreeD;
+            public string GetApplicationId() => "Bowerbird";
+            public string GetSourceId() => "";
+            public bool UsesHandles() => false;
+            public Outline GetBoundingBox(View dBView) => m_boundingBox;
+            public bool UseInTransparentPass(View dBView) => true;
+            public bool NeedsUpdate { get; set; }
+
+            public Dictionary<int, Vector3D> RoomCenters = new Dictionary<int, Vector3D>();
+            public Dictionary<int, Vector3D> DoorCenters = new Dictionary<int, Vector3D>();
+
+            public void UpdateMeshWithAllArrows()
+            {
+                var scene = new Scene();
+                var lines = new List<Line3D>();
+
+                foreach (var door in Layout.Doors.Values)
+                {
+                    var doorCenter = door.Bounds.Center;
+
+                    if (door.FromRoom == SrcRoom || door.FromRoom == DestRoom)
+                        if (RoomCenters.TryGetValue(door.FromRoom, out var a))
+                            lines.Add(new Line3D(a, doorCenter));
+
+                    if (door.ToRoom == SrcRoom || door.ToRoom == DestRoom)
+                        if (RoomCenters.TryGetValue(door.ToRoom, out var b))
+                            lines.Add(new Line3D(b, doorCenter));
+                }
+
+                AddArrowsFromLine(scene.Root.AddNode("Arrows"), lines);
+                UpdateMeshAndBoundingBoxFromScene(scene);
+            }
+
+            public void UpdateMeshAndBoundingBoxFromScene(Scene scene)
+            {
+                Mesh = scene.ToRenderMesh();
+                if (Mesh != null)
+                {
+                    var min = new XYZ();
+                    var max = new XYZ();
+                    m_boundingBox = new Outline(min, max);
+                    foreach (var v in Mesh.Vertices)
+                    {
+                        m_boundingBox.AddPoint(new XYZ(v.PX, v.PY, v.PZ));
+                    }
+                }
+
+                UIDocument.RefreshActiveView();
+            }
+
+            public void AddArrowsFromLine(SceneNode root, IEnumerable<Line3D> lines)
+            {
+                var arrowMesh = Extensions2
+                    .UpArrow(1, 0.4, 0.8, 12, 0.75)
+                    .ToTriangleMesh()
+                    .Faceted();
+
+                foreach (var line in lines)
+                {
+                    var dir = line.Direction;
+                    var len = dir.Length;
+
+                    // We are going to skip empty arrows
+                    if (len <= double.Epsilon)
+                        continue;
+
+                    var rot = dir.LookRotation;
+                    var mesh = root.AddMesh(arrowMesh,
+                        new TRSTransform(
+                            new Transform3D(line.A, rot, (1, 1, len))));
+                    mesh.Material = Colors.Red;
+                }
+            }
+
+            public void UpdateMesh()
+            {
+                Mesh = null;
+                NeedsUpdate = true;
+                var path = GetShortestPath(SrcRoom, DestRoom);
+
+                if (path == null)
+                {
+                    UpdateMeshWithAllArrows();
+                    return;
+                }
+
+                var lines = new List<Line3D>();
+
+                if (RoomCenters.TryGetValue(SrcRoom, out var a))
+                {
+                    foreach (var door in path.Doors)
+                    {
+                        if (DoorCenters.TryGetValue(door, out var b))
+                        {
+                            lines.Add((a, b));
+                            a = b;
+                        }
+                    }
+
+                    var final = RoomCenters[DestRoom];
+                    lines.Add((a, final));
+                }
+
+                var scene = new Scene();
+                AddArrowsFromLine(scene.Root.AddNode("Arrows"), lines);
+                UpdateMeshAndBoundingBoxFromScene(scene);
+            }
+
+            public void RenderScene(View dBView, DisplayStyle displayStyle)
+            {
+                if (Mesh == null) return;
+
+                // NOTE: do not try to create the FaceBufferStorage when not in this call.
+                // It will have undefined behavior. 
+                if (FaceBufferStorage == null || NeedsUpdate)
+                {
+                    FaceBufferStorage = new BufferStorage(Mesh);
+                }
+
+                FaceBufferStorage.Render();
+            }
+
+            public class Path
+            {
+                public readonly int SrcRoom;
+                public readonly int DestRoom;
+                public readonly IReadOnlyList<int> Doors;
+
+                public Path(int src, int dest, IReadOnlyList<int> doors)
+                {
+                    SrcRoom = src;
+                    DestRoom = dest;
+                    Doors = doors;
+                    Debug.Assert(src != dest);
+                    Debug.Assert(doors.Distinct().Count() == doors.Count);
+                }
+
+                public Path Reverse()
+                    => new Path(DestRoom, SrcRoom, Doors.Reverse().ToList());
+
+                public Path ExtendWithDoorIfValid(DoorLayout door)
+                {
+                    if (door.FromRoom == DestRoom 
+                        && door.ToRoom != SrcRoom 
+                        && !Doors.Contains(door.Id))
+                    {
+                        return new Path(SrcRoom, door.ToRoom, Doors.Append(door.Id).ToList());
+                    }
+
+                    return null;
+                }
+
+                public static Path CreateFromDoor(DoorLayout door)
+                    => new Path(door.FromRoom, door.ToRoom, new[] { door.Id });
+            }
+
+            public Dictionary<int, Dictionary<int, Path>> ShortestPaths = new Dictionary<int, Dictionary<int, Path>>();
+
+            public Path AddOrGetPathIfShortest(Path path)
+            {
+                if (path == null)
+                    return null;
+                if (!ShortestPaths.ContainsKey(path.SrcRoom))
+                    ShortestPaths.Add(path.SrcRoom, new Dictionary<int, Path>());
+                var d = ShortestPaths[path.SrcRoom];
+                if (d.TryGetValue(path.DestRoom, out var shortest))
+                    return shortest;
+                d.Add(path.DestRoom, path);
+                return path;
+            }
+
+            public IEnumerable<DoorLayout> GetDoors()
+                => Layout.Doors.Values;
+
+            public IEnumerable<Path> GetAllPaths()
+                => ShortestPaths.SelectMany(d => d.Value.Values);
+
+            public Path GetShortestPath(int src, int dest)
+                => ShortestPaths.TryGetValue(src, out var d) 
+                       && d.TryGetValue(dest, out var path) ? path : null;
+
+            public DoorLayout Reverse(DoorLayout door)
+                => new DoorLayout()
+                {
+                    Bounds = door.Bounds, FromRoom = door.ToRoom, ToRoom = door.FromRoom, Id = door.Id,
+                    Level = door.Level, Name = door.Name
+                }; 
+
+            public void ComputeAllPaths()
+            {
+                ShortestPaths = new Dictionary<int, Dictionary<int, Path>>();
+
+                // Seed it with the initial paths (door) 
+                foreach (var door in GetDoors())
+                {
+                    // Skip doors to nowhere 
+                    if (door.ToRoom == -1 || door.FromRoom == -1)
+                        continue;
+
+                    var path = Path.CreateFromDoor(door);
+                    AddOrGetPathIfShortest(path);
+                    AddOrGetPathIfShortest(path.Reverse());
+                }
+
+                // Extend all paths by one
+                var paths = GetAllPaths().ToList();
+
+                foreach (var path in paths)
+                {
+                    foreach (var door in GetDoors())
+                    {
+                        var path1 = path.ExtendWithDoorIfValid(door);
+                        AddOrGetPathIfShortest(path1);
+
+                        var path2 = path.ExtendWithDoorIfValid(Reverse(door));
+                        AddOrGetPathIfShortest(path2);
+                    }
+                }
+
+                // Extend all paths by one
+                paths = GetAllPaths().ToList();
+                foreach (var path in paths)
+                {
+                    foreach (var door in GetDoors())
+                    {
+                        var path1 = path.ExtendWithDoorIfValid(door);
+                        AddOrGetPathIfShortest(path1);
+
+                        var path2 = path.ExtendWithDoorIfValid(Reverse(door));
+                        AddOrGetPathIfShortest(path2);
+                    }
+                }
+
+                // TODO: this only considers paths with up to two doors.
+            }
+        }
     }
 }

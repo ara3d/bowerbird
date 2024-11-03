@@ -6,6 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using System.Reflection;
+using Autodesk.Revit.UI;
+using Plato.DoublePrecision;
+using Plato.Geometry.Graphics;
+using Plato.Geometry.Memory;
+using Plato.Geometry.Scenes;
+using Arc = Autodesk.Revit.DB.Arc;
+using Type = System.Type;
+using Autodesk.Revit.DB.ExternalService;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
@@ -114,10 +122,26 @@ namespace Ara3D.Bowerbird.RevitSamples
     // TODO: consider maybe making an Ara3D.Utils.Revit for these functions and more. 
     public static class RoomDataExtensions
     {
+        public static IEnumerable<Phase> GetPhases(this Document doc)
+            => doc.CollectElements()
+                .OfClass(typeof(Phase))
+                .OfType<Phase>();
+
+        public static int GetPhaseSequenceNumber(this Phase p)
+            => p.get_Parameter(BuiltInParameter.PHASE_SEQUENCE_NUMBER).AsInteger();
+
+        public static Phase GetLastPhase(this Document doc)
+            => doc.GetPhases().OrderBy(GetPhaseSequenceNumber).LastOrDefault();
+
         public static IEnumerable<Room> GetRooms(this Document doc)
             => doc.CollectElements()
                 .OfClass(typeof(SpatialElement))
                 .OfType<Room>();
+
+        public static IEnumerable<Level> GetLevels(this Document doc)
+            => doc.CollectElements()
+                .OfClass(typeof(Level))
+                .OfType<Level>();
 
         public static Dictionary<int, List<FamilyInstance>> GroupByRoom(this IEnumerable<FamilyInstance> instances)
             => instances.GroupBy(fi => fi.GetRoomId()).ToDictionary(g => g.Key, g => g.ToList());
@@ -366,14 +390,15 @@ namespace Ara3D.Bowerbird.RevitSamples
             var minY = box.Min.Y;
             var maxX = box.Max.X;
             var maxY = box.Max.Y;
-            return new[] { new XYZ(minX, minY, z), new XYZ(maxX, minY, z), new XYZ(maxX, maxY, z), new XYZ(minX, maxY, z) };
+            return new[]
+                { new XYZ(minX, minY, z), new XYZ(maxX, minY, z), new XYZ(maxX, maxY, z), new XYZ(minX, maxY, z) };
         }
 
         public static IList<XYZ> GetBaseBox(this Opening opening)
         {
             if (opening.IsRectBoundary)
                 return opening.BoundaryRect.ToArray();
-            
+
             var list = new List<XYZ>();
             foreach (var curve in opening.BoundaryCurves)
             {
@@ -390,6 +415,127 @@ namespace Ara3D.Bowerbird.RevitSamples
             }
 
             return list;
+        }
+
+        public static RenderMesh ToRenderMesh(this Scene scene)
+        {
+            var vertices = new List<RenderVertex>();
+            var indices = new List<Integer>();
+
+            foreach (var node in GetDescendants(scene.Root))
+            {
+                var t = node.Transform;
+
+                foreach (var o in node.GetMeshObjects())
+                {
+                    var offset = vertices.Count;
+                    var mesh = o.Mesh;
+                    var m = o.Material;
+                    var c = (Color32)m.Color;
+
+                    var normals = mesh.ComputeVertexNormalsFaceted();
+
+                    for (var i = 0; i < mesh.Points.Count; ++i)
+                    {
+                        var p = mesh.Points[i];
+                        var n = normals[i];
+                        var p1 = t.TransformPoint(p);
+                        var n1 = t.TransformVector(n);
+                        var rv = new RenderVertex(p1, n1, Vector2D.Default, c);
+                        vertices.Add(rv);
+                    }
+
+                    foreach (var i in mesh.Indices)
+                    {
+                        indices.Add(i + offset);
+                    }
+                }
+            }
+
+            if (vertices.Count == 0 || indices.Count == 0)
+                return null;
+            return new RenderMesh(vertices.ToBuffer(), indices.ToBuffer());
+        }
+
+        public static IEnumerable<ISceneNode> GetDescendants(this ISceneNode node)
+            => node.Children.SelectMany(GetDescendants).Prepend(node);
+
+        public static XYZ Current3DCameraPosition(this UIDocument uidoc)
+        {
+            var view = uidoc.ActiveView as View3D;
+            if (view == null)
+                return XYZ.Zero;
+            return view.GetOrientation().EyePosition;
+        }
+
+        public static void Update3DCameraPosition(this UIDocument uidoc, XYZ pos)
+        {
+            var view = uidoc.ActiveView as View3D;
+            if (view == null)
+                return;
+
+            // Start a transaction to modify the view
+            using (var t = new Transaction(uidoc.Document, "Move Camera"))
+            {
+                t.Start();
+
+                // Get the current camera orientation
+                var orientation = view.GetOrientation();
+
+                // Create the new orientation with the updated eye position
+                var newOrientation = new ViewOrientation3D(
+                    pos,
+                    orientation.UpDirection,
+                    orientation.ForwardDirection);
+
+                // Apply the updated orientation back to the view
+                view.SetOrientation(newOrientation);
+
+                t.Commit();
+            }
+
+            // Refresh the active view to reflect changes
+            uidoc.RefreshActiveView();
+        }
+
+        public static void RegisterDirectDrawServer(this IExternalServer self)
+        {
+            // Register this class as a server with the DirectContext3D service.
+            var directContext3DService =
+                ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
+            directContext3DService.AddServer(self);
+
+            var msDirectContext3DService = directContext3DService as MultiServerService;
+            if (msDirectContext3DService == null)
+                throw new Exception("Expected a MultiServerService");
+
+            // Get current list 
+            var serverIds = msDirectContext3DService.GetActiveServerIds();
+            serverIds.Add(self.GetServerId());
+
+            // Add the new server to the list of active servers.
+            msDirectContext3DService.SetActiveServers(serverIds);
+        }
+        
+        // TODO: this throws an exception if the server was not registered. Should check.
+        public static void UnregisterDirectDrawServer(this IExternalServer self)
+        {
+            // Register this class as a server with the DirectContext3D service.
+            var directContext3DService =
+                ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
+            directContext3DService.RemoveServer(self.GetServerId());
+
+            var msDirectContext3DService = directContext3DService as MultiServerService;
+            if (msDirectContext3DService == null)
+                throw new Exception("Expected a MultiServerService");
+
+            // Get current list 
+            var serverIds = msDirectContext3DService.GetActiveServerIds();
+            serverIds.Remove(self.GetServerId());
+
+            // Remove the new server from the list of active servers.
+            msDirectContext3DService.SetActiveServers(serverIds);
+            
         }
     }
 }
