@@ -1063,8 +1063,7 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             var arrowMesh = Extensions2
                 .UpArrow(1, 0.2, 0.4, 12, 0.8)
-                .ToTriangleMesh()
-                .Faceted();
+                .ToTriangleMesh();
 
             foreach (var room in Rooms)
             {
@@ -1079,11 +1078,9 @@ namespace Ara3D.Bowerbird.RevitSamples
                         var p1 = pos.Lerp(target, t);
                         var dir = target - pos;
                         var len = dir.Length / 10;
-                        var rot = dir.LookRotation;
+                        var rot = dir.LookRotation(Vector3D.UnitZ);
 
-                        arrows.AddMesh(arrowMesh,
-                            new TRSTransform(
-                                new Transform3D(p1, rot, (1, 1, len))));
+                        arrows.AddMesh(arrowMesh, new Transform3D(p1, rot, (1, 1, len)));
                     }
                 }
             }
@@ -1265,8 +1262,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             {
                 var arrowMesh = Extensions2
                     .UpArrow(1, 0.4, 0.8, 12, 0.75)
-                    .ToTriangleMesh()
-                    .Faceted();
+                    .ToTriangleMesh();
 
                 foreach (var line in lines)
                 {
@@ -1277,10 +1273,8 @@ namespace Ara3D.Bowerbird.RevitSamples
                     if (len <= double.Epsilon)
                         continue;
 
-                    var rot = dir.LookRotation;
-                    var mesh = root.AddMesh(arrowMesh,
-                        new TRSTransform(
-                            new Transform3D(line.A, rot, (1, 1, len))));
+                    var rot = dir.LookRotation(Vector3D.UnitZ);
+                    var mesh = root.AddMesh(arrowMesh, new Transform3D(line.A, rot, (1, 1, len)));
                     mesh.Material = Colors.Red;
                 }
             }

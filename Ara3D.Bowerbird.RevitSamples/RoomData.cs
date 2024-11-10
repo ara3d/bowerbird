@@ -433,14 +433,14 @@ namespace Ara3D.Bowerbird.RevitSamples
                     var m = o.Material;
                     var c = (Color32)m.Color;
 
-                    var normals = mesh.ComputeVertexNormalsFaceted();
+                    var normals = mesh.ComputeVertexNormals();
 
                     for (var i = 0; i < mesh.Points.Count; ++i)
                     {
                         var p = mesh.Points[i];
                         var n = normals[i];
-                        var p1 = t.TransformPoint(p);
-                        var n1 = t.TransformVector(n);
+                        var p1 = t.Transform(p);
+                        var n1 = t.TransformNormal(n);
                         var rv = new RenderVertex(p1, n1, Vector2D.Default, c);
                         vertices.Add(rv);
                     }
