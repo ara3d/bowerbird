@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Ara3D.Bowerbird.Revit.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Program Files\\Autodesk\\Revit 2023\\Revit.exe\" \"C:\\Users\\cdigg\\git\\ara3d\\bowerbird\\Ara3D.Bowerbird.RevitSamples\\AutoRun.cs\" \"C:\\Program Files\\Autodesk\\Revit 2023\\Samples\\rac_basic_sample_project.rvt\"\r\n"
+    }
+  }
+}

@@ -426,7 +426,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             {
                 var t = node.Transform;
 
-                foreach (var o in node.GetMeshObjects())
+                foreach (var o in node.GetMeshes())
                 {
                     var offset = vertices.Count;
                     var mesh = o.Mesh;

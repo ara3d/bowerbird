@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -8,26 +7,18 @@ using Ara3D.Logging;
 
 namespace Ara3D.Utils.Roslyn
 {
-    public class DirectoryCompiler : IDisposable
+    public class DirectoryWatchingCompiler : IDisposable
     {
         public ILogger Logger { get; }
+        public Compiler Compiler { get; private set; }
 
-        public Assembly Assembly { get; private set; }
-        public Compilation Compilation { get; private set; }
-        public CompilerOptions Options { get; private set; }
-        public List<FilePath> Refs { get; } = new List<FilePath>();
-
-        public CompilerInput Input => Compilation?.Input;
         public DirectoryPath Directory => Watcher.Directory;
         public DirectoryWatcher Watcher { get; }
+
         public bool AutoRecompile { get; set; } = true;
         public CancellationTokenSource TokenSource { get; private set; } = new CancellationTokenSource();
-        public bool CompilationSuccess => Compilation?.EmitResult?.Success == true;
-        public FilePath OutputFile => Options.OutputFile;
-        public IEnumerable<Type> ExportedTypes => Assembly?.ExportedTypes ?? Enumerable.Empty<Type>();
         
-        public void Log(string s)
-            => Logger?.Log(s);
+        public void Log(string s) => Logger?.Log(s);
 
         public event EventHandler RecompileEvent;
         public event EventHandler DirectoryChange;
@@ -38,11 +29,12 @@ namespace Ara3D.Utils.Roslyn
         public DirectoryPath OutputFolder => Directory.RelativeFolder(BinaryFolderName);
         public FilePath BaseFilePath => OutputFolder.RelativeFile(BaseFileName);
         public readonly List<FilePath> LoadedAssemblies;
+        public CompilerOptions Options { get; private set; }
 
         public FilePath GenerateUniqueFileName()
             => BaseFilePath.ToUniqueTimeStampedFileName();
 
-        public DirectoryCompiler(ILogger logger, DirectoryPath inputDir, DirectoryPath libsDir, bool recursive = false, 
+        public DirectoryWatchingCompiler(ILogger logger, DirectoryPath inputDir, DirectoryPath libsDir, bool recursive = false, 
             CompilerOptions options = null)
         {
             LoadedAssemblies = RoslynUtils.LoadedAssemblyLocations().ToList();
@@ -65,6 +57,9 @@ namespace Ara3D.Utils.Roslyn
         public const string RefsFileName = "refs.txt";
         public const string IncludesFileName = "includes.txt";
 
+        public CompilerOptions GetOptionsWithNewName() 
+            => Options.WithNewOutputFilePath(GenerateUniqueFileName());
+
         public void Compile()
         {
             try
@@ -74,24 +69,23 @@ namespace Ara3D.Utils.Roslyn
                 TokenSource = new CancellationTokenSource();
                 var token = TokenSource.Token;
 
-                Compilation = null;
-                Refs.Clear();
-                Assembly = null;
+                Compiler = null;
 
                 Log($"Creating and clearing the output folder, if possible: {Directory}");
                 OutputFolder.TryToCreateAndClearDirectory();
 
                 Log($"Compilation task started of {Directory}");
                 var refsFile = Directory.RelativeFile(RefsFileName);
-                
+
+                var refs = new List<FilePath>();
                 if (refsFile.Exists())
                 {
-                    var refs = refsFile.ReadAllLines();
-                    
-                    var thisFolder = new FilePath(typeof(DirectoryCompiler).Assembly.Location).GetDirectory();
+                    var lines = refsFile.ReadAllLines();
 
-                    Log($"Found {refs.Length} references in '{RefsFileName}'");
-                    foreach (var line in refs)
+                    var thisFolder = new FilePath(typeof(DirectoryWatchingCompiler).Assembly.Location).GetDirectory();
+
+                    Log($"Found {refs.Count} references in '{RefsFileName}'");
+                    foreach (var line in lines)
                     {
                         if (line.IsNullOrWhiteSpace())
                             continue;
@@ -99,14 +93,14 @@ namespace Ara3D.Utils.Roslyn
                         var fp = LoadedAssemblies.FirstOrDefault(f => f.Value.EndsWith(line));
                         if (fp != null && fp.Exists())
                         {
-                            Refs.Add(fp);
+                            refs.Add(fp);
                             continue;
                         }
 
                         fp = new FilePath(line);
                         if (fp.Exists())
                         {
-                            Refs.Add(fp);
+                            refs.Add(fp);
                             Assembly.LoadFile(fp.GetFullPath());
                             continue;
                         }
@@ -114,7 +108,7 @@ namespace Ara3D.Utils.Roslyn
                         fp = thisFolder.RelativeFile(line);
                         if (fp.Exists())
                         {
-                            Refs.Add(fp);
+                            refs.Add(fp);
                             Assembly.LoadFile(fp.GetFullPath());
                             continue;
                         }
@@ -140,19 +134,19 @@ namespace Ara3D.Utils.Roslyn
                     Log($"Loading references from: {LibsDirectoryPath}");
                     foreach (var f in LibsDirectoryPath.GetAllFilesRecursively())
                     {
-                        Refs.Add(f);
+                        refs.Add(f);
                     }
                 }
 
                 // Add all locally loaded assemblies
-                Options = Options.WithNewReferences(Refs);
+                Options = Options.WithNewReferences(refs.Select(r => new FilePath(r)));
 
                 Log($"All references:");
                 foreach (var f in Options.MetadataReferences)
                     Log($"  Reference: {f.Display}");
 
-                Options = Options.WithNewOutputFilePath(GenerateUniqueFileName());
-                Log($"Generated new output file name = {OutputFile}");
+                Options = GetOptionsWithNewName();
+                Log($"Generated new output file name = {Options.OutputFile}");
 
                 var inputFiles = Watcher.GetFiles().ToList();
                 foreach (var f in inputFiles)
@@ -184,50 +178,15 @@ namespace Ara3D.Utils.Roslyn
                     Log($"No {IncludesFileName} file provided");
                 }
 
-                Log("Parsing input files");
-                var sourceFiles = inputFiles.ParseCSharp(Options, token);
-                
-                if (token.IsCancellationRequested)
+                try
                 {
-                    Log($"Compilation canceled");
-                    return;
+                    Log("Creating compiler");
+                    Compiler = new Compiler(inputFiles, refs, Options, Logger, token);
                 }
-
-                Log("Generating compiler input");
-                var input = sourceFiles.ToCompilerInput(Options);
-
-                Log("Compiling");
-                Compilation = input.CompileCSharpStandard(Compilation?.Compiler, token);
-                if (token.IsCancellationRequested)
+                catch (Exception ex)
                 {
-                    Log($"Canceled");
-                    return;
+                    Log($"Exception during compilation: {ex}");
                 }
-
-                Log($"Diagnostics:");
-                foreach (var x in Compilation.Diagnostics)
-                    Log($"  Diagnostic: {x}");
-
-                if (CompilationSuccess)
-                {
-                    Log("Compilation succeeded");
-                    Assembly = FunctionUtils.TryGetValue(() => Assembly.LoadFile(OutputFile));
-
-                    if (Assembly == null)
-                    {
-                        Log($"Failed to load assembly from {OutputFile}");
-                    }
-                    else
-                    {
-                        Log($"Loaded assembly from {OutputFile}");
-                    }
-                }
-                else
-                {
-                    Log("Compilation failed");
-                }
-
-                Log($"Completed compilation");
             }
             finally
             {

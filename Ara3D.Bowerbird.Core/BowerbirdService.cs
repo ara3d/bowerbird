@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Logging;
 using Ara3D.Services;
@@ -14,10 +15,11 @@ namespace Ara3D.Bowerbird.Core
         SingletonModelBackedService<BowerbirdDataModel>, 
         IBowerbirdService
     {
-        public DirectoryCompiler Compiler { get; }
+        public Compiler Compiler => WatchingCompiler?.Compiler;
+        public DirectoryWatchingCompiler WatchingCompiler { get; }
         public ILogger Logger { get; set; }
         public BowerbirdOptions Options { get; }
-        public Assembly Assembly => Compiler?.Assembly;
+        public Assembly Assembly => WatchingCompiler?.Compiler?.Assembly;
         public IBowerbirdHost Host { get; }
         public IReadOnlyList<IBowerbirdCommand> Commands { get; private set; }
 
@@ -28,8 +30,8 @@ namespace Ara3D.Bowerbird.Core
             Logger = logger ?? new Logger(LogWriter.DebugWriter, "Bowerbird");
             Options = options;
             CreateInitialFolders();
-            Compiler = new DirectoryCompiler(Logger, Options.ScriptsFolder, Options.LibrariesFolder);
-            Compiler.RecompileEvent += Compiler_RecompileEvent;
+            WatchingCompiler = new DirectoryWatchingCompiler(Logger, Options.ScriptsFolder, Options.LibrariesFolder);
+            WatchingCompiler.RecompileEvent += WatchingCompilerRecompileEvent;
             UpdateDataModel();
             Commands = new List<IBowerbirdCommand>();
         }
@@ -50,16 +52,16 @@ namespace Ara3D.Bowerbird.Core
 
         public void Compile()
         {
-            Compiler.Compile();
+            WatchingCompiler.Compile();
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            Compiler.Dispose();
+            WatchingCompiler.Dispose();
         }
 
-        private void Compiler_RecompileEvent(object sender, EventArgs e)
+        private void WatchingCompilerRecompileEvent(object sender, EventArgs e)
         {
             // TODO: get the plugins from the assembly if things ar successful
             UpdateDataModel();
@@ -73,8 +75,8 @@ namespace Ara3D.Bowerbird.Core
 
         public bool AutoRecompile
         {
-            get => Compiler.AutoRecompile;
-            set => Compiler.AutoRecompile = value;
+            get => WatchingCompiler.AutoRecompile;
+            set => WatchingCompiler.AutoRecompile = value;
         }
 
         public void UpdateDataModel()
@@ -84,10 +86,7 @@ namespace Ara3D.Bowerbird.Core
             foreach (var type in types)
             {
                 if (!typeof(IBowerbirdCommand).IsAssignableFrom(type))
-                {
-                    Logger.Log($"Not instantiating {type.Name} since it is not an IBowerbirdCommand");
                     continue;
-                }
 
                 try
                 {
@@ -116,7 +115,7 @@ namespace Ara3D.Bowerbird.Core
             Repository.Value = new BowerbirdDataModel()
             {
                 Dll = Assembly?.Location ?? "",
-                Directory = Compiler?.Directory,
+                Directory = WatchingCompiler?.Directory,
                 TypeNames = types.Select(t => t.FullName).OrderBy(t => t).ToArray(),
                 Files = Compiler?.Input?.SourceFiles?.Select(sf => sf.FilePath).OrderBy(x => x.Value).ToArray() ?? Array.Empty<FilePath>(),
                 Assemblies = Compiler?.Refs?.Select(fp => fp.Value).ToList(),
@@ -127,6 +126,51 @@ namespace Ara3D.Bowerbird.Core
                 Options =  Options,
                 Commands = cmds.Select(c => c.Name).ToList(),
             };
+        }
+
+        public IBowerbirdCommand CompileSingleCommand(FilePath file)
+        {
+            Logger?.Log($"Requested compilation of single command {file}");
+
+            if (Compiler == null || Compiler?.CompilationSuccess == false)
+            {
+                Logger?.Log("Failed: no successful previous compilation to start from.");
+                return null;
+            }
+
+            var options = WatchingCompiler.GetOptionsWithNewName();
+            var refs = Compiler.Refs;
+            var localCompiler = new Compiler(new[] { file }, refs, options, Logger,
+                CancellationToken.None);
+
+            if (!localCompiler.CompilationSuccess)
+            {
+                Logger?.Log("Failed: local compilation of command.");
+                return null;
+            }
+
+            var commandTypes = localCompiler.ExportedTypes.Where(t => t.ImplementsInterface(typeof(IBowerbirdCommand))).ToList();
+            if (commandTypes.Count == 0)
+            {
+                Logger?.Log("Failed: could not find exported type implementing IBowerbirdCommand");
+                return null;
+            }
+            
+            if (commandTypes.Count > 1)
+            {
+                Logger?.Log("Failed: ambiguous ... found multiple exported types implementing IBowerbirdCommand.");
+                return null;
+            }
+
+            var instance = Activator.CreateInstance(commandTypes[0]);
+
+            if (instance == null)
+            {
+                Logger?.Log($"Failed: could not create instance of of {commandTypes[0]}");
+                return null;
+            }
+
+            return instance as IBowerbirdCommand;
         }
     }
 }

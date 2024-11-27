@@ -13,6 +13,9 @@
     <Prefer32Bit>false</Prefer32Bit>
     <WarningLevel>0</WarningLevel>
     <AssemblyVersion>1.2.1</AssemblyVersion>
+      <EnvironmentVariables>
+            BOWERBIRD_AUTORUN_ONLOAD=C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\AutoRun.cs
+      </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>

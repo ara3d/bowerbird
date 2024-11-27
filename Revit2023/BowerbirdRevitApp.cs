@@ -8,16 +8,19 @@ using Ara3D.Bowerbird.Core;
 using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Bowerbird.WinForms.Net48;
 using Ara3D.Logging;
+using Ara3D.Services;
+using Ara3D.Utils;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
-using Plato.Geometry.Revit;
 using Bitmap = System.Drawing.Bitmap;
 
 namespace Ara3D.Bowerbird.Revit
 {
     public class BowerbirdRevitApp : IExternalApplication, IBowerbirdHost
     {
+        public const string BOWERBIRD_AUTORUN_ONLOAD_ENV_VAR = "BOWERBIRD_AUTORUN_ONLOAD";
+
         public static BowerbirdRevitApp Instance { get; private set; }
 
         public UIControlledApplication UicApp { get; private set; }
@@ -66,6 +69,17 @@ namespace Ara3D.Bowerbird.Revit
             Instance = this;
             CommandExecutor = new CommandExecutor();
             
+            application.ControlledApplication.DocumentOpened += App_DocumentOpened;
+
+            // Store a reference to the UIApplication
+            application.Idling += (sender, args) =>
+            {
+                if (UiApp == null)
+                {
+                    UiApp = sender as UIApplication;
+                }
+            };
+
             var rvtRibbonPanel = application.CreateRibbonPanel("Ara 3D");
             var pushButtonData = new PushButtonData("Bowerbird", "Bowerbird", 
                 Assembly.GetExecutingAssembly().Location,
@@ -81,31 +95,36 @@ namespace Ara3D.Bowerbird.Revit
             BowerbirdService = new BowerbirdService(this, ServiceApp, Logger.Debug, Options);
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
-            application.ControlledApplication.ApplicationInitialized += ControlledApplicationOnApplicationInitialized;
-
-            return Result.Succeeded;
-        }
-
-        void ControlledApplicationOnApplicationInitialized(object sender, ApplicationInitializedEventArgs e)
-        {
-            if (!(sender is Application app)) return;
-            var uiApp = new UIApplication(app);
-
             try
             {
                 BowerbirdService.Compile();
-                // Run the auto-run commands 
-                foreach (var cmd in BowerbirdService.Commands.Where(c => c.Name == "AutoRun"))
-                {
-                    cmd.Execute(uiApp);
-                }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Compilation and execution of auto-run failed: {ex}");
+                Debug.WriteLine($"Compilation failed: {ex}");
+            }
+            
+            return Result.Succeeded;
+        }
+
+        private void App_DocumentOpened(object sender, DocumentOpenedEventArgs e)
+        {
+            var autoRunScript = Environment.GetEnvironmentVariable(BOWERBIRD_AUTORUN_ONLOAD_ENV_VAR);
+
+            if (autoRunScript != null)
+            {
+                var fp = new FilePath(autoRunScript);
+                if (fp.Exists())
+                {
+                    var command = BowerbirdService.CompileSingleCommand(fp);
+
+                    if (UiApp == null)
+                        UiApp = new UIApplication(e.Document.Application);
+
+                    command.Execute(UiApp); 
+                }
             }
         }
-    
 
         public BowerbirdForm Window { get; private set; }
 

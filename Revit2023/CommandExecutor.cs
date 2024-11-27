@@ -1,6 +1,4 @@
-﻿using System;
-using Ara3D.Bowerbird.Interfaces;
-using Ara3D.Logging;
+﻿using Ara3D.Bowerbird.Interfaces;
 using Autodesk.Revit.UI;
 
 namespace Ara3D.Bowerbird.Revit
