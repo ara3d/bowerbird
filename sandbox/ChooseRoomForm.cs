@@ -8,11 +8,11 @@ namespace Ara3D.Bowerbird.RevitSamples
     public partial class ChooseRoomForm : Form
     {
         public BuildingLayout Layout { get; set; }
-        public Action<RoomLayout> RoomChangedCallback { get; set; }
-        public List<RoomLayout> CurrentRooms = new List<RoomLayout>();
+        public Action<RoomStruct> RoomChangedCallback { get; set; }
+        public List<RoomStruct> CurrentRooms = new List<RoomStruct>();
         private int _lastHighlightedIndex = -1;
 
-        public ChooseRoomForm(BuildingLayout layout, Action<RoomLayout> roomChangedCallback)
+        public ChooseRoomForm(BuildingLayout layout, Action<RoomStruct> roomChangedCallback)
         {
             InitializeComponent();
             comboBoxLevels.Items.AddRange(layout.Levels.Values.Cast<object>().ToArray());
@@ -41,7 +41,7 @@ namespace Ara3D.Bowerbird.RevitSamples
 
         private void listBoxRoomList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedRoom = listBoxRoomList.SelectedItem as RoomLayout;
+            var selectedRoom = listBoxRoomList.SelectedItem as RoomStruct;
             RoomChangedCallback(selectedRoom);
         }
 
@@ -60,7 +60,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             {
                 _lastHighlightedIndex = currentIndex;
 
-                var selectedRoom = listBoxRoomList.Items[currentIndex] as RoomLayout;
+                var selectedRoom = listBoxRoomList.Items[currentIndex] as RoomStruct;
                 RoomChangedCallback(selectedRoom);
             }
         }

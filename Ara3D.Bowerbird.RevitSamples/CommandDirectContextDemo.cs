@@ -14,7 +14,7 @@ using View = Autodesk.Revit.DB.View;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class DirectContextDemo : IBowerbirdCommand, IDirectContext3DServer
+    public class CommandDirectContextDemo : IBowerbirdCommand, IDirectContext3DServer
     {
         public string Name => "Direct Context Demo";
 

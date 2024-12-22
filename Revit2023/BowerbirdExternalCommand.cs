@@ -15,7 +15,7 @@ namespace Ara3D.Bowerbird.Revit
             {
                 if (BowerbirdRevitApp.Instance == null)
                     throw new Exception("Bowerbird application was never instantiated");
-
+                    
                 BowerbirdRevitApp.Instance.Run(commandData.Application);
                 return Result.Succeeded;
 			}

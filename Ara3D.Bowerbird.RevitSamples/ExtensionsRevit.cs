@@ -1,127 +1,25 @@
-﻿using Autodesk.Revit.DB.Architecture;
-using Autodesk.Revit.DB;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data;
-using System.Reflection;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
+using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.UI;
 using Plato.DoublePrecision;
 using Plato.Geometry.Graphics;
 using Plato.Geometry.Memory;
 using Plato.Geometry.Scenes;
 using Arc = Autodesk.Revit.DB.Arc;
-using Type = System.Type;
-using Autodesk.Revit.DB.ExternalService;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    // TODO: move this into Ara3D.Utils
-    public class DataTableBuilderOptions
+    public static class ExtensionsRevit
     {
-        public bool IncludeFields = true;
-        public bool IncludeProps = true;
-        public bool IncludeMethods = false;
-        public bool PublicOnly = true;
-        public bool DeclaredOnly = false;
-    }
+        public static IEnumerable<Element> GetElements(this Document doc)
+            => new FilteredElementCollector(doc)
+                .WhereElementIsNotElementType()
+                .ToElements();
 
-    public class DataTableBuilder
-    {
-        public readonly Type Type;
-        public readonly IReadOnlyList<MemberInfo> Members;
-        public readonly DataTableBuilderOptions Options;
-        public readonly DataTable DataTable;
-
-        public DataTableBuilder(Type type, DataTableBuilderOptions options = null)
-        {
-            Options = options ?? new DataTableBuilderOptions();
-            Type = type;
-            DataTable = new DataTable(Type.Name);
-
-            var bindingFlags = BindingFlags.Public | BindingFlags.Instance;
-            if (!Options.PublicOnly)
-                bindingFlags |= BindingFlags.NonPublic;
-            if (Options.DeclaredOnly)
-                bindingFlags |= BindingFlags.DeclaredOnly;
-
-            var properties = Options.IncludeProps ? Type.GetProperties(bindingFlags).Where(DataTableExtensions.CanGetValue).ToArray() : Array.Empty<PropertyInfo>();
-            foreach (var property in properties)
-                DataTable.Columns.Add(property.Name, property.GetValueType());
-
-            var fields = Options.IncludeFields ? Type.GetFields(bindingFlags).ToArray() : Array.Empty<FieldInfo>();
-            foreach (var field in fields)
-                DataTable.Columns.Add(field.Name, field.GetValueType());
-
-            var methods = Options.IncludeMethods ? Type.GetMethods(bindingFlags).Where(DataTableExtensions.CanGetValue).ToArray() : Array.Empty<MethodInfo>();
-            foreach (var method in methods)
-                DataTable.Columns.Add(method.Name, method.GetValueType());
-
-            Members = properties.Cast<MemberInfo>().Concat(fields).Concat(methods).ToArray();
-        }
-
-        public DataTableBuilder AddRows(IEnumerable items)
-        {
-            foreach (var item in items)
-            {
-                var row = DataTable.NewRow();
-                foreach (var member in Members)
-                {
-                    try
-                    {
-                        row[member.Name] = member.GetValue(item) ?? DBNull.Value;
-                    }
-                    catch (Exception e)
-                    {
-                        row.SetColumnError(member.Name, $"{member.Name}: {e.Message}");
-                    }
-                }
-                DataTable.Rows.Add(row);
-            }
-            return this;
-        }
-    }
-
-    public static class DataTableExtensions
-    {
-        public static Type GetUnderlyingType(this Type type)
-            => Nullable.GetUnderlyingType(type) ?? type;
-
-        public static Type GetValueType(this MemberInfo mi)
-        {
-            if (mi is FieldInfo f) return f.FieldType.GetUnderlyingType();
-            if (mi is PropertyInfo p) return p.PropertyType.GetUnderlyingType();
-            if (mi is MethodInfo m) return m.ReturnType.GetUnderlyingType();
-            throw new Exception("Not invokable member");
-        }
-
-        public static object GetValue(this MemberInfo mi, object obj)
-        {
-            if (mi is FieldInfo f) return f.GetValue(obj);
-            if (mi is PropertyInfo p) return p.GetValue(obj);
-            if (mi is MethodInfo m) return m.Invoke(obj, Array.Empty<object>());
-            throw new Exception("Not invokable member");
-        }
-
-        public static bool CanGetValue(this MemberInfo mi)
-            => mi is FieldInfo 
-               || (mi is PropertyInfo pi && pi.CanRead && pi.GetIndexParameters().Length == 0) 
-               || (mi is MethodInfo method && method.GetParameters().Length == 0);
-
-        public static DataTableBuilder BuildDataTable(this Type self, DataTableBuilderOptions options = null)
-            => new DataTableBuilder(self, options);
-
-        public static DataTable ToDataTable<T>(this IEnumerable<T> self, DataTableBuilderOptions options = null)
-            => BuildDataTable(typeof(T), options).AddRows(self).DataTable;
-    }
-
-    public class RoomData
-    { }
-
-    // TODO: consider maybe making an Ara3D.Utils.Revit for these functions and more. 
-    public static class RoomDataExtensions
-    {
         public static IEnumerable<Phase> GetPhases(this Document doc)
             => doc.CollectElements()
                 .OfClass(typeof(Phase))
@@ -535,7 +433,85 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             // Remove the new server from the list of active servers.
             msDirectContext3DService.SetActiveServers(serverIds);
-            
         }
+
+        public static IReadOnlyList<int> GetIndexData(this TriangulatedShellComponent self)
+        {
+            var r = new List<int>();
+            for (var i = 0; i < self.TriangleCount; i++)
+            {
+                var tri = self.GetTriangle(i);
+                r.Add(tri.VertexIndex0);
+                r.Add(tri.VertexIndex1);
+                r.Add(tri.VertexIndex2);
+            }
+            return r;
+        }
+
+        public static IReadOnlyList<double> GetVertexData(this TriangulatedShellComponent self)
+        {
+            var r = new List<double>();
+            for (var i = 0; i < self.VertexCount; i++)
+            {
+                var v = self.GetVertex(i);
+                r.Add(v.X);
+                r.Add(v.Y);
+                r.Add(v.Z);
+            }
+            return r;
+        }
+
+        public static Ara3D.Utils.FilePath WriteToFileAsObj(this TriangulatedShellComponent self, Ara3D.Utils.FilePath filePath)
+            => filePath.WriteObjFile(GetVertexData(self), GetIndexData(self));
+
+        public static IReadOnlyList<TriangulatedShellComponent> TriangulatedComponents(
+            this TriangulatedSolidOrShell solid)
+            => Enumerable.Range(0, solid.ShellComponentCount).Select(solid.GetShellComponent).ToList();
+
+        public static TriangulatedSolidOrShell Tessellate(this Solid solid)
+        {
+            var controls = new SolidOrShellTessellationControls();
+
+            // https://www.revitapidocs.com/2020.1/720f75c5-8a11-bfc6-d698-a200ffc28be9.htm
+            /*
+            controls.MinAngleInTriangle = 0.01; // Max value is (Math.PI * 3)
+            controls.MinExternalAngleBetweenTriangles = 0.2; // 
+            controls.LevelOfDetail = 0.5; // 0 to 1 
+            controls.Accuracy = 0.1;
+            */
+
+            /*
+            // https://github.com/Autodesk/revit-ifc/blob/master/Source/Revit.IFC.Export/Utility/ExporterUtil.cs
+            controls.Accuracy = 0.6;
+            controls.LevelOfDetail = 0.1;
+            controls.MinAngleInTriangle = 0.13;
+                controls.MinExternalAngleBetweenTriangles = 1.2;
+            */
+
+            // https://github.com/Autodesk/revit-ifc/blob/master/Source/Revit.IFC.Export/Utility/ExporterUtil.cs
+            controls.Accuracy = 0.5;
+            controls.LevelOfDetail = 0.4;
+            controls.MinAngleInTriangle = 0.13;
+            controls.MinExternalAngleBetweenTriangles = 0.55;
+
+            return SolidUtils.TessellateSolidOrShell(solid, controls);
+        }
+
+        public static IEnumerable<T> GetElements<T>(this Document doc)
+            where T : Element
+                => new FilteredElementCollector(doc).OfClass(typeof(T)).Cast<T>();
+
+        public static IEnumerable<View3D> GetNonTemplateView3Ds(this Document doc)
+            => doc.GetElements<View3D>().Where(v => !v.IsTemplate);
+
+        public static View3D GetDefault3DView(this Document doc)
+        {
+            var views = doc.GetNonTemplateView3Ds().ToList();
+            return views.FirstOrDefault(v => v.Name == "{3D}")
+                   ?? views.FirstOrDefault();
+        }
+
+        public static Utils.FilePath CurrentFileName(this Document doc)
+            => doc.PathName;
     }
 }

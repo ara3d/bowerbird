@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 using Ara3D.Bowerbird.Core;
 using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Bowerbird.WinForms.Net48;
 using Ara3D.Logging;
-using Ara3D.Services;
 using Ara3D.Utils;
-using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
 using Bitmap = System.Drawing.Bitmap;
@@ -22,6 +19,7 @@ namespace Ara3D.Bowerbird.Revit
         public const string BOWERBIRD_AUTORUN_ONLOAD_ENV_VAR = "BOWERBIRD_AUTORUN_ONLOAD";
 
         public static BowerbirdRevitApp Instance { get; private set; }
+        public RevitContext RevitContext { get; private set; }
 
         public UIControlledApplication UicApp { get; private set; }
         public UIApplication UiApp { get; private set; }
@@ -55,7 +53,7 @@ namespace Ara3D.Bowerbird.Revit
         public static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             // TODO: upgrade this code for different Revit versions. 
-            if (args.Name.Contains("Bowerbird.Revit2023") && !args.Name.Contains("resources"))
+            if (args.Name.Contains("Bowerbird.Revit") && !args.Name.Contains("resources"))
             {
                 // NOTE: this is horrible, but we have to do it. The assembly can't be found otherwise?! 
                 return typeof(BowerbirdRevitApp).Assembly;  
@@ -67,8 +65,11 @@ namespace Ara3D.Bowerbird.Revit
         {
             UicApp = application;
             Instance = this;
-            CommandExecutor = new CommandExecutor();
-            
+
+            var logger = new Logger(LogWriter.DebugWriter, "Bowerbird");
+            CommandExecutor = new CommandExecutor(logger);
+            RevitContext = new RevitContext(logger);
+
             application.ControlledApplication.DocumentOpened += App_DocumentOpened;
 
             // Store a reference to the UIApplication
@@ -92,7 +93,8 @@ namespace Ara3D.Bowerbird.Revit
 
             ServiceApp = new Services.Application();
             Options = BowerbirdOptions.CreateFromName("Bowerbird for Revit 2023");
-            BowerbirdService = new BowerbirdService(this, ServiceApp, Logger.Debug, Options);
+            
+            BowerbirdService = new BowerbirdService(this, ServiceApp, logger, Options);
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             try
@@ -126,7 +128,7 @@ namespace Ara3D.Bowerbird.Revit
             }
         }
 
-        public BowerbirdForm Window { get; private set; }
+            public BowerbirdForm Window { get; private set; }
 
         public BowerbirdForm GetOrCreateWindow(IBowerbirdService service)
         {
@@ -157,6 +159,11 @@ namespace Ara3D.Bowerbird.Revit
                 UiApp = application;
             }
             GetOrCreateWindow(BowerbirdService);
+        }
+
+        public void Schedule(Action<UIApplication> action, string name = "")
+        {
+            RevitContext.Schedule(action, name);
         }
     }
 }

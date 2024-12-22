@@ -49,25 +49,35 @@ namespace Ara3D.Bowerbird.WinForms.Net48
         
         public void DataModelChanged(IModel<BowerbirdDataModel> model)
         {
-            textBoxOutputDll.Text = model.Value.Dll;
-            textBoxLibraryDir.Text = model.Value.Options.LibrariesFolder ?? "";
-            textBoxSourceFiles.Text = model.Value.Options.ScriptsFolder ?? "";
-            checkBoxAutoRecompile.Checked = BowerbirdService.AutoRecompile;
+            // Data model updates can happen on a separate thread, because the 
+            
+            var action = new Action(() =>
+            {
+                textBoxOutputDll.Text = model.Value.Dll;
+                textBoxLibraryDir.Text = model.Value.Options.LibrariesFolder ?? "";
+                textBoxSourceFiles.Text = model.Value.Options.ScriptsFolder ?? "";
+                checkBoxAutoRecompile.Checked = BowerbirdService.AutoRecompile;
 
-            checkBoxEmit.Checked = model.Value.EmitSuccess;
-            checkBoxEmit.Text = "Emit " + (model.Value.EmitSuccess ? "Successful" : "Failed");
+                checkBoxEmit.Checked = model.Value.EmitSuccess;
+                checkBoxEmit.Text = "Emit " + (model.Value.EmitSuccess ? "Successful" : "Failed");
 
-            checkBoxParse.Checked = model.Value.ParseSuccess;
-            checkBoxParse.Text = "Parse " + (model.Value.ParseSuccess ? "Successful" : "Failed");
+                checkBoxParse.Checked = model.Value.ParseSuccess;
+                checkBoxParse.Text = "Parse " + (model.Value.ParseSuccess ? "Successful" : "Failed");
 
-            checkBoxLoad.Checked = model.Value.LoadSuccess;
-            checkBoxLoad.Text = "Load " + (model.Value.LoadSuccess ? "Successful" : "Failed");
+                checkBoxLoad.Checked = model.Value.LoadSuccess;
+                checkBoxLoad.Text = "Load " + (model.Value.LoadSuccess ? "Successful" : "Failed");
 
-            UpdateListBox(listBoxFiles, model.Value.Files);
-            UpdateListBox(listBoxAssemblies, model.Value.Assemblies);
-            UpdateListBox(listBoxTypes, model.Value.TypeNames);
-            UpdateListBox(listBoxErrors, model.Value.Diagnostics);
-            UpdateListBox(listBoxCommands, model.Value.Commands);
+                UpdateListBox(listBoxFiles, model.Value.Files);
+                UpdateListBox(listBoxAssemblies, model.Value.Assemblies);
+                UpdateListBox(listBoxTypes, model.Value.TypeNames);
+                UpdateListBox(listBoxErrors, model.Value.Diagnostics);
+                UpdateListBox(listBoxCommands, model.Value.Commands);
+            });
+
+            if (this.InvokeRequired)
+                this.Invoke(action);
+            else
+                action();
         }
 
         private void CheckBoxAutoRecompileOnCheckedChanged(object sender, EventArgs e)

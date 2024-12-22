@@ -42,8 +42,29 @@ namespace Ara3D.Utils.Roslyn
             Log("Creating directory compiler");
             Options = options ?? CompilerOptions.CreateDefault();
             if (!inputDir.Exists())
-                throw new Exception($"Directory {inputDir} does not exist");
+                throw new System.Exception($"Directory {inputDir} does not exist");
             LibsDirectoryPath = libsDir;
+
+            var dirFile = inputDir.RelativeFile("dir.txt");
+            Log($"Looking for redirection file {dirFile}");
+            if (dirFile.Exists())
+            {
+                var redirPath = new DirectoryPath(dirFile.ReadAllText().Trim());
+
+                try
+                {
+                    if (redirPath.Exists())
+                    {
+                        Log($"Redirecting to {redirPath}");
+                        inputDir = new DirectoryPath(redirPath);
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    Logger.Log($"Error {e} occured when loading redirect file");
+                }
+            }
+
             Watcher = new DirectoryWatcher(inputDir, "*.cs", recursive, OnChange);
         }
 
@@ -55,7 +76,6 @@ namespace Ara3D.Utils.Roslyn
         }
 
         public const string RefsFileName = "refs.txt";
-        public const string IncludesFileName = "includes.txt";
 
         public CompilerOptions GetOptionsWithNewName() 
             => Options.WithNewOutputFilePath(GenerateUniqueFileName());
@@ -77,6 +97,7 @@ namespace Ara3D.Utils.Roslyn
                 Log($"Compilation task started of {Directory}");
                 var refsFile = Directory.RelativeFile(RefsFileName);
 
+                Log($"Loading references from {refsFile}, exists is {refsFile.Exists()}");
                 var refs = new List<FilePath>();
                 if (refsFile.Exists())
                 {
@@ -151,32 +172,6 @@ namespace Ara3D.Utils.Roslyn
                 var inputFiles = Watcher.GetFiles().ToList();
                 foreach (var f in inputFiles)
                     Log($"  Input file {f} found in directory");
-
-                var includesFile = Directory.RelativeFile(IncludesFileName);
-                if (includesFile.Exists())
-                {
-                    Log($"Loading additional input files from {IncludesFileName}");
-                    foreach (var line in includesFile.ReadAllLines())
-                    {
-                        if (!line.IsNullOrWhiteSpace())
-                        {
-                            var fp = new FilePath(line);
-                            if (!fp.Exists())
-                            {
-                                Log($"  Error: included file not found - {line}");
-                            }
-                            else
-                            {
-                                inputFiles.Add(line);
-                                Log($"   Included file found {line}");
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    Log($"No {IncludesFileName} file provided");
-                }
 
                 try
                 {

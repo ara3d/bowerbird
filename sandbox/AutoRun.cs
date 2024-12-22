@@ -24,16 +24,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             Process.GetCurrentProcess().Kill();
         }
 
-        public static View3D GetDefault3DView(UIDocument uiDoc)
-        {
-            var collector = new FilteredElementCollector(uiDoc.Document)
-                .OfClass(typeof(View3D))
-                .Cast<View3D>()
-                .Where(v => !v.IsTemplate)
-                .ToList();
-            return collector.FirstOrDefault(v => v.Name == "{3D}")
-                ?? collector.FirstOrDefault();
-        }
+       
 
         public static void ExportCurrentViewToPng(Document doc, Utils.FilePath filePath)
         {

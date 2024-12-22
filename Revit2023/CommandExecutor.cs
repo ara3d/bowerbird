@@ -1,4 +1,5 @@
 ﻿using Ara3D.Bowerbird.Interfaces;
+using Ara3D.Logging;
 using Autodesk.Revit.UI;
 
 namespace Ara3D.Bowerbird.Revit
@@ -7,9 +8,11 @@ namespace Ara3D.Bowerbird.Revit
     {
         private IBowerbirdCommand _command;
         private readonly ExternalEvent _event;
+        public ILogger Logger { get; }
 
-        public CommandExecutor()
+        public CommandExecutor(ILogger logger)
         {
+            Logger = logger;
             _event = ExternalEvent.Create(this);
         }
 
@@ -30,6 +33,10 @@ namespace Ara3D.Bowerbird.Revit
             try
             {
                 _command?.Execute(app);
+            }
+            catch (System.Exception ex)
+            {
+                Logger.Log($"{ex}");
             }
             finally
             {

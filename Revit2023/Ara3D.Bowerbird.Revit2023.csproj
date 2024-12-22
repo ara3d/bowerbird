@@ -13,7 +13,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <WarningLevel>0</WarningLevel>
     <AssemblyVersion>1.2.1</AssemblyVersion>
-      <EnvironmentVariables>
+    <EnvironmentVariables>
             BOWERBIRD_AUTORUN_ONLOAD=C:\Users\cdigg\git\ara3d\bowerbird\Ara3D.Bowerbird.RevitSamples\AutoRun.cs
       </EnvironmentVariables>
   </PropertyGroup>
@@ -89,6 +89,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RevitContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -218,7 +219,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="includes.txt" />
+    <Content Include="dir.txt" />
     <Content Include="refs.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -236,6 +237,6 @@ if not exist "%25BowerbirdDir%25" mkdir "%25BowerbirdDir%25"
 xcopy "$(OutDir)" "%25BowerbirdDir%25" /i /c /k /e /r /y
 xcopy ..\Ara3D.Bowerbird.WinForms.Net48\Samples\SampleCommands.cs "%25ScriptsDir%25" /y
 xcopy refs.txt "%25ScriptsDir%25" /y
-xcopy includes.txt "%25ScriptsDir%25" /y</PostBuildEvent>
+xcopy dir.txt "%25ScriptsDir%25" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

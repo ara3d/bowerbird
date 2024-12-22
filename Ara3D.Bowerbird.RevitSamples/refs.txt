@@ -18,7 +18,7 @@ RevitAPIUI.dll
 RevitAPIFoundation.dll
 Ara3D.Bowerbird.Core.dll
 Ara3D.Bowerbird.Interfaces.dll
-Ara3D.Bowerbird,Revit2023.dll
+Ara3D.Bowerbird.Revit2023.dll
 Ara3D.Bowerbird.WinForms.Net48.dll
 Ara3D.Buffers.dll
 Ara3D.Collections.dll

@@ -7,7 +7,7 @@ using Autodesk.Revit.DB;
 
 namespace RevitExporter
 {
-    class MyExportContext : IExportContext
+    class ColladaExportContext : IExportContext
     {
         private readonly Document exportedDocument = null;
 
@@ -32,8 +32,9 @@ namespace RevitExporter
 
         readonly Dictionary<uint, ElementId> polymeshToMaterialId = new Dictionary<uint, ElementId>();
 
-        public MyExportContext(Document document)
+        public ColladaExportContext(Document document, StreamWriter writer)
         {
+            streamWriter = writer;
             exportedDocument = document;
             transformationStack.Push(Transform.Identity);
         }
@@ -43,13 +44,8 @@ namespace RevitExporter
             CurrentPolymeshIndex = 0;
             polymeshToMaterialId.Clear();
 
-            //var tmp = PathUtil.CreateTempFile("bowerbird", ".dae");
-            var tmp = PathUtil.CreateTempFile();
-            streamWriter = new StreamWriter(tmp);
-
             WriteXmlColladaBegin();
             WriteXmlAsset();
-
             WriteXmlLibraryGeometriesBegin();
 
             return true;
