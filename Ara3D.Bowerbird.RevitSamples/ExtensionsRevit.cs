@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ara3D.Utils;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.UI;
-using Plato.DoublePrecision;
+using Plato.SinglePrecision;
 using Plato.Geometry.Graphics;
 using Plato.Geometry.Memory;
 using Plato.Geometry.Scenes;
@@ -72,6 +73,46 @@ namespace Ara3D.Bowerbird.RevitSamples
 
         public static IEnumerable<FamilyInstance> GetWalls(this Document doc)
             => doc.GetFamilyInstances(BuiltInCategory.OST_Walls);
+
+        public static IEnumerable<ViewSchedule> GetSchedules(this Document doc)
+            => doc.GetElements<ViewSchedule>();
+
+        public static List<Dictionary<string, string>> GetScheduleData(this ViewSchedule schedule)
+        {
+            var scheduleData = new List<Dictionary<string, string>>();
+
+            // Access the table data
+            var tableData = schedule.GetTableData();
+            var bodySection = tableData.GetSectionData(SectionType.Body);
+
+            var def = schedule.Definition;
+            var numCols = bodySection.NumberOfColumns;
+            var headers = Enumerable
+                .Range(0, def.GetFieldCount())
+                .Select(i => def.GetField(i))
+                .Where(f => !f.IsHidden)
+                .Select(f => f.ColumnHeading)
+                .ToList();
+            var numRows = bodySection.NumberOfRows;
+            for (var row = 0; row < numRows; row++)
+            {
+                var rowData = new Dictionary<string, string>();
+                for (var col = 0; col < numCols; col++)
+                {
+                    var cellValue = schedule.GetCellText(SectionType.Body, row, col);
+                    if (cellValue.IsNullOrEmpty())
+                    {
+                        // Retrieve numeric data
+                        cellValue = bodySection?.GetCellCalculatedValue(row, col)?.ToString() ?? "";
+                    }
+                    var columnName = headers[col];
+                    rowData[columnName] = cellValue;
+                }
+                scheduleData.Add(rowData);
+            }
+
+            return scheduleData;
+        }
 
         public static int CountFamilyInstance(this Room room, BuiltInCategory cat)
             => room.Document.GetFamilyInstances(cat).Count();

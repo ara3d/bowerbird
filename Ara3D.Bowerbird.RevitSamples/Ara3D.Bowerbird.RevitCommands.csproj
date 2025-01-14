@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>    
-    <IsPackable>false</IsPackable>
+    <IsPackable>false</IsPackable>    
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

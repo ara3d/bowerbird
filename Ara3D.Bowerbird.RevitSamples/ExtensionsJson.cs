@@ -5,12 +5,26 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Ara3D.Utils;
 using Parameter = Autodesk.Revit.DB.Parameter;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
     public static class ExtensionsJson
     {
+        public static void WriteSchedulesAsJson(this Document doc, DirectoryPath outputDir)
+        {
+            var baseName = Path.GetFileNameWithoutExtension(doc.PathName);
+            foreach (var schedule in doc.GetSchedules())
+            {
+                var fileName = $"{baseName}-{schedule.Name}.json".ToValidFileName();
+                schedule.WriteAsJson(outputDir.RelativeFile(fileName));
+            }
+        }
+
+        public static Utils.FilePath WriteAsJson(this ViewSchedule schedule, Utils.FilePath outputFile)
+            => outputFile.WriteJson(schedule.GetScheduleData());
+
         public static void SerializeAllElementsAsJson(this Document doc, string filePath)
         {
             using (var stream = new FileStream(filePath, FileMode.Create))
@@ -76,6 +90,9 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             return r;
         }
+
+        public static Utils.FilePath WriteJson<T>(this Utils.FilePath path, T data)
+            => path.WriteAllText(JsonConvert.SerializeObject(data, Formatting.Indented));
 
         public static JArray ToJson(this IEnumerable<Element> elements)
             => new JArray(elements.Select(ToJson));

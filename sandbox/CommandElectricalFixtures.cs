@@ -12,7 +12,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         {
             var doc = (arg as UIApplication)?.ActiveUIDocument?.Document;
             var sockets = doc.GetSockets();
-            var text = string.Join("\r\n", sockets.Select(s => ExtensionsRevit.GetRoomId(s).ToString()));
+            var text = string.Join("\r\n", sockets.Select(s => s.GetRoomId().ToString()));
             TextDisplayForm.DisplayText(text);
         }
     }

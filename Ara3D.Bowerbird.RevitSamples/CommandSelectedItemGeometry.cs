@@ -24,6 +24,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             if (Form == null)
             {
                 Form = new TextDisplayForm("");
+                Form.TopMost = true;
                 Form.FormClosing += (sender, args) =>
                 {
                     args.Cancel = true;
@@ -37,7 +38,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                 var uidoc = (arg as UIApplication)?.ActiveUIDocument; 
                 var doc = uidoc.Document;
                 var sel = uidoc.Selection;
-                if (sel == null)
+                if (sel == null) 
                 {
                     Log($"No selection");
                     return;

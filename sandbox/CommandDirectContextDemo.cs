@@ -25,10 +25,10 @@ namespace Ara3D.Bowerbird.RevitSamples
         {
             var app = (UIApplication)argument;
 
-            //Set bounding box
+            //Set bounding box: TEMP, thi
             m_boundingBox = new Outline(new XYZ(0, 0, 0), new XYZ(10, 10, 10));
 
-            LoadPlyFile();
+            Mesh = Extensions2.UpArrow(10, 1, 2, 12, 0.75).ToTriangleMesh().ToRenderMesh();
             if (Mesh == null)
                 return;
 
@@ -72,27 +72,6 @@ namespace Ara3D.Bowerbird.RevitSamples
             if (FaceBufferStorage == null)
                 FaceBufferStorage = new BufferStorage(Mesh);
             FaceBufferStorage.Render();
-        }
-
-        public OpenFileDialog PlyOpenFileDialog;
-
-        public void LoadPlyFile()
-        {
-            if (PlyOpenFileDialog == null)
-            {
-                PlyOpenFileDialog = new OpenFileDialog()
-                {
-                    InitialDirectory = "C:\\Users\\cdigg\\git\\3d-format-shootout\\data\\big\\ply",
-                    DefaultExt = ".ply",
-                    Filter = "PLY Files (*.ply)|*.ply|All Files (*.*)|*.*",
-                    Title = "Open PLY File"
-                };
-            }
-            if (PlyOpenFileDialog.ShowDialog() != DialogResult.OK)
-                return;
-            var plyFile = PlyOpenFileDialog.FileName;
-            var mesh = PlyImporter.LoadMesh(plyFile);
-            Mesh = mesh.ToRenderMesh(Colors.BlueViolet);
         }
     }
 }

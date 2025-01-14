@@ -34,8 +34,9 @@ namespace Ara3D.Bowerbird.Revit.Samples
                 exporter.IncludeGeometricObjects = true;
                 exporter.ShouldStopOnError = false;
                 exporter.Export(view3D);
-                textWriter.Flush();
             }
+
+            outputFilePath.SelectFileInExplorer();
         }
     }
 }
