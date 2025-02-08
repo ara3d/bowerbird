@@ -23,7 +23,7 @@ namespace Ara3D.Bowerbird.Core
         public IBowerbirdHost Host { get; }
         public IReadOnlyList<IBowerbirdCommand> Commands { get; private set; }
 
-        public BowerbirdService(IBowerbirdHost host, IApplication app, ILogger logger, BowerbirdOptions options)
+        public BowerbirdService(IBowerbirdHost host, IServiceManager app, ILogger logger, BowerbirdOptions options)
             : base(app)
         {
             Host = host;
