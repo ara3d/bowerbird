@@ -21,7 +21,7 @@ namespace Ara3D.Bowerbird.Core
         public BowerbirdOptions Options { get; }
         public Assembly Assembly => WatchingCompiler?.Compiler?.Assembly;
         public IBowerbirdHost Host { get; }
-        public IReadOnlyList<IBowerbirdCommand> Commands { get; private set; }
+        public new IReadOnlyList<IBowerbirdCommand> Commands { get; private set; }
 
         public BowerbirdService(IBowerbirdHost host, IServiceManager app, ILogger logger, BowerbirdOptions options)
             : base(app)

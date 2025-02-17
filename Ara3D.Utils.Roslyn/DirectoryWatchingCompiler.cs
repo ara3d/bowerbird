@@ -98,7 +98,10 @@ namespace Ara3D.Utils.Roslyn
                 var refsFile = Directory.RelativeFile(RefsFileName);
 
                 Log($"Loading references from {refsFile}, exists is {refsFile.Exists()}");
-                var refs = new List<FilePath>();
+                
+                // Set up the refs with the default references
+                var refs = new List<FilePath>(Options.FileReferences);
+
                 if (refsFile.Exists())
                 {
                     var lines = refsFile.ReadAllLines();
