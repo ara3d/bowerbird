@@ -13,7 +13,7 @@ namespace Ara3D.Bowerbird.WinForms.Net48
 {
     public partial class BowerbirdForm : Form
     {
-        public IApplication App { get; } 
+        public IServiceManager App { get; } 
         public IBowerbirdService BowerbirdService { get; }
         public ILogger Logger { get; }
            
