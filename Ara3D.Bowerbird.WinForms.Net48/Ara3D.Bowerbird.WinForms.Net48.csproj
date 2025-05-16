@@ -82,22 +82,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\domo\Ara3D.Domo\Ara3D.Domo.csproj">
-      <Project>{8BFD0CE5-7A21-401F-BACD-6062BBD4F2AE}</Project>
-      <Name>Ara3D.Domo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Ara3D.Logging\Ara3D.Logging.csproj">
-      <Project>{0C314213-C685-48B9-B2AD-7F80DC015086}</Project>
-      <Name>Ara3D.Logging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Ara3D.Services\Ara3D.Services.csproj">
-      <Project>{54EDAD8E-0960-462B-A4F1-4E82C9F8275F}</Project>
-      <Name>Ara3D.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Utils\Ara3D.Utils\Ara3D.Utils.csproj">
-      <Project>{6B8EA878-A82D-43AF-BFEF-0E5106117F55}</Project>
-      <Name>Ara3D.Utils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ara3D.Bowerbird.Core\Ara3D.Bowerbird.Core.csproj">
       <Project>{C71DC6B8-AFC4-441D-AE7A-9B7EABF94630}</Project>
       <Name>Ara3D.Bowerbird.Core</Name>
