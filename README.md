@@ -1,3 +1,12 @@
+🗃️ **This repository is archived** .
+
+All future development has moved to: **[Ara3D-SDK](https://github.com/ara3d/ara3d-sdk)**.
+
+This repo remains available for historical reference, but it is no longer maintained or updated.
+Please use the new repository for the latest code, improvements, and issue tracking.
+
+---
+
 # <img width="64" src="https://github.com/ara3d/bowerbird/assets/1759994/badd9bb6-61cd-409f-9088-19a9db3f519d"/> Bowerbird
 
 Bowerbird accelerates C# tool and plug-in development by dynamically compiling C# source files.  
