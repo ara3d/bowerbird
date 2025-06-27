@@ -6,7 +6,7 @@
     <Text>Create C# tools dynamically</Text>
     <Description>Create C# tools dynamically</Description>
     <VisibilityMode>NotVisibleInFamily</VisibilityMode>
-    <Assembly>Ara3D.Bowerbird\Ara3D.Bowerbird.Revit2023.dll</Assembly>
+    <Assembly>Ara3D.Bowerbird\Ara3D.Revit2025.Bowerbird.dll</Assembly>
     <AddInId>8F4295CE-00A0-4E39-A64E-412DD8F2814B</AddInId>
     <VendorId>com.ara3d</VendorId>
     <VendorDescription>Ara3D.com</VendorDescription>

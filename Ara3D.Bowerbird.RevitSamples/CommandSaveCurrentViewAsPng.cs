@@ -1,5 +1,4 @@
-﻿using Ara3D.Bowerbird.Interfaces;
-using Ara3D.Utils;
+﻿using Ara3D.Utils;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using FilePath = Ara3D.Utils.FilePath;
@@ -10,17 +9,17 @@ namespace Ara3D.Bowerbird.RevitSamples
     /// Save the current view as a PNG in the temp folder, and then opens
     /// it using the default registered application. 
     /// </summary>
-    public class CommandSaveCurrentViewAsPng : IBowerbirdCommand
+    public class CommandSaveCurrentViewAsPng : NamedCommand
     {
-        public string Name => "Save to PNG";
+        public override string Name => "Save to PNG";
 
-        public void Execute(object arg)
+        public override void Execute(object arg)
         {
             var doc = (arg as UIApplication)?.ActiveUIDocument?.Document;
             if (doc == null) return;
             var output = PathUtil.CreateTempFile().ChangeExtension("png");
             ExportCurrentViewToPng(doc, output);
-            output.OpenDefaultProcess();
+            output.ShellExecute();
         }
 
         public static FilePath ExportCurrentViewToPng(Document doc, FilePath filePath)

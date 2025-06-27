@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ara3D.Bowerbird.Revit {
+namespace Ara3D.Bowerbird.Revit2025 {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace Ara3D.Bowerbird.Revit {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class Resource1 {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Resource1() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ara3D.Bowerbird.Revit.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ara3D.Bowerbird.Revit2025.Resource1", typeof(Resource1).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,49 +51,12 @@ namespace Ara3D.Bowerbird.Revit {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Bowerbird_32x32 {
-            get {
-                object obj = ResourceManager.GetObject("Bowerbird_32x32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Collections.Generic;
-        ///using System.Linq;
-        ///using System.Text;
-        ///using System.Threading.Tasks;
-        ///using System.Windows.Forms;
-        ///using Ara3D.Bowerbird.Interfaces;
-        ///using Autodesk.Revit.UI;
-        ///
-        ///namespace Ara3D.Bowerbird.Revit.Samples
-        ///{
-        ///    public class CurrentDocument : IBowerbirdCommand
-        ///    {
-        ///        public string Name =&gt; &quot;Current Open Document&quot;;
-        ///
-        ///        public void Execute(object arg)
-        ///        {
-        ///            var app = (UIApplication)arg;
-        ///            var doc = app.ActiveUIDocumen [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string SampleRevitCommands {
-            get {
-                return ResourceManager.GetString("SampleRevitCommands", resourceCulture);
             }
         }
     }

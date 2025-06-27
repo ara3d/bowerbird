@@ -1,4 +1,4 @@
-﻿namespace Ara3D.Bowerbird.WinForms.Net48
+﻿namespace Ara3D.Bowerbird.Demo
 {
     partial class BowerbirdForm
     {

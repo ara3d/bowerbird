@@ -1,13 +1,12 @@
-﻿using Ara3D.Bowerbird.Interfaces;
-using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.UI;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class CommandExportSchedules : IBowerbirdCommand
+    public class CommandExportSchedules : NamedCommand
     {
-        public string Name => "Export Schedules";
+        public override string Name => "Export Schedules";
 
-        public void Execute(object arg)
+        public override void Execute(object arg)
         {
             var uidoc = (arg as UIApplication)?.ActiveUIDocument;
             if (uidoc == null) return;

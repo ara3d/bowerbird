@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq;
-using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Logging;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class CommandSelectedItemGeometry : IBowerbirdCommand
+    public class CommandSelectedItemGeometry : NamedCommand
     {
-        public string Name => "Selected Item Geometry";
+        public override string Name => "Selected Item Geometry";
 
         public static TextDisplayForm Form;
         public static ILogger Logger;
@@ -19,7 +18,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             Logger.Log(msg);
         }
 
-        public void Execute(object arg)
+        public override void Execute(object arg)
         {
             if (Form == null)
             {

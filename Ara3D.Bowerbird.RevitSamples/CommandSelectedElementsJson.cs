@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Bowerbird.Revit;
-using Ara3D.Utils;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
 
@@ -12,14 +10,14 @@ namespace Ara3D.Bowerbird.RevitSamples
     /// Demonstrates how to create an event handler when the current selection changes,
     /// and to display the current element data as JSON. 
     /// </summary>
-    public class CommandSelectedElementsJson : IBowerbirdCommand
+    public class CommandSelectedElementsJson : NamedCommand
     {
-        public string Name => "Selected elements JSON";
+        public override string Name => "Selected elements JSON";
 
         public TextDisplayForm TextForm { get; private set; }
         public UIApplication app { get; private set; }
 
-        public void Execute(object arg)
+        public override void Execute(object arg)
         {
             app = (arg as UIApplication);
             if (app == null)

@@ -1,9 +1,8 @@
-﻿using Ara3D.Bowerbird.Interfaces;
-using Autodesk.Revit.UI;
+﻿using Autodesk.Revit.UI;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class CommandExternalEventDemo : IBowerbirdCommand
+    public class CommandExternalEventDemo : NamedCommand
     {
         public class ExternalEventExample : IExternalEventHandler
         {
@@ -18,9 +17,9 @@ namespace Ara3D.Bowerbird.RevitSamples
             }
         }
 
-        public string Name => "External event";
+        public override string Name => "External event";
 
-        public void Execute(object arg)
+        public override void Execute(object arg)
         {
             var handler = new ExternalEventExample(); 
             var ev = ExternalEvent.Create(handler);

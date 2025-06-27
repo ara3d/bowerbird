@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Plato.SinglePrecision;
+using Ara3D.Geometry;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
@@ -12,7 +12,7 @@ namespace Ara3D.Bowerbird.RevitSamples
 
     public class Polygon
     {
-        public List<Vector3D> Points = new List<Vector3D>();
+       public List<Vector3> Points = new List<Vector3>();
     }
 
     public class RoomStruct

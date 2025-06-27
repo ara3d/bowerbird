@@ -1,39 +1,37 @@
-🗃️ **This repository is archived** .
-
-All future development has moved to: **[Ara3D-SDK](https://github.com/ara3d/ara3d-sdk)**.
-
-This repo remains available for historical reference, but it is no longer maintained or updated.
-Please use the new repository for the latest code, improvements, and issue tracking.
-
----
-
 # <img width="64" src="https://github.com/ara3d/bowerbird/assets/1759994/badd9bb6-61cd-409f-9088-19a9db3f519d"/> Bowerbird
 
 Bowerbird accelerates C# tool and plug-in development by dynamically compiling C# source files.  
 
-[Download the latest release - Bowerbird for Revit 2023 (v1.4.2)](https://github.com/ara3d/bowerbird/releases/download/v1.4.2/Bowerbird.for.Revit.2023.msi).
+## Current Release - Bowerbird for Revit 2025
 
-## Current Release - Bowerbird for Revit 2023
-
-The current release of Bowerbird is a Beta for Revit 2023.  
+The current release of Bowerbird is for Revit 2025 only. 
 
 ![Bowerbird Screenshot 2024-03-15 104808](https://github.com/ara3d/bowerbird/assets/1759994/b6457096-22ef-4946-9c6f-aea08fcebf74)
 
 ## How Bowerbird works
 
-When Bowerbird starts up it scans a directory for C# source files (with the extension `.cs`), and attempts to compile them into a single assembly. 
+When Bowerbird starts up it scans a directory for C# source files (with the extension `.cs`), 
+and attempts to compile them into a single assembly. 
 
 For Revit the source files can be found at: 
 
-`%localappdata%\Ara 3D\Bowerbird for Revit 2023\Scripts`.
+`%localappdata%\Ara 3D\Bowerbird for Revit 2025\Scripts`.
 
-The assembly is then loaded into memory and scanned for public classes which implement the `IBowerbirdCommand` interface.  
+The assembly is then loaded into memory and scanned for public classes which implement the 
+`INamedCommand` interface.  
 
 ```csharp
-public interface IBowerbirdCommand
+public interface INamedCommand : ICommand
 {
    string Name { get; }
-   void Execute(object arg);
+   void NotifyCanExecuteChanged();
+}
+
+public interface ICommand 
+{
+    event EventHandler? CanExecuteChanged;
+    bool CanExecute(object? parameter);
+    void Execute(object? parameter);
 }
 ```
 
@@ -45,15 +43,18 @@ Editing and saving any file in the directory will trigger a recompilation of all
 
 ## Sample Command
 
+For convenience you can derive a command from a class called `NamedCommand` which provides
+default implementations of most functions.
+
 ```csharp
  /// <summary>
  /// Displays the current active document in a window
  /// </summary>
- public class CurrentDocument : IBowerbirdCommand
+ public class CurrentDocument : NamedCommand
  {
-     public string Name => "Current Open Document";
+     public override string Name => "Current Open Document";
 
-     public void Execute(object arg)
+     public override void Execute(object arg)
      {
          var app = (UIApplication)arg;
          var doc = app.ActiveUIDocument?.Document;
@@ -90,12 +91,6 @@ By using a dynamic compilation library based on Roslyn one generic Bowerbird plu
 can host many other plug-ins which can be dynamically compiled and modified without restarting the host application.
 This means that we can quickly create new experiments, plug-ins, try out new ideas, or test hypotheses aboout 
 our code.  
-
-## **Important**: Builing the Source Code
-
-This repository is intended to be used as a sub-module of 
-[the main Ara3D repository](http://github.com/ara3d/ara3d). If you want to build the 
-code from source, clone that repository, and build the solution. 
 
 ## Issues and Feedback
 

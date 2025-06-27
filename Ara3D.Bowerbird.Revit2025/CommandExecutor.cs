@@ -1,13 +1,13 @@
 ﻿using System.Windows.Forms;
-using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Logging;
+using Ara3D.Utils;
 using Autodesk.Revit.UI;
 
 namespace Ara3D.Bowerbird.Revit
 {
-    public class CommandExecutor : IExternalEventHandler
+    public class CommandExecutor : IExternalEventHandler, ICommandExecutor
     {
-        private IBowerbirdCommand _command;
+        private INamedCommand _command;
         private readonly ExternalEvent _event;
         public ILogger Logger { get; }
 
@@ -17,13 +17,13 @@ namespace Ara3D.Bowerbird.Revit
             _event = ExternalEvent.Create(this);
         }
 
-        public void Raise(IBowerbirdCommand command)
+        public void Raise(INamedCommand command)
         {
             SetCommand(command);
             _event.Raise();
         }
 
-        public void SetCommand(IBowerbirdCommand command)
+        public void SetCommand(INamedCommand command)
             => _command = command;
 
         public void ResetCommand()
@@ -47,5 +47,10 @@ namespace Ara3D.Bowerbird.Revit
 
         public string GetName()
             => "Command Executor";
+
+        public void Execute(INamedCommand command, object parameter = null)
+        {
+            Raise(command);
+        }
     }
 }

@@ -1,19 +1,18 @@
 ﻿using System.Diagnostics;
 using System.Threading;
-using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Logging;
 using Autodesk.Revit.UI;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class CommandIdlingDemo : IBowerbirdCommand
+    public class CommandIdlingDemo : NamedCommand
     {
         public TextDisplayForm Form;
         public ILogger Logger;
         public int MSecElapsed;
         public const int WORK_ITEM_MSEC = 100;
         public const int WORK_TOTAL_MSEC = 1000;
-        public string Name => "Idling Demo";
+        public override string Name => "Idling Demo";
         public Stopwatch Stopwatch = new Stopwatch();
 
         public void Log(string msg)
@@ -21,7 +20,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             Logger.Log(msg);
         }
 
-        public void Execute(object arg)
+        public override void Execute(object arg)
         {
             Form = new TextDisplayForm("");
             var uiApp = arg as UIApplication; ;

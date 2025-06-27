@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ara3D.Bowerbird.Interfaces;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class CommandListRooms : IBowerbirdCommand
+    public class CommandListRooms : NamedCommand
     {
-        public string Name => "List Rooms";
+        public override string Name => "List Rooms";
 
         public List<Room> Rooms;
         public Dictionary<int, List<FamilyInstance>> Lights;
@@ -19,7 +18,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         public Dictionary<int, List<FamilyInstance>> Sockets;
         public Dictionary<int, List<FamilyInstance>> Windows;
 
-        public void Execute(object arg)
+        public override void Execute(object arg)
         {
             var doc = (arg as UIApplication)?.ActiveUIDocument?.Document;
             if (doc == null) return;

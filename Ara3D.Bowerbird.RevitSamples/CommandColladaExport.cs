@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Bowerbird.RevitSamples;
 using Ara3D.Utils;
 using Autodesk.Revit.DB;
@@ -9,11 +8,11 @@ using RevitExporter;
 
 namespace Ara3D.Bowerbird.Revit.Samples
 {
-    public class CommandColladaExport : IBowerbirdCommand
+    public class CommandColladaExport : NamedCommand
     {
-        public string Name => "Export Collada";
+        public override string Name => "Export Collada";
 
-        public void Execute(object argument)
+        public override void Execute(object argument)
         {
             var uiapp = argument as UIApplication;
             if (uiapp == null)

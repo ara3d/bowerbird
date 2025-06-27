@@ -6,10 +6,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.UI;
-using Plato.SinglePrecision;
-using Plato.Geometry.Graphics;
-using Plato.Geometry.Memory;
-using Plato.Geometry.Scenes;
 using Arc = Autodesk.Revit.DB.Arc;
 
 namespace Ara3D.Bowerbird.RevitSamples
@@ -355,49 +351,6 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             return list;
         }
-
-        public static RenderMesh ToRenderMesh(this Scene scene)
-        {
-            var vertices = new List<RenderVertex>();
-            var indices = new List<Integer>();
-
-            foreach (var node in GetDescendants(scene.Root))
-            {
-                var t = node.Transform;
-
-                foreach (var o in node.GetMeshes())
-                {
-                    var offset = vertices.Count;
-                    var mesh = o.Mesh;
-                    var m = o.Material;
-                    var c = (Color32)m.Color;
-
-                    var normals = mesh.ComputeVertexNormals();
-
-                    for (var i = 0; i < mesh.Points.Count; ++i)
-                    {
-                        var p = mesh.Points[i];
-                        var n = normals[i];
-                        var p1 = t.Transform(p);
-                        var n1 = t.TransformNormal(n);
-                        var rv = new RenderVertex(p1, n1, Vector2D.Default, c);
-                        vertices.Add(rv);
-                    }
-
-                    foreach (var i in mesh.Indices)
-                    {
-                        indices.Add(i + offset);
-                    }
-                }
-            }
-
-            if (vertices.Count == 0 || indices.Count == 0)
-                return null;
-            return new RenderMesh(vertices.ToBuffer(), indices.ToBuffer());
-        }
-
-        public static IEnumerable<ISceneNode> GetDescendants(this ISceneNode node)
-            => node.Children.SelectMany(GetDescendants).Prepend(node);
 
         public static XYZ Current3DCameraPosition(this UIDocument uidoc)
         {

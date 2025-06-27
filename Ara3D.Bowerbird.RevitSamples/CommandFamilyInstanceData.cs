@@ -1,14 +1,13 @@
 ﻿using System.Linq;
-using Ara3D.Bowerbird.Interfaces;
 using Autodesk.Revit.UI;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class CommandFamilyInstanceData : IBowerbirdCommand
+    public class CommandFamilyInstanceData : NamedCommand
     {
-        public string Name => "Family Instances";
+        public override string Name => "Family Instances";
 
-        public void Execute(object arg)
+        public override void Execute(object arg)
         {
             var doc = (arg as UIApplication)?.ActiveUIDocument?.Document;
             var instances = doc.GetFamilyInstances();

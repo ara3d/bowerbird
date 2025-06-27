@@ -22,13 +22,13 @@ namespace Ara3D.Bowerbird.RevitSamples
         public readonly Type Type;
         public readonly IReadOnlyList<MemberInfo> Members;
         public readonly DataTableBuilderOptions Options;
-        public readonly DataTable DataTable;
+        public readonly System.Data.DataTable DataTable;
 
         public DataTableBuilder(Type type, DataTableBuilderOptions options = null)
         {
             Options = options ?? new DataTableBuilderOptions();
             Type = type;
-            DataTable = new DataTable(Type.Name);
+            DataTable = new System.Data.DataTable(Type.Name);
 
             var bindingFlags = BindingFlags.Public | BindingFlags.Instance;
             if (!Options.PublicOnly)

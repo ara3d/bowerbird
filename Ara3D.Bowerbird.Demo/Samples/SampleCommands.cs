@@ -2,79 +2,70 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Utils;
 
-namespace Ara3D.Bowerbird.WinForms.Net48.Samples
+namespace Ara3D.Bowerbird.Demo.Samples
 {
     /// <summary>
     /// Shows a message box with the text: "Hello world!"
     /// </summary>
-    public class HelloWorld : IBowerbirdCommand
+    public class HelloWorld : NamedCommand
     {
-        public string Name => "Hello World!";
+        public override void Execute()
+            => MessageBox.Show("Hello World!");
 
-        public void Execute(object _)
-            => MessageBox.Show(Name);
     }
 
     /// <summary>
     /// Shows a message box with a counter value which is incremented each time. 
     /// </summary>
-    public class Counter : IBowerbirdCommand
+    public class Counter : NamedCommand
     {
         public static int Count;
 
-        public string Name => "Count";
-
-        public void Execute(object _)
+        public override void Execute()
             => MessageBox.Show($"You have executed this command {++Count} time(s)");
     }
 
     /// <summary>
     /// Opens a URL in the default web browser. 
     /// </summary>
-    public class OpenUrl : IBowerbirdCommand
+    public class OpenUrl : NamedCommand
     {
-        public string Name => "Open URL";
-
-        public void Execute(object _)
+        public override void Execute()
             => ProcessUtil.OpenUrl("https://ara3d.com");
     }
 
     /// <summary>
     /// Triggers the debugger to break. 
     /// </summary>
-    public class LaunchDebugger : IBowerbirdCommand
+    public class LaunchDebugger : NamedCommand
     {
-        public string Name => "Launch Debugger";
-
-        public void Execute(object _)
+        public override void Execute()
             => Debugger.Break();
     }
 
     /// <summary>
     /// Launches a simple web-server, returns a text response, and shuts down the web-server. 
     /// </summary>
-    public class HttpServer : IBowerbirdCommand
+    public class HttpServer : NamedCommand
     {
-        public string Name => "HTTP Server";
         public WebServer Server
         {
             get;
             private set;
         }
 
-        public void Execute(object _)
+        public override void Execute()
         {
             Server = new WebServer(Callback);
             Server.Start();
             ProcessUtil.OpenUrl(Server.Uri);
         }
 
-        private void Callback(string verb, string path, IDictionary<string, string> parameters, Stream inputstream, Stream outputstream)
+        private void Callback(string verb, string path, IDictionary<string, string> parameters, Stream inputStream, Stream outputStream)
         {
-            using (var writer = new StreamWriter(outputstream))
+            using (var writer = new StreamWriter(outputStream))
             {
                 writer.WriteLine($"Hello, thanks for using the HTTP server. I will shut myself down now.");
             }

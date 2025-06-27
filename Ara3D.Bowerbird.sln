@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ara3D.Bowerbird.Demo", "Ara3D.Bowerbird.Demo\Ara3D.Bowerbird.Demo.csproj", "{5419CC86-9897-463B-8A6F-3C226624BCE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6FB1C9FF-2318-44C7-94A9-FCA2ACC7E699}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ara3D.Bowerbird.Revit2025", "Ara3D.Bowerbird.Revit2025\Ara3D.Bowerbird.Revit2025.csproj", "{E2EF9018-2892-4062-871F-1FCA4D3279D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ara3D.Bowerbird", "Ara3D.Bowerbird\Ara3D.Bowerbird.csproj", "{83E91F96-51FE-45E4-8A5F-30D20C6E4B42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ara3D.Bowerbird.RevitSamples", "Ara3D.Bowerbird.RevitSamples\Ara3D.Bowerbird.RevitSamples.csproj", "{5D557EE3-7DEB-48DD-AA97-4D2D97C3D42A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5419CC86-9897-463B-8A6F-3C226624BCE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5419CC86-9897-463B-8A6F-3C226624BCE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5419CC86-9897-463B-8A6F-3C226624BCE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5419CC86-9897-463B-8A6F-3C226624BCE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2EF9018-2892-4062-871F-1FCA4D3279D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2EF9018-2892-4062-871F-1FCA4D3279D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2EF9018-2892-4062-871F-1FCA4D3279D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2EF9018-2892-4062-871F-1FCA4D3279D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83E91F96-51FE-45E4-8A5F-30D20C6E4B42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83E91F96-51FE-45E4-8A5F-30D20C6E4B42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83E91F96-51FE-45E4-8A5F-30D20C6E4B42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83E91F96-51FE-45E4-8A5F-30D20C6E4B42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D557EE3-7DEB-48DD-AA97-4D2D97C3D42A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D557EE3-7DEB-48DD-AA97-4D2D97C3D42A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D557EE3-7DEB-48DD-AA97-4D2D97C3D42A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D557EE3-7DEB-48DD-AA97-4D2D97C3D42A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

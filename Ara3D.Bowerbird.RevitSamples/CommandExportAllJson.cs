@@ -1,19 +1,18 @@
 ﻿using Autodesk.Revit.UI;
 using System;
 using System.Linq;
-using Ara3D.Bowerbird.Interfaces;
 using Ara3D.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class CommandExportAllJson : IBowerbirdCommand
+    public class CommandExportAllJson : NamedCommand
     {
-        public string Name => "Export all elements JSON";
+        public override string Name => "Export all elements JSON";
 
         public UIApplication app { get; private set; }
 
-        public void Execute(object arg)
+        public override void Execute(object arg)
         {
             app = (arg as UIApplication);
             if (app == null)

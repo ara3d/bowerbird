@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms> 
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="refs.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="refs.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ara3D.SDK" Version="1.3.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ara3D.Bowerbird.Revit2025\Ara3D.Bowerbird.Revit2025.csproj" />
+    <ProjectReference Include="..\Ara3D.Bowerbird\Ara3D.Bowerbird.csproj" />
+  </ItemGroup>
+
+
+
+</Project>
+  

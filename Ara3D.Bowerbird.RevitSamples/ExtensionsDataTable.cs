@@ -34,7 +34,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         public static DataTableBuilder BuildDataTable(this Type self, DataTableBuilder.DataTableBuilderOptions options = null)
             => new DataTableBuilder(self, options);
 
-        public static DataTable ToDataTable<T>(this IEnumerable<T> self, DataTableBuilder.DataTableBuilderOptions options = null)
+        public static System.Data.DataTable ToDataTable<T>(this IEnumerable<T> self, DataTableBuilder.DataTableBuilderOptions options = null)
             => BuildDataTable(typeof(T), options).AddRows(self).DataTable;
     }
 }
