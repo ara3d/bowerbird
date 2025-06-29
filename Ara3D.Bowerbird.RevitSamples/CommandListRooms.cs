@@ -40,9 +40,9 @@ namespace Ara3D.Bowerbird.RevitSamples
         public IEnumerable<RoomData> GetAllRoomData()
             => Rooms.Select(GetRoomData);
 
-        public static int GetCount(Dictionary<int, List<FamilyInstance>> dict, Room r)
+        public static int GetCount(Dictionary<long, List<FamilyInstance>> dict, Room r)
         {
-            return dict.TryGetValue(r.Id.IntegerValue, out var list) ? list.Count : 0;
+            return dict.TryGetValue(r.Id.Value, out var list) ? list.Count : 0;
         }
 
         public class RoomData
@@ -93,7 +93,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             var rd = new RoomData()
             {
                 Name = r.Name ?? "",
-                Id = r.Id.IntegerValue,
+                Id = r.Id.Value,
                 Lights = GetCount(Lights, r),
                 Doors = GetCount(Doors, r),
                 Sockets = GetCount(Sockets, r),

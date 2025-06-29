@@ -346,9 +346,9 @@ namespace Ara3D.Bowerbird.RevitSamples
 
         private void ApplicationOnDocumentChanged(object sender, DocumentChangedEventArgs e)
         {
-            Processor.EnqueueWork(e.GetAddedElementIds().Select(eid => eid.IntegerValue));
-            Processor.EnqueueWork(e.GetDeletedElementIds().Select(eid => eid.IntegerValue));
-            Processor.EnqueueWork(e.GetModifiedElementIds().Select(eid => eid.IntegerValue));
+            Processor.EnqueueWork(e.GetAddedElementIds().Select(eid => eid.Value));
+            Processor.EnqueueWork(e.GetDeletedElementIds().Select(eid => eid.Value));
+            Processor.EnqueueWork(e.GetModifiedElementIds().Select(eid => eid.Value));
             UpdateForm();
         }
 

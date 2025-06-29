@@ -46,7 +46,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         {
             // Basic element data
             var name = elem.Name;
-            var elementId = elem.Id.IntegerValue;
+            var elementId = elem.Id.Value;
             var categoryName = elem.Category?.Name;
 
             // Extract parameters
@@ -120,7 +120,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                         return param.AsDouble().ToString();
                     case StorageType.ElementId:
                         var id = param.AsElementId();
-                        return id.IntegerValue.ToString();
+                        return id.Value.ToString();
                     case StorageType.None:
                     default:
                         return param.AsValueString();

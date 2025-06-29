@@ -23,7 +23,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             var uidoc = app.ActiveUIDocument;
             var doc = uidoc.Document;
             var outputFilePath = doc.CurrentFileName().ChangeDirectoryAndExt(Config.OutputDir, ".json");
-            var elements = doc.GetElements().OrderBy(e => e.Id.IntegerValue);
+            var elements = doc.GetElements().OrderBy(e => e.Id.Value);
             var array = new JArray(elements.ToJson());
             outputFilePath.WriteAllText(array.ToString());  
         }
