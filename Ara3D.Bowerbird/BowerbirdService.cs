@@ -22,7 +22,13 @@ public class BowerbirdService
     public IEventBus EventBus { get; }
     public ScriptingService ScriptingService { get; }
     public ScriptingOptions Options => ScriptingService.Options;
-    public ILogger Logger => ScriptingService.Logger;
+
+    public ILogger Logger
+    {
+        get => ScriptingService.Logger;
+        set => ScriptingService.Logger = value;
+    }
+
     public ScriptingDataModel ScriptingData => ScriptingService.Value;
     public event EventHandler RecompilationEvent;
 

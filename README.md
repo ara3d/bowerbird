@@ -70,6 +70,19 @@ default implementations of most functions.
  }
 ```
 
+## Compilation and Dependencies
+
+Previous versions of Bowerbird, had a dependency on the Ara3D module, but now a library 
+called [Ara3D.SDK](https://github.com/ara3d/ara3d-sdk) is consumed as a nuget package.
+
+After compilation a build-script called `post-build.bat` is run. This copies an add-in file 
+`Ara3D.Bowerbird.Revit2025.addin` to the folder `%programdata%\Autodesk\Revit\Addins\2025`. 
+The depdendent DLLs are copied to the sub-folder `Ara3D.Bowerbird`. 
+
+C# source files are copied into the folder `%localappdata%\Ara 3D\Bowerbird for Revit 2025\Scripts\`.
+
+The final installer is an [Advanced Installer](https://www.advancedinstaller.com/) project. 
+
 ## Background and Motivation
 
 ### Problem

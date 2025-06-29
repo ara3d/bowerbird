@@ -38,7 +38,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                 .OfClass(typeof(Level))
                 .OfType<Level>();
 
-        public static Dictionary<int, List<FamilyInstance>> GroupByRoom(this IEnumerable<FamilyInstance> instances)
+        public static Dictionary<long, List<FamilyInstance>> GroupByRoom(this IEnumerable<FamilyInstance> instances)
             => instances.GroupBy(fi => fi.GetRoomId()).ToDictionary(g => g.Key, g => g.ToList());
 
         public static FilteredElementCollector CollectElements(this Document doc)
@@ -193,7 +193,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                 yield return segment;
         }
 
-        public static int GetRoomId(this FamilyInstance self)
+        public static long GetRoomId(this FamilyInstance self)
         {
             try
             {
@@ -290,7 +290,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         /// <summary>
         /// Retrieves the Opening elements grouped by their Host.
         /// </summary>
-        public static Dictionary<int, List<Opening>> GroupOpeningsByHost(this Document doc)
+        public static Dictionary<long, List<Opening>> GroupOpeningsByHost(this Document doc)
             => new FilteredElementCollector(doc).OfClass(typeof(Opening)).Cast<Opening>()
                 .GroupBy(opening => opening.Host?.Id ?? ElementId.InvalidElementId)
                 .ToDictionary(g => g.Key.Value, g => g.ToList());
@@ -298,19 +298,19 @@ namespace Ara3D.Bowerbird.RevitSamples
         /// <summary>
         /// Retrieves the Door elements grouped by their Host.
         /// </summary>
-        public static Dictionary<int, List<FamilyInstance>> GroupDoorsByHost(this Document doc)
+        public static Dictionary<long, List<FamilyInstance>> GroupDoorsByHost(this Document doc)
             => doc.GetDoors()
                 .GroupBy(door => door.Host?.Id ?? ElementId.InvalidElementId)
                 .ToDictionary(g => g.Key.Value, g => g.ToList());
 
         public static IEnumerable<FamilyInstance> GetBoundaryDoors(this Room room,
-            Dictionary<int, List<FamilyInstance>> doorsByHost)
+            Dictionary<long, List<FamilyInstance>> doorsByHost)
             => room.GetBoundaryWalls().SelectMany(bw => doorsByHost.TryGetValue(bw.Id.Value, out var value)
                 ? value
                 : Enumerable.Empty<FamilyInstance>());
 
         public static IEnumerable<Opening> GetBoundaryOpenings(this Room room,
-            Dictionary<int, List<Opening>> openingsByHost)
+            Dictionary<long, List<Opening>> openingsByHost)
             => room.GetBoundaryWalls().SelectMany(bw => openingsByHost.TryGetValue(bw.Id.Value, out var value)
                 ? value
                 : Enumerable.Empty<Opening>());

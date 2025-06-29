@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6FB1C9FF-2318-44C7-94A9-FCA2ACC7E699}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		Installer\Bowerbird for Revit 2025.aip = Installer\Bowerbird for Revit 2025.aip
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ara3D.Bowerbird.Revit2025", "Ara3D.Bowerbird.Revit2025\Ara3D.Bowerbird.Revit2025.csproj", "{E2EF9018-2892-4062-871F-1FCA4D3279D9}"

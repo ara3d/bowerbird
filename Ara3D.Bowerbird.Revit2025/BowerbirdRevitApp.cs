@@ -145,6 +145,7 @@ namespace Ara3D.Bowerbird.Revit
             {
                 Window = new BowerbirdForm(service, CommandExecutor);
                 Window.Text = Options.AppName;
+                BowerbirdService.Logger = Window.Logger;
                 Window.FormClosing += (_, args) =>
                 {
                     Window.Hide();

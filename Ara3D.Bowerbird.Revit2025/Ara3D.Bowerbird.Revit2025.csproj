@@ -9,6 +9,7 @@
 		<Platforms>AnyCPU</Platforms>
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugSymbols>true</DebugSymbols>

@@ -233,19 +233,19 @@ namespace Ara3D.Bowerbird.RevitSamples
     /// </summary>
     public class BackgroundUI 
     {
-        public BackgroundProcessor<int> Processor;
+        public BackgroundProcessor<long> Processor;
         public BackgroundForm Form;
         public ExternalEvent EnableProcessorEvent;
         public ExternalEvent DisableProcessorEvent;
         public ExternalEvent DisposeProcessorEvent;
         public ExternalEvent DoSomeWorkEvent;
         public ExternalEvent DoAllWorkEvent;
-        public Action<int> OnWorkItem;
+        public Action<long> OnWorkItem;
 
-        public BackgroundUI(UIApplication uiapp, Action<int> onWorkItem)
+        public BackgroundUI(UIApplication uiapp, Action<long> onWorkItem)
         {
             OnWorkItem = onWorkItem;
-            Processor = new BackgroundProcessor<int>(Process, uiapp);
+            Processor = new BackgroundProcessor<long>(Process, uiapp);
             Form = new BackgroundForm();
             Form.Update();
             Form.Show();
@@ -352,7 +352,7 @@ namespace Ara3D.Bowerbird.RevitSamples
             UpdateForm();
         }
 
-        public void Process(int id)
+        public void Process(long id)
         {
             OnWorkItem(id);
             UpdateForm();

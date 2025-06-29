@@ -13,10 +13,10 @@ namespace Ara3D.Bowerbird.RevitSamples
         public override string Name => "List Rooms";
 
         public List<Room> Rooms;
-        public Dictionary<int, List<FamilyInstance>> Lights;
-        public Dictionary<int, List<FamilyInstance>> Doors;
-        public Dictionary<int, List<FamilyInstance>> Sockets;
-        public Dictionary<int, List<FamilyInstance>> Windows;
+        public Dictionary<long, List<FamilyInstance>> Lights;
+        public Dictionary<long, List<FamilyInstance>> Doors;
+        public Dictionary<long, List<FamilyInstance>> Sockets;
+        public Dictionary<long, List<FamilyInstance>> Windows;
 
         public override void Execute(object arg)
         {
@@ -48,7 +48,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         public class RoomData
         {
             public string Name;
-            public int Id;
+            public long Id;
             public int Lights;
             public int Doors;
             public int Sockets;
