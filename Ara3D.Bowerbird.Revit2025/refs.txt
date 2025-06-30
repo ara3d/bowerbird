@@ -31,3 +31,5 @@ Ara3D.Utils.Roslyn.dll
 Newtonsoft.Json.dll
 Plato.Geometry.dll
 Plato.Geometry.Revit.dll
+MessagePack.dll
+MessagePack.Annotations.dll
