@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows;
+using Ara3D.Collections;
+using Ara3D.Utils;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Newtonsoft.Json;
@@ -25,33 +29,31 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             var uiDoc = app.ActiveUIDocument;
             var doc = uiDoc.Document;
+
+            var timer = Stopwatch.StartNew();
             var dd = doc.ProcessDocument();
-
-            /*
-            var s = JsonConvert.SerializeObject(dd, Formatting.Indented);
-            var outputFilePath = Path.Combine(Path.GetTempPath(), "brep.json");
-            File.WriteAllText(outputFilePath, s)
-            */
-
-            /*
-#pragma warning disable SYSLIB0011
-            var bf = new BinaryFormatter();
-#pragma warning restore SYSLIB0011
-            using var ms = new MemoryStream();
-            bf.Serialize(ms, dd);
-            var outputFilePath = Path.Combine(Path.GetTempPath(), "brep.dat");
-            var fs = File.Create(outputFilePath);
-            ms.CopyTo(fs);
-            fs.Close();
-            */
-
-            var options = MessagePackSerializerOptions.Standard
-                .WithResolver(ContractlessStandardResolver.Instance);
-
+            var processingTime = timer.Elapsed;
+            timer.Restart();
             var outputFilePath = Path.Combine(Path.GetTempPath(), "brep.mp");
             var fs = File.Create(outputFilePath);
-            MessagePackSerializer.Serialize(fs, dd, options);
+            MessagePackSerializer.Typeless.Serialize(fs, dd);
             fs.Close();
+            var serializationTime = timer.Elapsed;
+
+            var docCount = dd.Documents.Count;
+            var objectCount = dd.Documents.Sum(d => d.Geometry.GeometryObjects.Count);
+            var elementCount = dd.Documents.Sum(d => d.Geometry.Elements.Count);
+
+            var totalSize = PathUtil.GetFileSizeAsString(outputFilePath);
+
+            var text = "Just created a BREP representation using MessagePack\r\n" + 
+                       $"Containing {elementCount} elements with geometry\r\n" +
+                       $"with a total of {objectCount} geometric objects\r\n" +
+                       $"across {docCount+1} documents\r\n" + 
+                       $"Processing took {processingTime.TotalSeconds:F} seconds\r\n" + 
+                       $"Serialization took {serializationTime.TotalSeconds:F} seconds\r\n" + 
+                       $"Generated file size is {totalSize}";
+            MessageBox.Show(text);
         }
     }
 }

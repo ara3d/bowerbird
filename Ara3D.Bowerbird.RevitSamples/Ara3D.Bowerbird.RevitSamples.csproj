@@ -20,6 +20,10 @@
     <ProjectReference Include="..\Ara3D.Bowerbird\Ara3D.Bowerbird.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy $(ProjectDir)*.cs &quot;%25localappdata%25\Ara 3D\Bowerbird for Revit 2025\Scripts\&quot; /y" />
+  </Target>
+
 
 
 </Project>

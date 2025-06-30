@@ -95,9 +95,9 @@ public record MeshData(
 public record ElementData(long Id, int GeometryElementIndex, TransformData Transform);
 
 public class GeometryData
-{
+{   
     public Dictionary<string, int> SymbolIdsToGeometry = new();
-    public List<GeometryObjectData> GeometryObjects = new();
+    public List<object> GeometryObjects = new();
     public List<ElementData> Elements = new();
     
     public int Add(GeometryObjectData geometryObject)
