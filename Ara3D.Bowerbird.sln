@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ara3D.Bowerbird", "Ara3D.Bo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ara3D.Bowerbird.RevitSamples", "Ara3D.Bowerbird.RevitSamples\Ara3D.Bowerbird.RevitSamples.csproj", "{5D557EE3-7DEB-48DD-AA97-4D2D97C3D42A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ara3D.Bowerbird.Tests", "Ara3D.Bowerbird.Tests\Ara3D.Bowerbird.Tests.csproj", "{27E8A1CD-7FD8-4CA3-8FC6-85537B8B15C7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{5D557EE3-7DEB-48DD-AA97-4D2D97C3D42A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D557EE3-7DEB-48DD-AA97-4D2D97C3D42A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D557EE3-7DEB-48DD-AA97-4D2D97C3D42A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27E8A1CD-7FD8-4CA3-8FC6-85537B8B15C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27E8A1CD-7FD8-4CA3-8FC6-85537B8B15C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27E8A1CD-7FD8-4CA3-8FC6-85537B8B15C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27E8A1CD-7FD8-4CA3-8FC6-85537B8B15C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

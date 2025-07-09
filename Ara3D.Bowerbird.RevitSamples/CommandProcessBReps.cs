@@ -15,7 +15,7 @@ using Ara3D.Domo;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class ProcessBReps : NamedCommand
+    public class CommandProcessBReps : NamedCommand
     {
         public override string Name => "Export faces and boundaries";
 

@@ -29,6 +29,14 @@ public record GeometryObjectData(
     int ContextId,
     GeometryObjectType Type);
 
+public record CurveData(
+    double ApproximateLength,
+    bool IsBound,
+    bool IsClosed,
+    bool IsCyclic,
+    double Period,
+    List<XYZData> Points);
+
 public enum FaceType
 {
     Conical,
@@ -53,7 +61,7 @@ public record FaceData(
     bool OrientationMatchesParametrization,
     bool TwoSided,
     object SpecificFaceData
-) 
+)
     : GeometryObjectData(ContextId, GeometryObjectType.Face);
 
 public record HermiteFaceData(
@@ -78,14 +86,6 @@ public record GeometryInstanceData(int ContextId, TransformData Transform, strin
 
 public record GeometryElementData(int ContextId, List<int> GeometryObjectIndexes)
     : GeometryObjectData(ContextId, GeometryObjectType.Element);
-
-public record CurveData(
-    double ApproximateLength,
-    bool IsBound,
-    bool IsClosed,
-    bool IsCyclic,
-    double Period,
-    List<XYZData> Points);
 
 public record MeshData(
     int ContextId,
