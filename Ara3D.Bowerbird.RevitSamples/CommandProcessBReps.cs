@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -12,6 +11,7 @@ using Newtonsoft.Json;
 using MessagePack;
 using MessagePack.Resolvers;
 using Ara3D.Domo;
+using System.Windows.Controls;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {

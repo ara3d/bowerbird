@@ -7,12 +7,11 @@ namespace BIMOpenSchema;
 public class BIMDataBuilder
 {
     private readonly Dictionary<Entity, int> _entities = new();
-    private readonly Dictionary<Type, int> _types = new();
     private readonly Dictionary<Document, int> _documents = new();
     private readonly Dictionary<Point, int> _points = new();
-    private readonly Dictionary<Descriptor, int> _descriptors = new();
-    private readonly Dictionary<Level, int> _levels = new();
-    
+    private readonly Dictionary<ParameterDescriptor, int> _descriptors = new();
+    private readonly Dictionary<string, int> _strings = new();
+
     private BIMData _data = new BIMData();
 
     public BIMData Build()
@@ -22,8 +21,11 @@ public class BIMDataBuilder
         return r;
     }
 
-    private int Add<T>(Dictionary<T, int> d, List<T> list, T val)
+    private int AddParameter<T>(Dictionary<T, int> d, List<T> list, T val)
     {
+        Debug.Assert(val != null);
+        if (val == null)
+            Debugger.Break();
         if (d.TryGetValue(val, out var index))
             return index;
         var r = d.Count;
@@ -33,53 +35,40 @@ public class BIMDataBuilder
         return r;
     }
     
-    private int Add<T>(List<T> list, T val)
-    {
-        var r = list.Count;
-        list.Add(val);
-        return r;
-    }
+    public void AddRelation(EntityIndex a, EntityIndex b, RelationType rt)
+        => _data.Relations.Add(new(a, b, rt));
 
-    public EntityIndex AddEntity(string id, DocumentIndex d, string name, string category)
-        => (EntityIndex)Add(_entities, _data.Entities, new(id, d, name, category));
+    public EntityIndex AddEntity(long localId, string globalId, DocumentIndex d, string name, string category)
+        => (EntityIndex)AddParameter(_entities, _data.Entities, new(localId, globalId, d, AddString(name), AddString(category)));
 
     public DocumentIndex AddDocument(string title, string pathName)
-        => (DocumentIndex)Add(_documents, _data.Documents, new(title, pathName));
+        => (DocumentIndex)AddParameter(_documents, _data.Documents, new(AddString(title), AddString(pathName)));
 
     public PointIndex AddPoint(double x, double y, double z)
-        => (PointIndex)Add(_points, _data.Points, new(x, y, z));
+        => (PointIndex)AddParameter(_points, _data.Points, new(x, y, z));
 
     public DescriptorIndex AddDescriptor(string name, string units, string group)
-        => (DescriptorIndex)Add(_descriptors, _data.Descriptors, new(name, units, group));
+        => (DescriptorIndex)AddParameter(_descriptors, _data.Descriptors, new(AddString(name), AddString(units), AddString(group)));
 
-    public LevelIndex AddLevel(EntityIndex e, double elevation)
-        => (LevelIndex)Add(_levels, _data.Levels, new(e, elevation));
-
-    public TypeIndex AddType(EntityIndex e, string category)
-        => (TypeIndex)Add(_types, _data.Types, new(e, category));
-
-    public int AddRoom(EntityIndex e, double baseOffset, double limitOffset, string roomNumber)
-        => Add(_data.Rooms, new(e, baseOffset, limitOffset, roomNumber));
-
-    public void SetLevel(EntityIndex e, LevelIndex level)
-        => _data.LevelRelations.Add(new(e, level));
-
-    public void SetBounds(EntityIndex e, PointIndex min, PointIndex max)
-        => _data.Bounds.Add(new(e, min, max));
-
-    public void SetLocation(EntityIndex e, PointIndex p)
-        => _data.Locations.Add(new(e, p));
+    public StringIndex AddString(string name)
+        => (StringIndex)AddParameter(_strings, _data.Strings, name ?? "");
 
     public void AddParameter(EntityIndex e, DescriptorIndex d, double val)
-        => _data.ParameterData.Doubles.Add(new(e, d, val));
+        => _data.DoubleParameters.Add(new(e, d, val));
 
     public void AddParameter(EntityIndex e, DescriptorIndex d, int val)
-        => _data.ParameterData.Integers.Add(new(e, d, val));
+        => _data.IntegerParameters.Add(new(e, d, val));
 
     public void AddParameter(EntityIndex e, DescriptorIndex d, EntityIndex val)
-        => _data.ParameterData.Entities.Add(new(e, d, val));
+        => _data.EntityParameters.Add(new(e, d, val));
 
     public void AddParameter(EntityIndex e, DescriptorIndex d, string val)
-        => _data.ParameterData.Strings.Add(new(e, d, val));
+        => _data.StringParameters.Add(new(e, d, AddString(val)));
+
+    public void AddParameter(EntityIndex e, DescriptorIndex d, PointIndex pi)
+        => _data.PointParameters.Add(new(e, d, pi));
+
+    public void AddParameter(EntityIndex e, DescriptorIndex d, double x, double y, double z)
+        => _data.PointParameters.Add(new(e, d, AddPoint(x, y, z)));
 }
 
