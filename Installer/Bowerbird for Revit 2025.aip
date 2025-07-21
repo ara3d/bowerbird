@@ -43,148 +43,207 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
     <ROW Component="APPDIR" ComponentId="{95B1A7C4-DC07-46B4-A3FD-9201A1F464C8}" Directory_="APPDIR" Attributes="0"/>
-    <ROW Component="AdWindows.dll" ComponentId="{0A81A756-A1DE-4AFA-9CB7-67490A7176E1}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="AdWindows.dll"/>
+    <ROW Component="AdWindows.dll" ComponentId="{E9B31C03-C507-451F-B010-532C87C87D4A}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="AdWindows.dll"/>
     <ROW Component="Ara3D" ComponentId="{A28B3A1B-AFF7-4C67-BB78-8FB25BB03766}" Directory_="NewFolder_Dir" Attributes="0"/>
-    <ROW Component="Ara3D.Bowerbird.Demo.deps.json" ComponentId="{FB3E9BE0-8322-44C3-9E52-38EB182D30C0}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.Demo.deps.json" Type="0"/>
-    <ROW Component="Ara3D.Bowerbird.Demo.dll" ComponentId="{35D6C646-04C6-426D-891F-8C4AAA08CCC1}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.Demo.dll"/>
-    <ROW Component="Ara3D.Bowerbird.Demo.exe" ComponentId="{DCF0BE83-D178-4103-AA7F-CF070225400D}" Directory_="Ara3D_Dir" Attributes="256" KeyPath="Ara3D.Bowerbird.Demo.exe"/>
+    <ROW Component="Ara3D.BimOpenSchema.IO.dll" ComponentId="{5CB3CD1D-D8AC-419C-9217-3B3663889606}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.BimOpenSchema.IO.dll"/>
+    <ROW Component="Ara3D.BimOpenSchema.dll" ComponentId="{AB5F3926-8783-49EA-9654-2FC0E7519D27}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.BimOpenSchema.dll"/>
+    <ROW Component="Ara3D.Bowerbird.Demo.dll" ComponentId="{38A7AF4E-ED83-4796-8092-0ADE2E0FB20F}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.Demo.dll"/>
+    <ROW Component="Ara3D.Bowerbird.Demo.exe" ComponentId="{78CBB471-8599-4140-8E10-1B1C85E2E193}" Directory_="Ara3D_Dir" Attributes="256" KeyPath="Ara3D.Bowerbird.Demo.exe"/>
     <ROW Component="Ara3D.Bowerbird.Revit2025.addin_1" ComponentId="{F8CC7AD3-FFDB-49F3-9E25-F37E1A31F6CD}" Directory_="__Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.Revit2025.addin" Type="0"/>
-    <ROW Component="Ara3D.Bowerbird.dll" ComponentId="{BF2665C5-2671-43E5-A6B1-23D32DEE1F43}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.dll"/>
-    <ROW Component="Ara3D.Collections.dll" ComponentId="{909F03BE-77F4-4CD6-B1FC-DA22C3D2A0B6}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Collections.dll"/>
-    <ROW Component="Ara3D.DataTable.dll" ComponentId="{2855F9D4-1667-4AD0-B618-15439E884030}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.DataTable.dll"/>
-    <ROW Component="Ara3D.Domo.dll" ComponentId="{BC324361-83AE-44CD-A5DE-E461781F2C91}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Domo.dll"/>
-    <ROW Component="Ara3D.Events.dll" ComponentId="{5023A9FB-B181-4050-885F-99A7820FF9EF}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Events.dll"/>
-    <ROW Component="Ara3D.Geometry.dll" ComponentId="{AB0D0EE8-0A27-4343-95AF-62B34D1EC856}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Geometry.dll"/>
-    <ROW Component="Ara3D.IO.A3D.dll" ComponentId="{17ED2DE3-A236-4326-BC51-261B289BE6FA}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.A3D.dll"/>
-    <ROW Component="Ara3D.IO.BFAST.dll" ComponentId="{16DBCAD1-59E0-49CB-A4D9-968A832BED27}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.BFAST.dll"/>
-    <ROW Component="Ara3D.IO.G3D.dll" ComponentId="{4BF05B39-2C68-4629-BA3C-17C24C19B3BC}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.G3D.dll"/>
-    <ROW Component="Ara3D.IO.GltfExporter.dll" ComponentId="{F4814421-9844-47FC-888D-A29050003155}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.GltfExporter.dll"/>
-    <ROW Component="Ara3D.IO.IfcParser.dll" ComponentId="{289B0B23-86D2-44FD-9075-565349909515}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.IfcParser.dll"/>
-    <ROW Component="Ara3D.IO.PLY.dll" ComponentId="{9A76F1F4-9D23-4CD5-81A5-D616A76AAA02}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.PLY.dll"/>
-    <ROW Component="Ara3D.IO.StepParser.dll" ComponentId="{98C18534-AD12-455B-B483-9B2867DC9E6E}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.StepParser.dll"/>
-    <ROW Component="Ara3D.IO.VIM.dll" ComponentId="{832D925B-2019-4BA3-AB11-ABDA19A5E77A}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.VIM.dll"/>
-    <ROW Component="Ara3D.Logging.dll" ComponentId="{B2B10A1E-C732-4DD4-A464-C20763F111AA}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Logging.dll"/>
-    <ROW Component="Ara3D.Memory.dll" ComponentId="{5C8CE85C-39C6-48E3-A0FC-075D353BB308}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Memory.dll"/>
-    <ROW Component="Ara3D.MemoryMappedFiles.dll" ComponentId="{1BAC8D00-291F-4C03-9E88-A8040826610B}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.MemoryMappedFiles.dll"/>
-    <ROW Component="Ara3D.Models.dll" ComponentId="{8ADCF082-E87C-4B3A-ABC6-FD13D644FCF3}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Models.dll"/>
-    <ROW Component="Ara3D.NarwhalDB.dll" ComponentId="{15B95803-4464-4BFC-BBD4-18578064C92B}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.NarwhalDB.dll"/>
-    <ROW Component="Ara3D.PropKit.dll" ComponentId="{BD280357-2737-47DE-8A7B-73830A1B7F6F}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.PropKit.dll"/>
-    <ROW Component="Ara3D.Revit2025.Bowerbird.dll" ComponentId="{86E85EA7-1203-4975-B7B5-79BB9B5F586F}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Revit2025.Bowerbird.dll"/>
-    <ROW Component="Ara3D.SDK.dll" ComponentId="{6F8AA671-AA74-4C31-A1C1-0D86585BC80D}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.SDK.dll"/>
-    <ROW Component="Ara3D.SceneEval.dll" ComponentId="{A43357AA-0375-4432-896D-0EC6F81D743F}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.SceneEval.dll"/>
-    <ROW Component="Ara3D.ScriptService.dll" ComponentId="{63ECFA68-8F99-43E7-982F-C6F67C87433C}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.ScriptService.dll"/>
-    <ROW Component="Ara3D.Services.dll" ComponentId="{EC921D5C-87B9-4BAD-92A6-52B9D0062802}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Services.dll"/>
-    <ROW Component="Ara3D.Studio.API.dll" ComponentId="{219DE16F-15FB-489C-B561-1A5DBECF8FB4}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Studio.API.dll"/>
-    <ROW Component="Ara3D.Studio.Data.dll" ComponentId="{D0D5B80C-5DC2-4BF1-9E9B-A29ADAEF89B9}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Studio.Data.dll"/>
-    <ROW Component="Ara3D.Utils.Roslyn.dll" ComponentId="{DA0E3925-6FB9-4494-BCD9-29AA2C7B0750}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Utils.Roslyn.dll"/>
-    <ROW Component="Ara3D.Utils.dll" ComponentId="{B49D6705-12EA-493F-BA9F-926428B0B14A}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Utils.dll"/>
-    <ROW Component="BackgroundProcessingForm.cs" ComponentId="{51F996F0-3591-4730-9A91-215BAB32100C}" Directory_="Scripts_Dir" Attributes="0" KeyPath="BackgroundProcessingForm.cs" Type="0"/>
-    <ROW Component="Microsoft.CodeAnalysis.CSharp.dll" ComponentId="{CA359EB2-7A15-4DB9-8709-84B0E8E28415}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.dll"/>
-    <ROW Component="Microsoft.CodeAnalysis.dll" ComponentId="{C47A7684-11ED-48B5-B9D5-B71540745D3F}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.dll"/>
-    <ROW Component="Microsoft.Extensions.Configuration.Abstractions.dll" ComponentId="{7A3EB32F-8AD1-4EFA-8701-148FBA9A65B2}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.Configuration.Abstractions.dll"/>
-    <ROW Component="Microsoft.Extensions.Configuration.FileExtensions.dll" ComponentId="{C9F94B45-4E89-4D4C-9FBB-049AF0823CE5}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.Configuration.FileExtensions.dll"/>
-    <ROW Component="Microsoft.Extensions.Configuration.Xml.dll" ComponentId="{188C96FF-8924-4C70-BF34-24F2CC74063C}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.Configuration.Xml.dll"/>
-    <ROW Component="Microsoft.Extensions.Configuration.dll" ComponentId="{C8CE87EF-AF65-4BC6-9649-EC8E4BA77833}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.Configuration.dll"/>
-    <ROW Component="Microsoft.Extensions.FileProviders.Abstractions.dll" ComponentId="{1AA7F3C4-B997-462E-A249-CF004E072814}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.FileProviders.Abstractions.dll"/>
-    <ROW Component="Microsoft.Extensions.FileProviders.Physical.dll" ComponentId="{4A2CB9FB-409B-4156-A491-606080134673}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.FileProviders.Physical.dll"/>
-    <ROW Component="Microsoft.Extensions.FileSystemGlobbing.dll" ComponentId="{ACF3964A-F7E1-4FBA-93ED-C8762E72504D}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.FileSystemGlobbing.dll"/>
-    <ROW Component="Microsoft.Extensions.Primitives.dll" ComponentId="{16849C79-9822-4F79-B8D8-14EC56924EBB}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.Primitives.dll"/>
-    <ROW Component="Newtonsoft.Json.dll" ComponentId="{C5D4AE32-4008-46A3-B8EC-7EDC00FEF798}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Newtonsoft.Json.dll"/>
+    <ROW Component="Ara3D.Bowerbird.dll" ComponentId="{7CF8E21A-45FF-411B-B638-95213B601E76}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Bowerbird.dll"/>
+    <ROW Component="Ara3D.Collections.dll" ComponentId="{003B3036-5CC7-4742-833F-5023AA517075}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Collections.dll"/>
+    <ROW Component="Ara3D.DataTable.dll" ComponentId="{18F2FF03-FA1B-42B3-A68D-E42FF078F731}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.DataTable.dll"/>
+    <ROW Component="Ara3D.Domo.dll" ComponentId="{B39B0E75-5CE9-4020-9F5C-30407656ACFC}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Domo.dll"/>
+    <ROW Component="Ara3D.Events.dll" ComponentId="{A2A84072-0DD1-48A1-AF6D-8AB71016A3F8}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Events.dll"/>
+    <ROW Component="Ara3D.Geometry.dll" ComponentId="{9FDBEB63-346E-457D-9D96-F80CA32197BF}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Geometry.dll"/>
+    <ROW Component="Ara3D.IO.A3D.dll" ComponentId="{C5EC9B28-2427-4D77-8DB2-0C770A509FFE}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.A3D.dll"/>
+    <ROW Component="Ara3D.IO.BFAST.dll" ComponentId="{184FAE8E-DB61-4832-B13B-B4E3A1C5D90B}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.BFAST.dll"/>
+    <ROW Component="Ara3D.IO.G3D.dll" ComponentId="{ABF467A6-32F4-41C0-9FDC-C980FD076F38}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.G3D.dll"/>
+    <ROW Component="Ara3D.IO.GltfExporter.dll" ComponentId="{CA980136-7377-4557-851D-4826CC385E18}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.GltfExporter.dll"/>
+    <ROW Component="Ara3D.IO.IfcParser.dll" ComponentId="{B35C1305-1EB5-41D2-9680-55CA84134A28}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.IfcParser.dll"/>
+    <ROW Component="Ara3D.IO.PLY.dll" ComponentId="{E6F04BD3-9824-4E91-AEF2-4D9092EA2BAC}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.PLY.dll"/>
+    <ROW Component="Ara3D.IO.StepParser.dll" ComponentId="{D8C69772-041B-4B09-9C39-456F3BC9F17E}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.StepParser.dll"/>
+    <ROW Component="Ara3D.IO.VIM.dll" ComponentId="{AC5A2883-9E07-4478-ACBA-FBC79EBAF976}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.IO.VIM.dll"/>
+    <ROW Component="Ara3D.Logging.dll" ComponentId="{C1A0C977-CA95-4BBA-80BB-62E9E31113F3}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Logging.dll"/>
+    <ROW Component="Ara3D.Memory.dll" ComponentId="{EC6D083E-2B29-4CAF-9425-871F796DDDCE}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Memory.dll"/>
+    <ROW Component="Ara3D.MemoryMappedFiles.dll" ComponentId="{354AC74E-49EE-457D-ACCB-C94D1160E41B}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.MemoryMappedFiles.dll"/>
+    <ROW Component="Ara3D.Models.dll" ComponentId="{CD0FFD90-792B-4295-B596-F4CB0299337F}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Models.dll"/>
+    <ROW Component="Ara3D.NarwhalDB.dll" ComponentId="{428F21A2-32ED-456B-94EE-33086743D693}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.NarwhalDB.dll"/>
+    <ROW Component="Ara3D.PropKit.dll" ComponentId="{81D70C8C-86A6-40AD-8F96-02BCC0EC9203}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.PropKit.dll"/>
+    <ROW Component="Ara3D.Revit2025.Bowerbird.dll.config" ComponentId="{86EAB9A3-D622-4BD5-8DF1-F963E8F35521}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Revit2025.Bowerbird.dll.config" Type="0"/>
+    <ROW Component="Ara3D.Revit2025.Bowerbird.pdb" ComponentId="{2CEA9D18-6F67-41EC-B62C-FB12F8AC2459}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Revit2025.Bowerbird.dll"/>
+    <ROW Component="Ara3D.SDK.dll" ComponentId="{04EC9F76-CE18-4AD4-B2B1-BB5439C5ECB7}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.SDK.dll"/>
+    <ROW Component="Ara3D.SceneEval.dll" ComponentId="{268426CF-B955-496D-9907-76CDBB4CFAE4}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.SceneEval.dll"/>
+    <ROW Component="Ara3D.ScriptService.dll" ComponentId="{8C070A76-04D5-4DBA-9B35-7701D7178817}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.ScriptService.dll"/>
+    <ROW Component="Ara3D.Services.dll" ComponentId="{F7EFD9E3-75BA-45C5-AE23-DD1314D701CF}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Services.dll"/>
+    <ROW Component="Ara3D.Studio.API.dll" ComponentId="{AEC9E655-BBB3-44AB-86C7-E166E73A731C}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Studio.API.dll"/>
+    <ROW Component="Ara3D.Studio.Data.dll" ComponentId="{8C871DB9-7515-4BE4-A00E-7A5EDAE0B88A}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Studio.Data.dll"/>
+    <ROW Component="Ara3D.Utils.Roslyn.dll" ComponentId="{C0C9D76E-30F7-48B1-941E-6042E7212E39}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Utils.Roslyn.dll"/>
+    <ROW Component="Ara3D.Utils.dll" ComponentId="{13EBEF32-2666-43B9-AB04-E241FF0ADF8C}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.Utils.dll"/>
+    <ROW Component="Ara3D.WorkItems.dll" ComponentId="{A0091AC5-68FC-4160-B49F-1775A5BB0212}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Ara3D.WorkItems.dll"/>
+    <ROW Component="BackgroundProcessingForm.cs" ComponentId="{9F345E0B-8216-4B62-9756-B644548D2D23}" Directory_="Scripts_Dir" Attributes="0" KeyPath="BackgroundProcessingForm.cs" Type="0"/>
+    <ROW Component="ClosedXML.Parser.dll" ComponentId="{76D9B9E6-237B-4D8F-9A4D-16F61B8E867E}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="ClosedXML.Parser.dll"/>
+    <ROW Component="ClosedXML.dll" ComponentId="{363B5D4A-CC17-43B7-8B73-5850BCC15BEC}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="ClosedXML.dll"/>
+    <ROW Component="DocumentFormat.OpenXml.Framework.dll" ComponentId="{0F3BFE9C-B3D1-46D5-9306-166D31869D9D}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="DocumentFormat.OpenXml.Framework.dll"/>
+    <ROW Component="DocumentFormat.OpenXml.dll" ComponentId="{3AEDB045-4AF1-43F4-9D84-D1B5F2B92C11}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="DocumentFormat.OpenXml.dll"/>
+    <ROW Component="DuckDB.NET.Bindings.dll" ComponentId="{2044F5F4-5A99-4353-BB9E-8383A14FB7DA}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="DuckDB.NET.Bindings.dll"/>
+    <ROW Component="DuckDB.NET.Data.dll" ComponentId="{95AAF97E-5FD9-453D-9415-D55745E259AB}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="DuckDB.NET.Data.dll"/>
+    <ROW Component="ExcelNumberFormat.dll" ComponentId="{1A84DB18-91DC-48D9-90A9-3596EA615180}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="ExcelNumberFormat.dll"/>
+    <ROW Component="IronCompress.dll" ComponentId="{652FEDD1-0D94-44E3-9AF2-62D5631AAD5B}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="IronCompress.dll"/>
+    <ROW Component="MessagePack.Annotations.dll" ComponentId="{9C3149F9-EE69-4065-83EE-9E4B12E04891}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="MessagePack.Annotations.dll"/>
+    <ROW Component="MessagePack.dll" ComponentId="{8CDE2EBE-8CFD-42FF-8F45-BAE818620308}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="MessagePack.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.CSharp.dll" ComponentId="{F55E5811-29DF-4634-8C50-404A1614B309}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.CSharp.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.dll" ComponentId="{8B2D7C38-22EB-452C-BDAC-227A9CA75266}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.dll"/>
+    <ROW Component="Microsoft.Extensions.Configuration.Abstractions.dll" ComponentId="{95842585-F5AA-4AD9-ABE8-7503CC4BB273}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.Configuration.Abstractions.dll"/>
+    <ROW Component="Microsoft.Extensions.Configuration.FileExtensions.dll" ComponentId="{206C486C-4E5B-43BD-851B-B0ECADF52291}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.Configuration.FileExtensions.dll"/>
+    <ROW Component="Microsoft.Extensions.Configuration.Xml.dll" ComponentId="{9E6F0413-CFFB-4E33-A49B-84E340E16063}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.Configuration.Xml.dll"/>
+    <ROW Component="Microsoft.Extensions.Configuration.dll" ComponentId="{88DF36E0-E533-4831-AD5F-40F10AD364EF}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.Configuration.dll"/>
+    <ROW Component="Microsoft.Extensions.FileProviders.Abstractions.dll" ComponentId="{4D955C0A-6DF0-470B-8000-2817ECAAD457}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.FileProviders.Abstractions.dll"/>
+    <ROW Component="Microsoft.Extensions.FileProviders.Physical.dll" ComponentId="{C379F0B4-9FD6-4D8A-8F48-CF10ED2A47B3}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.FileProviders.Physical.dll"/>
+    <ROW Component="Microsoft.Extensions.FileSystemGlobbing.dll" ComponentId="{2222668D-F8EF-4202-A37B-17F97D5E4EB4}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.FileSystemGlobbing.dll"/>
+    <ROW Component="Microsoft.Extensions.Primitives.dll" ComponentId="{2ED59320-8CBF-44F0-8825-3A9A8278FBD6}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.Extensions.Primitives.dll"/>
+    <ROW Component="Microsoft.IO.RecyclableMemoryStream.dll" ComponentId="{4DD24896-B919-4740-9741-6B8374A21E97}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.IO.RecyclableMemoryStream.dll"/>
+    <ROW Component="Microsoft.NET.StringTools.dll" ComponentId="{0D11C29C-4935-4EAD-AD06-4A4FC0EC13E9}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Microsoft.NET.StringTools.dll"/>
+    <ROW Component="Newtonsoft.Json.dll" ComponentId="{FCDBE51E-15A8-43FE-AC40-998E27EE88BC}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Newtonsoft.Json.dll"/>
+    <ROW Component="Parquet.dll" ComponentId="{BC54C5FB-ACDA-43B1-9140-D0E14F463C01}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Parquet.dll"/>
     <ROW Component="ProductInformation" ComponentId="{81D7E198-FBF2-4459-B819-F0F4164AA332}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
-    <ROW Component="RevitAPI.dll" ComponentId="{2AE59C59-34DF-4A5E-A76B-CD1E52D9E7EF}" Directory_="Ara3D_Dir" Attributes="256" KeyPath="RevitAPI.dll"/>
-    <ROW Component="RevitAPIUI.dll" ComponentId="{95226DB2-66C5-46EA-884F-36A0D592C24D}" Directory_="Ara3D_Dir" Attributes="256" KeyPath="RevitAPIUI.dll"/>
-    <ROW Component="System.Drawing.Common.dll" ComponentId="{91580B72-F531-436C-8A4D-D18DB35867AC}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="System.Drawing.Common.dll"/>
-    <ROW Component="UIFramework.dll" ComponentId="{66187C82-4B42-49E5-AD8F-AFF0A01C736A}" Directory_="Ara3D_Dir" Attributes="256" KeyPath="UIFramework.dll"/>
+    <ROW Component="RBush.dll" ComponentId="{04BBF2A2-E1C1-461F-8B06-EEFFC3C392BA}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="RBush.dll"/>
+    <ROW Component="RevitAPI.dll" ComponentId="{79316F13-A77F-4378-8469-18C8B4D48058}" Directory_="Ara3D_Dir" Attributes="256" KeyPath="RevitAPI.dll"/>
+    <ROW Component="RevitAPIUI.dll" ComponentId="{655A464E-9098-4EFD-9E8F-8DEDE2CECE1E}" Directory_="Ara3D_Dir" Attributes="256" KeyPath="RevitAPIUI.dll"/>
+    <ROW Component="SixLabors.Fonts.dll" ComponentId="{44CA0152-F84A-4C87-9F28-BDFD6DBDEA63}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="SixLabors.Fonts.dll"/>
+    <ROW Component="Snappier.dll" ComponentId="{C2ABB3F4-025C-4470-B84F-19D22741530E}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="Snappier.dll"/>
+    <ROW Component="System.Drawing.Common.dll" ComponentId="{C6C762AD-B979-41F6-B852-D18B35494863}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="System.Drawing.Common.dll"/>
+    <ROW Component="System.IO.Packaging.dll" ComponentId="{4A9475C5-340E-460E-8B2F-E578784E5B2F}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="System.IO.Packaging.dll"/>
+    <ROW Component="UIFramework.dll" ComponentId="{2A314EA4-67C2-4610-A741-91A811022618}" Directory_="Ara3D_Dir" Attributes="256" KeyPath="UIFramework.dll"/>
+    <ROW Component="ZstdSharp.dll" ComponentId="{FCA213EA-09BA-4D07-BFF0-E148A5D2FE02}" Directory_="Ara3D_Dir" Attributes="0" KeyPath="ZstdSharp.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
     <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
-    <ROW File="BackgroundProcessingForm.cs" Component_="BackgroundProcessingForm.cs" FileName="BACKGR~1.CS|BackgroundProcessingForm.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\BackgroundProcessingForm.cs" SelfReg="false"/>
-    <ROW File="BackgroundProcessingForm.Designer.cs" Component_="BackgroundProcessingForm.cs" FileName="BACKGR~2.CS|BackgroundProcessingForm.Designer.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\BackgroundProcessingForm.Designer.cs" SelfReg="false"/>
-    <ROW File="BackgroundProcessor.cs" Component_="BackgroundProcessingForm.cs" FileName="BACKGR~3.CS|BackgroundProcessor.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\BackgroundProcessor.cs" SelfReg="false"/>
-    <ROW File="ColladaExportContext.cs" Component_="BackgroundProcessingForm.cs" FileName="COLLAD~1.CS|ColladaExportContext.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\ColladaExportContext.cs" SelfReg="false"/>
-    <ROW File="CommandColladaExport.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~1.CS|CommandColladaExport.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\CommandColladaExport.cs" SelfReg="false"/>
-    <ROW File="CommandCurrentDocument.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~2.CS|CommandCurrentDocument.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\CommandCurrentDocument.cs" SelfReg="false"/>
-    <ROW File="CommandExportAllJson.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~3.CS|CommandExportAllJson.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\CommandExportAllJson.cs" SelfReg="false"/>
-    <ROW File="CommandExportSchedules.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~4.CS|CommandExportSchedules.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\CommandExportSchedules.cs" SelfReg="false"/>
-    <ROW File="CommandExternalEventDemo.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~5.CS|CommandExternalEventDemo.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\CommandExternalEventDemo.cs" SelfReg="false"/>
-    <ROW File="CommandFamilyInstanceData.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~6.CS|CommandFamilyInstanceData.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\CommandFamilyInstanceData.cs" SelfReg="false"/>
-    <ROW File="CommandIdlingDemo.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~7.CS|CommandIdlingDemo.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\CommandIdlingDemo.cs" SelfReg="false"/>
-    <ROW File="CommandListRooms.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~8.CS|CommandListRooms.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\CommandListRooms.cs" SelfReg="false"/>
-    <ROW File="CommandSaveCurrentViewAsPng.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~9.CS|CommandSaveCurrentViewAsPng.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\CommandSaveCurrentViewAsPng.cs" SelfReg="false"/>
-    <ROW File="CommandSelectedElementsJson.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMA~10.CS|CommandSelectedElementsJson.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\CommandSelectedElementsJson.cs" SelfReg="false"/>
-    <ROW File="CommandSelectedItemGeometry.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMA~11.CS|CommandSelectedItemGeometry.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\CommandSelectedItemGeometry.cs" SelfReg="false"/>
-    <ROW File="Config.cs" Component_="BackgroundProcessingForm.cs" FileName="Config.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\Config.cs" SelfReg="false"/>
-    <ROW File="DataTableBuilder.cs" Component_="BackgroundProcessingForm.cs" FileName="DATATA~1.CS|DataTableBuilder.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\DataTableBuilder.cs" SelfReg="false"/>
-    <ROW File="DataTableForm.cs" Component_="BackgroundProcessingForm.cs" FileName="DATATA~2.CS|DataTableForm.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\DataTableForm.cs" SelfReg="false"/>
-    <ROW File="ExtensionsDataTable.cs" Component_="BackgroundProcessingForm.cs" FileName="EXTENS~1.CS|ExtensionsDataTable.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\ExtensionsDataTable.cs" SelfReg="false"/>
-    <ROW File="ExtensionsJson.cs" Component_="BackgroundProcessingForm.cs" FileName="EXTENS~2.CS|ExtensionsJson.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\ExtensionsJson.cs" SelfReg="false"/>
-    <ROW File="ExtensionsRevit.cs" Component_="BackgroundProcessingForm.cs" FileName="EXTENS~3.CS|ExtensionsRevit.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\ExtensionsRevit.cs" SelfReg="false"/>
-    <ROW File="FloorPlanData.cs" Component_="BackgroundProcessingForm.cs" FileName="FLOORP~1.CS|FloorPlanData.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\FloorPlanData.cs" SelfReg="false"/>
-    <ROW File="GeometryAbstractSyntaxTree.cs" Component_="BackgroundProcessingForm.cs" FileName="GEOMET~1.CS|GeometryAbstractSyntaxTree.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\GeometryAbstractSyntaxTree.cs" SelfReg="false"/>
-    <ROW File="ObjFileWriter.cs" Component_="BackgroundProcessingForm.cs" FileName="OBJFIL~1.CS|ObjFileWriter.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\ObjFileWriter.cs" SelfReg="false"/>
-    <ROW File="Tessellator.cs" Component_="BackgroundProcessingForm.cs" FileName="TESSEL~1.CS|Tessellator.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\Tessellator.cs" SelfReg="false"/>
-    <ROW File="TextDisplayForm.cs" Component_="BackgroundProcessingForm.cs" FileName="TEXTDI~1.CS|TextDisplayForm.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\TextDisplayForm.cs" SelfReg="false"/>
-    <ROW File="refs.txt" Component_="BackgroundProcessingForm.cs" FileName="refs.txt" Attributes="0" SourcePath="..\Ara3D.Bowerbird.RevitSamples\refs.txt" SelfReg="false"/>
-    <ROW File="SampleCommands.cs" Component_="BackgroundProcessingForm.cs" FileName="SAMPLE~1.CS|SampleCommands.cs" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Demo\Samples\SampleCommands.cs" SelfReg="false"/>
-    <ROW File="AdWindows.dll" Component_="AdWindows.dll" FileName="ADWIND~1.DLL|AdWindows.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\AdWindows.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.Demo.deps.json" Component_="Ara3D.Bowerbird.Demo.deps.json" FileName="ARA3DB~1.JSO|Ara3D.Bowerbird.Demo.deps.json" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Bowerbird.Demo.deps.json" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.Demo.dll" Component_="Ara3D.Bowerbird.Demo.dll" FileName="ARA3DB~1.DLL|Ara3D.Bowerbird.Demo.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Bowerbird.Demo.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.Demo.dll.config" Component_="Ara3D.Bowerbird.Demo.deps.json" FileName="ARA3DB~1.CON|Ara3D.Bowerbird.Demo.dll.config" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Bowerbird.Demo.dll.config" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.Demo.exe" Component_="Ara3D.Bowerbird.Demo.exe" FileName="ARA3DB~1.EXE|Ara3D.Bowerbird.Demo.exe" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Bowerbird.Demo.exe" SelfReg="false" DigSign="true"/>
-    <ROW File="Ara3D.Bowerbird.Demo.pdb" Component_="Ara3D.Bowerbird.Demo.exe" FileName="ARA3DB~1.PDB|Ara3D.Bowerbird.Demo.pdb" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Bowerbird.Demo.pdb" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.Demo.runtimeconfig.json" Component_="Ara3D.Bowerbird.Demo.deps.json" FileName="ARA3DB~2.JSO|Ara3D.Bowerbird.Demo.runtimeconfig.json" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Bowerbird.Demo.runtimeconfig.json" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.dll" Component_="Ara3D.Bowerbird.dll" FileName="ARA3DB~2.DLL|Ara3D.Bowerbird.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Bowerbird.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Bowerbird.pdb" Component_="Ara3D.Bowerbird.dll" FileName="ARA3DB~2.PDB|Ara3D.Bowerbird.pdb" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Bowerbird.pdb" SelfReg="false"/>
-    <ROW File="Ara3D.Collections.dll" Component_="Ara3D.Collections.dll" FileName="ARA3DC~1.DLL|Ara3D.Collections.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Collections.dll" SelfReg="false"/>
-    <ROW File="Ara3D.DataTable.dll" Component_="Ara3D.DataTable.dll" FileName="ARA3DD~1.DLL|Ara3D.DataTable.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.DataTable.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Domo.dll" Component_="Ara3D.Domo.dll" FileName="ARA3DD~2.DLL|Ara3D.Domo.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Domo.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Events.dll" Component_="Ara3D.Events.dll" FileName="ARA3DE~1.DLL|Ara3D.Events.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Events.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Geometry.dll" Component_="Ara3D.Geometry.dll" FileName="ARA3DG~1.DLL|Ara3D.Geometry.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Geometry.dll" SelfReg="false"/>
-    <ROW File="Ara3D.IO.A3D.dll" Component_="Ara3D.IO.A3D.dll" FileName="ARA3DI~1.DLL|Ara3D.IO.A3D.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.IO.A3D.dll" SelfReg="false"/>
-    <ROW File="Ara3D.IO.BFAST.dll" Component_="Ara3D.IO.BFAST.dll" FileName="ARA3DI~2.DLL|Ara3D.IO.BFAST.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.IO.BFAST.dll" SelfReg="false"/>
-    <ROW File="Ara3D.IO.G3D.dll" Component_="Ara3D.IO.G3D.dll" FileName="ARA3DI~3.DLL|Ara3D.IO.G3D.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.IO.G3D.dll" SelfReg="false"/>
-    <ROW File="Ara3D.IO.GltfExporter.dll" Component_="Ara3D.IO.GltfExporter.dll" FileName="ARA3DI~4.DLL|Ara3D.IO.GltfExporter.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.IO.GltfExporter.dll" SelfReg="false"/>
-    <ROW File="Ara3D.IO.IfcParser.dll" Component_="Ara3D.IO.IfcParser.dll" FileName="ARA3DI~5.DLL|Ara3D.IO.IfcParser.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.IO.IfcParser.dll" SelfReg="false"/>
-    <ROW File="Ara3D.IO.PLY.dll" Component_="Ara3D.IO.PLY.dll" FileName="ARA3DI~6.DLL|Ara3D.IO.PLY.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.IO.PLY.dll" SelfReg="false"/>
-    <ROW File="Ara3D.IO.StepParser.dll" Component_="Ara3D.IO.StepParser.dll" FileName="ARA3DI~7.DLL|Ara3D.IO.StepParser.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.IO.StepParser.dll" SelfReg="false"/>
-    <ROW File="Ara3D.IO.VIM.dll" Component_="Ara3D.IO.VIM.dll" FileName="ARA3DI~8.DLL|Ara3D.IO.VIM.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.IO.VIM.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Logging.dll" Component_="Ara3D.Logging.dll" FileName="ARA3DL~1.DLL|Ara3D.Logging.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Logging.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Memory.dll" Component_="Ara3D.Memory.dll" FileName="ARA3DM~1.DLL|Ara3D.Memory.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Memory.dll" SelfReg="false"/>
-    <ROW File="Ara3D.MemoryMappedFiles.dll" Component_="Ara3D.MemoryMappedFiles.dll" FileName="ARA3DM~2.DLL|Ara3D.MemoryMappedFiles.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.MemoryMappedFiles.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Models.dll" Component_="Ara3D.Models.dll" FileName="ARA3DM~3.DLL|Ara3D.Models.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Models.dll" SelfReg="false"/>
-    <ROW File="Ara3D.NarwhalDB.dll" Component_="Ara3D.NarwhalDB.dll" FileName="ARA3DN~1.DLL|Ara3D.NarwhalDB.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.NarwhalDB.dll" SelfReg="false"/>
-    <ROW File="Ara3D.PropKit.dll" Component_="Ara3D.PropKit.dll" FileName="ARA3DP~1.DLL|Ara3D.PropKit.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.PropKit.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Revit2025.Bowerbird.deps.json" Component_="Ara3D.Bowerbird.Demo.deps.json" FileName="ARA3DR~1.JSO|Ara3D.Revit2025.Bowerbird.deps.json" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Revit2025.Bowerbird.deps.json" SelfReg="false"/>
-    <ROW File="Ara3D.Revit2025.Bowerbird.dll" Component_="Ara3D.Revit2025.Bowerbird.dll" FileName="ARA3DR~1.DLL|Ara3D.Revit2025.Bowerbird.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Revit2025.Bowerbird.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Revit2025.Bowerbird.dll.config" Component_="Ara3D.Bowerbird.Demo.deps.json" FileName="ARA3DR~1.CON|Ara3D.Revit2025.Bowerbird.dll.config" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Revit2025.Bowerbird.dll.config" SelfReg="false"/>
-    <ROW File="Ara3D.Revit2025.Bowerbird.pdb" Component_="Ara3D.Revit2025.Bowerbird.dll" FileName="ARA3DR~1.PDB|Ara3D.Revit2025.Bowerbird.pdb" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Revit2025.Bowerbird.pdb" SelfReg="false"/>
-    <ROW File="Ara3D.SceneEval.dll" Component_="Ara3D.SceneEval.dll" FileName="ARA3DS~1.DLL|Ara3D.SceneEval.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.SceneEval.dll" SelfReg="false"/>
-    <ROW File="Ara3D.ScriptService.dll" Component_="Ara3D.ScriptService.dll" FileName="ARA3DS~2.DLL|Ara3D.ScriptService.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.ScriptService.dll" SelfReg="false"/>
-    <ROW File="Ara3D.SDK.dll" Component_="Ara3D.SDK.dll" FileName="ARA3DS~3.DLL|Ara3D.SDK.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.SDK.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Services.dll" Component_="Ara3D.Services.dll" FileName="ARA3DS~4.DLL|Ara3D.Services.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Services.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Studio.API.dll" Component_="Ara3D.Studio.API.dll" FileName="ARA3DS~5.DLL|Ara3D.Studio.API.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Studio.API.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Studio.Data.dll" Component_="Ara3D.Studio.Data.dll" FileName="ARA3DS~6.DLL|Ara3D.Studio.Data.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Studio.Data.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Utils.dll" Component_="Ara3D.Utils.dll" FileName="ARA3DU~1.DLL|Ara3D.Utils.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Utils.dll" SelfReg="false"/>
-    <ROW File="Ara3D.Utils.Roslyn.dll" Component_="Ara3D.Utils.Roslyn.dll" FileName="ARA3DU~2.DLL|Ara3D.Utils.Roslyn.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Ara3D.Utils.Roslyn.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.CSharp.dll" Component_="Microsoft.CodeAnalysis.CSharp.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Microsoft.CodeAnalysis.CSharp.dll" SelfReg="false"/>
-    <ROW File="Microsoft.CodeAnalysis.dll" Component_="Microsoft.CodeAnalysis.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Microsoft.CodeAnalysis.dll" SelfReg="false"/>
-    <ROW File="Microsoft.Extensions.Configuration.Abstractions.dll" Component_="Microsoft.Extensions.Configuration.Abstractions.dll" FileName="MICROS~3.DLL|Microsoft.Extensions.Configuration.Abstractions.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll" SelfReg="false"/>
-    <ROW File="Microsoft.Extensions.Configuration.dll" Component_="Microsoft.Extensions.Configuration.dll" FileName="MICROS~4.DLL|Microsoft.Extensions.Configuration.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.dll" SelfReg="false"/>
-    <ROW File="Microsoft.Extensions.Configuration.FileExtensions.dll" Component_="Microsoft.Extensions.Configuration.FileExtensions.dll" FileName="MICROS~5.DLL|Microsoft.Extensions.Configuration.FileExtensions.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll" SelfReg="false"/>
-    <ROW File="Microsoft.Extensions.Configuration.Xml.dll" Component_="Microsoft.Extensions.Configuration.Xml.dll" FileName="MICROS~6.DLL|Microsoft.Extensions.Configuration.Xml.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Xml.dll" SelfReg="false"/>
-    <ROW File="Microsoft.Extensions.FileProviders.Abstractions.dll" Component_="Microsoft.Extensions.FileProviders.Abstractions.dll" FileName="MICROS~7.DLL|Microsoft.Extensions.FileProviders.Abstractions.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll" SelfReg="false"/>
-    <ROW File="Microsoft.Extensions.FileProviders.Physical.dll" Component_="Microsoft.Extensions.FileProviders.Physical.dll" FileName="MICROS~8.DLL|Microsoft.Extensions.FileProviders.Physical.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Physical.dll" SelfReg="false"/>
-    <ROW File="Microsoft.Extensions.FileSystemGlobbing.dll" Component_="Microsoft.Extensions.FileSystemGlobbing.dll" FileName="MICROS~9.DLL|Microsoft.Extensions.FileSystemGlobbing.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll" SelfReg="false"/>
-    <ROW File="Microsoft.Extensions.Primitives.dll" Component_="Microsoft.Extensions.Primitives.dll" FileName="MICRO~10.DLL|Microsoft.Extensions.Primitives.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll" SelfReg="false"/>
-    <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\Newtonsoft.Json.dll" SelfReg="false"/>
-    <ROW File="RevitAPI.dll" Component_="RevitAPI.dll" FileName="RevitAPI.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\RevitAPI.dll" SelfReg="false"/>
-    <ROW File="RevitAPIUI.dll" Component_="RevitAPIUI.dll" FileName="REVITA~1.DLL|RevitAPIUI.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\RevitAPIUI.dll" SelfReg="false"/>
-    <ROW File="System.Drawing.Common.dll" Component_="System.Drawing.Common.dll" FileName="SYSTEM~1.DLL|System.Drawing.Common.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\System.Drawing.Common.dll" SelfReg="false"/>
-    <ROW File="UIFramework.dll" Component_="UIFramework.dll" FileName="UIFRAM~1.DLL|UIFramework.dll" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\bin\Debug\net8.0-windows\UIFramework.dll" SelfReg="false"/>
     <ROW File="Ara3D.Bowerbird.Revit2025.addin" Component_="Ara3D.Bowerbird.Revit2025.addin_1" FileName="ARA3DB~1.ADD|Ara3D.Bowerbird.Revit2025.addin" Attributes="0" SourcePath="..\Ara3D.Bowerbird.Revit2025\Ara3D.Bowerbird.Revit2025.addin" SelfReg="false"/>
+    <ROW File="BackgroundProcessingForm.cs" Component_="BackgroundProcessingForm.cs" FileName="BACKGR~1.CS|BackgroundProcessingForm.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\BackgroundProcessingForm.cs" SelfReg="false"/>
+    <ROW File="BackgroundProcessingForm.Designer.cs" Component_="BackgroundProcessingForm.cs" FileName="BACKGR~2.CS|BackgroundProcessingForm.Designer.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\BackgroundProcessingForm.Designer.cs" SelfReg="false"/>
+    <ROW File="BackgroundProcessor.cs" Component_="BackgroundProcessingForm.cs" FileName="BACKGR~3.CS|BackgroundProcessor.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\BackgroundProcessor.cs" SelfReg="false"/>
+    <ROW File="BIMDataBuilder.cs" Component_="BackgroundProcessingForm.cs" FileName="BIMDAT~1.CS|BIMDataBuilder.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\BIMDataBuilder.cs" SelfReg="false"/>
+    <ROW File="BIMDataExtension.cs" Component_="BackgroundProcessingForm.cs" FileName="BIMDAT~2.CS|BIMDataExtension.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\BIMDataExtension.cs" SelfReg="false"/>
+    <ROW File="BIMOpenSchema.cs" Component_="BackgroundProcessingForm.cs" FileName="BIMOPE~1.CS|BIMOpenSchema.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\BIMOpenSchema.cs" SelfReg="false"/>
+    <ROW File="BIMOpenSchemaHelpers.cs" Component_="BackgroundProcessingForm.cs" FileName="BIMOPE~2.CS|BIMOpenSchemaHelpers.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\BIMOpenSchemaHelpers.cs" SelfReg="false"/>
+    <ROW File="CategoryExtensions.cs" Component_="BackgroundProcessingForm.cs" FileName="CATEGO~1.CS|CategoryExtensions.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CategoryExtensions.cs" SelfReg="false"/>
+    <ROW File="ColladaExportContext.cs" Component_="BackgroundProcessingForm.cs" FileName="COLLAD~1.CS|ColladaExportContext.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\ColladaExportContext.cs" SelfReg="false"/>
+    <ROW File="CommandColladaExport.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~1.CS|CommandColladaExport.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandColladaExport.cs" SelfReg="false"/>
+    <ROW File="CommandCurrentDocument.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~2.CS|CommandCurrentDocument.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandCurrentDocument.cs" SelfReg="false"/>
+    <ROW File="CommandExportAllJson.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~3.CS|CommandExportAllJson.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandExportAllJson.cs" SelfReg="false"/>
+    <ROW File="CommandExportBIMOpenSchema.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~4.CS|CommandExportBIMOpenSchema.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandExportBIMOpenSchema.cs" SelfReg="false"/>
+    <ROW File="CommandExportParametersNaive.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~5.CS|CommandExportParametersNaive.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandExportParametersNaive.cs" SelfReg="false"/>
+    <ROW File="CommandExportSchedules.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~6.CS|CommandExportSchedules.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandExportSchedules.cs" SelfReg="false"/>
+    <ROW File="CommandExternalEventDemo.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~7.CS|CommandExternalEventDemo.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandExternalEventDemo.cs" SelfReg="false"/>
+    <ROW File="CommandFamilyInstanceData.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~8.CS|CommandFamilyInstanceData.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandFamilyInstanceData.cs" SelfReg="false"/>
+    <ROW File="CommandIdlingDemo.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMAN~9.CS|CommandIdlingDemo.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandIdlingDemo.cs" SelfReg="false"/>
+    <ROW File="CommandListRooms.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMA~10.CS|CommandListRooms.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandListRooms.cs" SelfReg="false"/>
+    <ROW File="CommandProcessBReps.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMA~11.CS|CommandProcessBReps.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandProcessBReps.cs" SelfReg="false"/>
+    <ROW File="CommandSaveCurrentViewAsPng.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMA~12.CS|CommandSaveCurrentViewAsPng.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandSaveCurrentViewAsPng.cs" SelfReg="false"/>
+    <ROW File="CommandSelectedElementsJson.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMA~13.CS|CommandSelectedElementsJson.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandSelectedElementsJson.cs" SelfReg="false"/>
+    <ROW File="CommandSelectedItemGeometry.cs" Component_="BackgroundProcessingForm.cs" FileName="COMMA~14.CS|CommandSelectedItemGeometry.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\CommandSelectedItemGeometry.cs" SelfReg="false"/>
+    <ROW File="Config.cs" Component_="BackgroundProcessingForm.cs" FileName="Config.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\Config.cs" SelfReg="false"/>
+    <ROW File="DataTableBuilder.cs" Component_="BackgroundProcessingForm.cs" FileName="DATATA~1.CS|DataTableBuilder.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\DataTableBuilder.cs" SelfReg="false"/>
+    <ROW File="DataTableForm.cs" Component_="BackgroundProcessingForm.cs" FileName="DATATA~2.CS|DataTableForm.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\DataTableForm.cs" SelfReg="false"/>
+    <ROW File="DocumentUtils.cs" Component_="BackgroundProcessingForm.cs" FileName="DOCUME~1.CS|DocumentUtils.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\DocumentUtils.cs" SelfReg="false"/>
+    <ROW File="ExtensionsDataTable.cs" Component_="BackgroundProcessingForm.cs" FileName="EXTENS~1.CS|ExtensionsDataTable.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\ExtensionsDataTable.cs" SelfReg="false"/>
+    <ROW File="ExtensionsJson.cs" Component_="BackgroundProcessingForm.cs" FileName="EXTENS~2.CS|ExtensionsJson.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\ExtensionsJson.cs" SelfReg="false"/>
+    <ROW File="ExtensionsRevit.cs" Component_="BackgroundProcessingForm.cs" FileName="EXTENS~3.CS|ExtensionsRevit.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\ExtensionsRevit.cs" SelfReg="false"/>
+    <ROW File="FaceData.cs" Component_="BackgroundProcessingForm.cs" FileName="FaceData.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\FaceData.cs" SelfReg="false"/>
+    <ROW File="FaceDataExtensions.cs" Component_="BackgroundProcessingForm.cs" FileName="FACEDA~1.CS|FaceDataExtensions.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\FaceDataExtensions.cs" SelfReg="false"/>
+    <ROW File="FloorPlanData.cs" Component_="BackgroundProcessingForm.cs" FileName="FLOORP~1.CS|FloorPlanData.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\FloorPlanData.cs" SelfReg="false"/>
+    <ROW File="GeometryAbstractSyntaxTree.cs" Component_="BackgroundProcessingForm.cs" FileName="GEOMET~1.CS|GeometryAbstractSyntaxTree.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\GeometryAbstractSyntaxTree.cs" SelfReg="false"/>
+    <ROW File="NaiveParameters.cs" Component_="BackgroundProcessingForm.cs" FileName="NAIVEP~1.CS|NaiveParameters.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\NaiveParameters.cs" SelfReg="false"/>
+    <ROW File="ObjectSpreader.cs" Component_="BackgroundProcessingForm.cs" FileName="OBJECT~1.CS|ObjectSpreader.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\ObjectSpreader.cs" SelfReg="false"/>
+    <ROW File="ObjFileWriter.cs" Component_="BackgroundProcessingForm.cs" FileName="OBJFIL~1.CS|ObjFileWriter.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\ObjFileWriter.cs" SelfReg="false"/>
+    <ROW File="ParameterUtils.cs" Component_="BackgroundProcessingForm.cs" FileName="PARAME~1.CS|ParameterUtils.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\ParameterUtils.cs" SelfReg="false"/>
+    <ROW File="refs.txt" Component_="BackgroundProcessingForm.cs" FileName="refs.txt" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\refs.txt" SelfReg="false"/>
+    <ROW File="RevitBIMDataBuilder.cs" Component_="BackgroundProcessingForm.cs" FileName="REVITB~1.CS|RevitBIMDataBuilder.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\RevitBIMDataBuilder.cs" SelfReg="false"/>
+    <ROW File="RevitToOpenBimSchema.cs" Component_="BackgroundProcessingForm.cs" FileName="REVITT~1.CS|RevitToOpenBimSchema.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\RevitToOpenBimSchema.cs" SelfReg="false"/>
+    <ROW File="SampleCommands.cs" Component_="BackgroundProcessingForm.cs" FileName="SAMPLE~1.CS|SampleCommands.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\SampleCommands.cs" SelfReg="false"/>
+    <ROW File="SerializationHelper.cs" Component_="BackgroundProcessingForm.cs" FileName="SERIAL~1.CS|SerializationHelper.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\SerializationHelper.cs" SelfReg="false"/>
+    <ROW File="TextDisplayForm.cs" Component_="BackgroundProcessingForm.cs" FileName="TEXTDI~1.CS|TextDisplayForm.cs" Attributes="0" SourcePath="..\..\..\AppData\Local\Ara 3D\Bowerbird for Revit 2025\Scripts\TextDisplayForm.cs" SelfReg="false"/>
+    <ROW File="Ara3D.Revit2025.Bowerbird.dll.config" Component_="Ara3D.Revit2025.Bowerbird.dll.config" FileName="ARA3DR~1.CON|Ara3D.Revit2025.Bowerbird.dll.config" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Revit2025.Bowerbird.dll.config" SelfReg="false"/>
+    <ROW File="Ara3D.Revit2025.Bowerbird.pdb" Component_="Ara3D.Revit2025.Bowerbird.pdb" FileName="ARA3DR~1.PDB|Ara3D.Revit2025.Bowerbird.pdb" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Revit2025.Bowerbird.pdb" SelfReg="false"/>
+    <ROW File="Ara3D.SceneEval.dll" Component_="Ara3D.SceneEval.dll" FileName="ARA3DS~1.DLL|Ara3D.SceneEval.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.SceneEval.dll" SelfReg="false"/>
+    <ROW File="Ara3D.ScriptService.dll" Component_="Ara3D.ScriptService.dll" FileName="ARA3DS~2.DLL|Ara3D.ScriptService.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.ScriptService.dll" SelfReg="false"/>
+    <ROW File="Ara3D.SDK.dll" Component_="Ara3D.SDK.dll" FileName="ARA3DS~3.DLL|Ara3D.SDK.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.SDK.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Services.dll" Component_="Ara3D.Services.dll" FileName="ARA3DS~4.DLL|Ara3D.Services.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Services.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Studio.API.dll" Component_="Ara3D.Studio.API.dll" FileName="ARA3DS~5.DLL|Ara3D.Studio.API.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Studio.API.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Studio.Data.dll" Component_="Ara3D.Studio.Data.dll" FileName="ARA3DS~6.DLL|Ara3D.Studio.Data.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Studio.Data.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Utils.dll" Component_="Ara3D.Utils.dll" FileName="ARA3DU~1.DLL|Ara3D.Utils.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Utils.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Utils.Roslyn.dll" Component_="Ara3D.Utils.Roslyn.dll" FileName="ARA3DU~2.DLL|Ara3D.Utils.Roslyn.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Utils.Roslyn.dll" SelfReg="false"/>
+    <ROW File="Ara3D.WorkItems.dll" Component_="Ara3D.WorkItems.dll" FileName="ARA3DW~1.DLL|Ara3D.WorkItems.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.WorkItems.dll" SelfReg="false"/>
+    <ROW File="ClosedXML.dll" Component_="ClosedXML.dll" FileName="CLOSED~1.DLL|ClosedXML.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\ClosedXML.dll" SelfReg="false"/>
+    <ROW File="ClosedXML.Parser.dll" Component_="ClosedXML.Parser.dll" FileName="CLOSED~2.DLL|ClosedXML.Parser.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\ClosedXML.Parser.dll" SelfReg="false"/>
+    <ROW File="DocumentFormat.OpenXml.dll" Component_="DocumentFormat.OpenXml.dll" FileName="DOCUME~1.DLL|DocumentFormat.OpenXml.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\DocumentFormat.OpenXml.dll" SelfReg="false"/>
+    <ROW File="DocumentFormat.OpenXml.Framework.dll" Component_="DocumentFormat.OpenXml.Framework.dll" FileName="DOCUME~2.DLL|DocumentFormat.OpenXml.Framework.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\DocumentFormat.OpenXml.Framework.dll" SelfReg="false"/>
+    <ROW File="DuckDB.NET.Bindings.dll" Component_="DuckDB.NET.Bindings.dll" FileName="DUCKDB~1.DLL|DuckDB.NET.Bindings.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\DuckDB.NET.Bindings.dll" SelfReg="false"/>
+    <ROW File="DuckDB.NET.Data.dll" Component_="DuckDB.NET.Data.dll" FileName="DUCKDB~2.DLL|DuckDB.NET.Data.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\DuckDB.NET.Data.dll" SelfReg="false"/>
+    <ROW File="ExcelNumberFormat.dll" Component_="ExcelNumberFormat.dll" FileName="EXCELN~1.DLL|ExcelNumberFormat.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\ExcelNumberFormat.dll" SelfReg="false"/>
+    <ROW File="IronCompress.dll" Component_="IronCompress.dll" FileName="IRONCO~1.DLL|IronCompress.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\IronCompress.dll" SelfReg="false"/>
+    <ROW File="MessagePack.Annotations.dll" Component_="MessagePack.Annotations.dll" FileName="MESSAG~1.DLL|MessagePack.Annotations.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\MessagePack.Annotations.dll" SelfReg="false"/>
+    <ROW File="MessagePack.dll" Component_="MessagePack.dll" FileName="MESSAG~2.DLL|MessagePack.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\MessagePack.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.CSharp.dll" Component_="Microsoft.CodeAnalysis.CSharp.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.CSharp.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.CodeAnalysis.CSharp.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.dll" Component_="Microsoft.CodeAnalysis.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.CodeAnalysis.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.Configuration.Abstractions.dll" Component_="Microsoft.Extensions.Configuration.Abstractions.dll" FileName="MICROS~3.DLL|Microsoft.Extensions.Configuration.Abstractions.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.Extensions.Configuration.Abstractions.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.Configuration.dll" Component_="Microsoft.Extensions.Configuration.dll" FileName="MICROS~4.DLL|Microsoft.Extensions.Configuration.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.Extensions.Configuration.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.Configuration.FileExtensions.dll" Component_="Microsoft.Extensions.Configuration.FileExtensions.dll" FileName="MICROS~5.DLL|Microsoft.Extensions.Configuration.FileExtensions.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.Extensions.Configuration.FileExtensions.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.Configuration.Xml.dll" Component_="Microsoft.Extensions.Configuration.Xml.dll" FileName="MICROS~6.DLL|Microsoft.Extensions.Configuration.Xml.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.Extensions.Configuration.Xml.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.FileProviders.Abstractions.dll" Component_="Microsoft.Extensions.FileProviders.Abstractions.dll" FileName="MICROS~7.DLL|Microsoft.Extensions.FileProviders.Abstractions.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.Extensions.FileProviders.Abstractions.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.FileProviders.Physical.dll" Component_="Microsoft.Extensions.FileProviders.Physical.dll" FileName="MICROS~8.DLL|Microsoft.Extensions.FileProviders.Physical.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.Extensions.FileProviders.Physical.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.FileSystemGlobbing.dll" Component_="Microsoft.Extensions.FileSystemGlobbing.dll" FileName="MICROS~9.DLL|Microsoft.Extensions.FileSystemGlobbing.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.Extensions.FileSystemGlobbing.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.Primitives.dll" Component_="Microsoft.Extensions.Primitives.dll" FileName="MICRO~10.DLL|Microsoft.Extensions.Primitives.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.Extensions.Primitives.dll" SelfReg="false"/>
+    <ROW File="Microsoft.IO.RecyclableMemoryStream.dll" Component_="Microsoft.IO.RecyclableMemoryStream.dll" FileName="MICRO~11.DLL|Microsoft.IO.RecyclableMemoryStream.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.IO.RecyclableMemoryStream.dll" SelfReg="false"/>
+    <ROW File="Microsoft.NET.StringTools.dll" Component_="Microsoft.NET.StringTools.dll" FileName="MICRO~12.DLL|Microsoft.NET.StringTools.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Microsoft.NET.StringTools.dll" SelfReg="false"/>
+    <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="NEWTON~1.DLL|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Newtonsoft.Json.dll" SelfReg="false"/>
+    <ROW File="Parquet.dll" Component_="Parquet.dll" FileName="Parquet.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Parquet.dll" SelfReg="false"/>
+    <ROW File="RBush.dll" Component_="RBush.dll" FileName="RBush.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\RBush.dll" SelfReg="false"/>
+    <ROW File="RevitAPI.dll" Component_="RevitAPI.dll" FileName="RevitAPI.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\RevitAPI.dll" SelfReg="false"/>
+    <ROW File="RevitAPIUI.dll" Component_="RevitAPIUI.dll" FileName="REVITA~1.DLL|RevitAPIUI.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\RevitAPIUI.dll" SelfReg="false"/>
+    <ROW File="SixLabors.Fonts.dll" Component_="SixLabors.Fonts.dll" FileName="SIXLAB~1.DLL|SixLabors.Fonts.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\SixLabors.Fonts.dll" SelfReg="false"/>
+    <ROW File="Snappier.dll" Component_="Snappier.dll" FileName="Snappier.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Snappier.dll" SelfReg="false"/>
+    <ROW File="System.Drawing.Common.dll" Component_="System.Drawing.Common.dll" FileName="SYSTEM~1.DLL|System.Drawing.Common.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\System.Drawing.Common.dll" SelfReg="false"/>
+    <ROW File="System.IO.Packaging.dll" Component_="System.IO.Packaging.dll" FileName="SYSTEM~2.DLL|System.IO.Packaging.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\System.IO.Packaging.dll" SelfReg="false"/>
+    <ROW File="temp.txt" Component_="Ara3D.Revit2025.Bowerbird.dll.config" FileName="temp.txt" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\temp.txt" SelfReg="false"/>
+    <ROW File="UIFramework.dll" Component_="UIFramework.dll" FileName="UIFRAM~1.DLL|UIFramework.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\UIFramework.dll" SelfReg="false"/>
+    <ROW File="ZstdSharp.dll" Component_="ZstdSharp.dll" FileName="ZSTDSH~1.DLL|ZstdSharp.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\ZstdSharp.dll" SelfReg="false"/>
+    <ROW File="AdWindows.dll" Component_="AdWindows.dll" FileName="ADWIND~1.DLL|AdWindows.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\AdWindows.dll" SelfReg="false"/>
+    <ROW File="Ara3D.BimOpenSchema.dll" Component_="Ara3D.BimOpenSchema.dll" FileName="ARA3DB~1.DLL|Ara3D.BimOpenSchema.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.BimOpenSchema.dll" SelfReg="false"/>
+    <ROW File="Ara3D.BimOpenSchema.IO.dll" Component_="Ara3D.BimOpenSchema.IO.dll" FileName="ARA3DB~2.DLL|Ara3D.BimOpenSchema.IO.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.BimOpenSchema.IO.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.Demo.deps.json" Component_="Ara3D.Revit2025.Bowerbird.dll.config" FileName="ARA3DB~1.JSO|Ara3D.Bowerbird.Demo.deps.json" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Bowerbird.Demo.deps.json" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.Demo.dll" Component_="Ara3D.Bowerbird.Demo.dll" FileName="ARA3DB~3.DLL|Ara3D.Bowerbird.Demo.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Bowerbird.Demo.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.Demo.dll.config" Component_="Ara3D.Revit2025.Bowerbird.dll.config" FileName="ARA3DB~1.CON|Ara3D.Bowerbird.Demo.dll.config" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Bowerbird.Demo.dll.config" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.Demo.exe" Component_="Ara3D.Bowerbird.Demo.exe" FileName="ARA3DB~1.EXE|Ara3D.Bowerbird.Demo.exe" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Bowerbird.Demo.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="Ara3D.Bowerbird.Demo.pdb" Component_="Ara3D.Bowerbird.Demo.exe" FileName="ARA3DB~1.PDB|Ara3D.Bowerbird.Demo.pdb" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Bowerbird.Demo.pdb" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.Demo.runtimeconfig.json" Component_="Ara3D.Revit2025.Bowerbird.dll.config" FileName="ARA3DB~2.JSO|Ara3D.Bowerbird.Demo.runtimeconfig.json" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Bowerbird.Demo.runtimeconfig.json" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.dll" Component_="Ara3D.Bowerbird.dll" FileName="ARA3DB~4.DLL|Ara3D.Bowerbird.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Bowerbird.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Bowerbird.pdb" Component_="Ara3D.Bowerbird.dll" FileName="ARA3DB~2.PDB|Ara3D.Bowerbird.pdb" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Bowerbird.pdb" SelfReg="false"/>
+    <ROW File="Ara3D.Collections.dll" Component_="Ara3D.Collections.dll" FileName="ARA3DC~1.DLL|Ara3D.Collections.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Collections.dll" SelfReg="false"/>
+    <ROW File="Ara3D.DataTable.dll" Component_="Ara3D.DataTable.dll" FileName="ARA3DD~1.DLL|Ara3D.DataTable.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.DataTable.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Domo.dll" Component_="Ara3D.Domo.dll" FileName="ARA3DD~2.DLL|Ara3D.Domo.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Domo.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Events.dll" Component_="Ara3D.Events.dll" FileName="ARA3DE~1.DLL|Ara3D.Events.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Events.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Geometry.dll" Component_="Ara3D.Geometry.dll" FileName="ARA3DG~1.DLL|Ara3D.Geometry.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Geometry.dll" SelfReg="false"/>
+    <ROW File="Ara3D.IO.A3D.dll" Component_="Ara3D.IO.A3D.dll" FileName="ARA3DI~1.DLL|Ara3D.IO.A3D.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.IO.A3D.dll" SelfReg="false"/>
+    <ROW File="Ara3D.IO.BFAST.dll" Component_="Ara3D.IO.BFAST.dll" FileName="ARA3DI~2.DLL|Ara3D.IO.BFAST.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.IO.BFAST.dll" SelfReg="false"/>
+    <ROW File="Ara3D.IO.G3D.dll" Component_="Ara3D.IO.G3D.dll" FileName="ARA3DI~3.DLL|Ara3D.IO.G3D.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.IO.G3D.dll" SelfReg="false"/>
+    <ROW File="Ara3D.IO.GltfExporter.dll" Component_="Ara3D.IO.GltfExporter.dll" FileName="ARA3DI~4.DLL|Ara3D.IO.GltfExporter.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.IO.GltfExporter.dll" SelfReg="false"/>
+    <ROW File="Ara3D.IO.IfcParser.dll" Component_="Ara3D.IO.IfcParser.dll" FileName="ARA3DI~5.DLL|Ara3D.IO.IfcParser.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.IO.IfcParser.dll" SelfReg="false"/>
+    <ROW File="Ara3D.IO.PLY.dll" Component_="Ara3D.IO.PLY.dll" FileName="ARA3DI~6.DLL|Ara3D.IO.PLY.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.IO.PLY.dll" SelfReg="false"/>
+    <ROW File="Ara3D.IO.StepParser.dll" Component_="Ara3D.IO.StepParser.dll" FileName="ARA3DI~7.DLL|Ara3D.IO.StepParser.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.IO.StepParser.dll" SelfReg="false"/>
+    <ROW File="Ara3D.IO.VIM.dll" Component_="Ara3D.IO.VIM.dll" FileName="ARA3DI~8.DLL|Ara3D.IO.VIM.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.IO.VIM.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Logging.dll" Component_="Ara3D.Logging.dll" FileName="ARA3DL~1.DLL|Ara3D.Logging.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Logging.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Memory.dll" Component_="Ara3D.Memory.dll" FileName="ARA3DM~1.DLL|Ara3D.Memory.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Memory.dll" SelfReg="false"/>
+    <ROW File="Ara3D.MemoryMappedFiles.dll" Component_="Ara3D.MemoryMappedFiles.dll" FileName="ARA3DM~2.DLL|Ara3D.MemoryMappedFiles.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.MemoryMappedFiles.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Models.dll" Component_="Ara3D.Models.dll" FileName="ARA3DM~3.DLL|Ara3D.Models.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Models.dll" SelfReg="false"/>
+    <ROW File="Ara3D.NarwhalDB.dll" Component_="Ara3D.NarwhalDB.dll" FileName="ARA3DN~1.DLL|Ara3D.NarwhalDB.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.NarwhalDB.dll" SelfReg="false"/>
+    <ROW File="Ara3D.PropKit.dll" Component_="Ara3D.PropKit.dll" FileName="ARA3DP~1.DLL|Ara3D.PropKit.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.PropKit.dll" SelfReg="false"/>
+    <ROW File="Ara3D.Revit2025.Bowerbird.deps.json" Component_="Ara3D.Revit2025.Bowerbird.dll.config" FileName="ARA3DR~1.JSO|Ara3D.Revit2025.Bowerbird.deps.json" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Revit2025.Bowerbird.deps.json" SelfReg="false"/>
+    <ROW File="Ara3D.Revit2025.Bowerbird.dll" Component_="Ara3D.Revit2025.Bowerbird.pdb" FileName="ARA3DR~1.DLL|Ara3D.Revit2025.Bowerbird.dll" Attributes="0" SourcePath="..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2025\Ara3D.Bowerbird\Ara3D.Revit2025.Bowerbird.dll" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
@@ -260,8 +319,56 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatCompsComponent">
     <ROW Feature_="MainFeature" Component_="APPDIR"/>
     <ROW Feature_="MainFeature" Component_="ProductInformation"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.Revit2025.Bowerbird.dll.config"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.Revit2025.Bowerbird.pdb"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.SceneEval.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.ScriptService.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.SDK.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.Services.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.Studio.API.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.Studio.Data.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.Utils.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.Utils.Roslyn.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.WorkItems.dll"/>
+    <ROW Feature_="MainFeature" Component_="ClosedXML.dll"/>
+    <ROW Feature_="MainFeature" Component_="ClosedXML.Parser.dll"/>
+    <ROW Feature_="MainFeature" Component_="DocumentFormat.OpenXml.dll"/>
+    <ROW Feature_="MainFeature" Component_="DocumentFormat.OpenXml.Framework.dll"/>
+    <ROW Feature_="MainFeature" Component_="DuckDB.NET.Bindings.dll"/>
+    <ROW Feature_="MainFeature" Component_="DuckDB.NET.Data.dll"/>
+    <ROW Feature_="MainFeature" Component_="ExcelNumberFormat.dll"/>
+    <ROW Feature_="MainFeature" Component_="IronCompress.dll"/>
+    <ROW Feature_="MainFeature" Component_="MessagePack.Annotations.dll"/>
+    <ROW Feature_="MainFeature" Component_="MessagePack.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.CSharp.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.Configuration.Abstractions.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.Configuration.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.Configuration.FileExtensions.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.Configuration.Xml.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.FileProviders.Abstractions.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.FileProviders.Physical.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.FileSystemGlobbing.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.Primitives.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.IO.RecyclableMemoryStream.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.NET.StringTools.dll"/>
+    <ROW Feature_="MainFeature" Component_="Newtonsoft.Json.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D"/>
+    <ROW Feature_="MainFeature" Component_="Parquet.dll"/>
+    <ROW Feature_="MainFeature" Component_="RBush.dll"/>
+    <ROW Feature_="MainFeature" Component_="RevitAPI.dll"/>
+    <ROW Feature_="MainFeature" Component_="RevitAPIUI.dll"/>
+    <ROW Feature_="MainFeature" Component_="SixLabors.Fonts.dll"/>
+    <ROW Feature_="MainFeature" Component_="Snappier.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Drawing.Common.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.IO.Packaging.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.Bowerbird.Revit2025.addin_1"/>
+    <ROW Feature_="MainFeature" Component_="UIFramework.dll"/>
+    <ROW Feature_="MainFeature" Component_="ZstdSharp.dll"/>
+    <ROW Feature_="MainFeature" Component_="BackgroundProcessingForm.cs"/>
     <ROW Feature_="MainFeature" Component_="AdWindows.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.Bowerbird.Demo.deps.json"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.BimOpenSchema.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ara3D.BimOpenSchema.IO.dll"/>
     <ROW Feature_="MainFeature" Component_="Ara3D.Bowerbird.Demo.dll"/>
     <ROW Feature_="MainFeature" Component_="Ara3D.Bowerbird.Demo.exe"/>
     <ROW Feature_="MainFeature" Component_="Ara3D.Bowerbird.dll"/>
@@ -284,33 +391,6 @@
     <ROW Feature_="MainFeature" Component_="Ara3D.Models.dll"/>
     <ROW Feature_="MainFeature" Component_="Ara3D.NarwhalDB.dll"/>
     <ROW Feature_="MainFeature" Component_="Ara3D.PropKit.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.Revit2025.Bowerbird.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.SceneEval.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.ScriptService.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.SDK.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.Services.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.Studio.API.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.Studio.Data.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.Utils.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.Utils.Roslyn.dll"/>
-    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.CSharp.dll"/>
-    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.dll"/>
-    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.Configuration.Abstractions.dll"/>
-    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.Configuration.dll"/>
-    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.Configuration.FileExtensions.dll"/>
-    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.Configuration.Xml.dll"/>
-    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.FileProviders.Abstractions.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D"/>
-    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.FileProviders.Physical.dll"/>
-    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.FileSystemGlobbing.dll"/>
-    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.Primitives.dll"/>
-    <ROW Feature_="MainFeature" Component_="Newtonsoft.Json.dll"/>
-    <ROW Feature_="MainFeature" Component_="RevitAPI.dll"/>
-    <ROW Feature_="MainFeature" Component_="RevitAPIUI.dll"/>
-    <ROW Feature_="MainFeature" Component_="System.Drawing.Common.dll"/>
-    <ROW Feature_="MainFeature" Component_="UIFramework.dll"/>
-    <ROW Feature_="MainFeature" Component_="Ara3D.Bowerbird.Revit2025.addin_1"/>
-    <ROW Feature_="MainFeature" Component_="BackgroundProcessingForm.cs"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>

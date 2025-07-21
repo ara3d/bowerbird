@@ -56,7 +56,8 @@ public class CommandExportBIMOpenSchema : NamedCommand
                    $"{bd.Relations.Count} relations\r\n" +
                    $"Processing took {processingTime.TotalSeconds:F} seconds\r\n" + 
                    $"Building took {buildTime.TotalSeconds:F} seconds\r\n" +
-                   $"Output size was {fp.GetFileSizeAsString()}";
+                   $"Output size was {fp.GetFileSizeAsString()}\r\n" +
+                   $"File is {fp}";
 
         MessageBox.Show(text);
     }
