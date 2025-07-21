@@ -8,8 +8,6 @@ using Ara3D.Utils;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Newtonsoft.Json;
-using MessagePack;
-using MessagePack.Resolvers;
 using Ara3D.Domo;
 using System.Windows.Controls;
 
@@ -37,7 +35,6 @@ namespace Ara3D.Bowerbird.RevitSamples
             timer.Restart();
             var outputFilePath = Path.Combine(Path.GetTempPath(), "brep.mp");
             var fs = File.Create(outputFilePath);
-            MessagePackSerializer.Serialize(fs, (object)dd, ContractlessStandardResolver.Options);
             fs.Close();
             var serializationTime = timer.Elapsed;
 

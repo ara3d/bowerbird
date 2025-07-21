@@ -1,13 +1,14 @@
 ﻿using Autodesk.Revit.UI;
-using MessagePack.Resolvers;
-using MessagePack;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows;
-using Autodesk.Revit.DB;
-using BIMOpenSchema;
-using Autodesk.Revit.DB.Architecture;
+using Ara3D.BimOpenSchema;
+using Ara3D.BimOpenSchema.IO;
+using Ara3D.Utils;
+using FilePath = Autodesk.Revit.DB.FilePath;
 
 namespace Ara3D.Bowerbird.RevitSamples;
 
@@ -26,29 +27,21 @@ public class CommandExportBIMOpenSchema : NamedCommand
         var doc = uiDoc.Document;
 
         var timer = Stopwatch.StartNew();
-        var builder = new RevitBIMDataBuilder(doc, true);
+        var builder = new RevitToOpenBimSchema(doc, true);
 
         var processingTime = timer.Elapsed;
         timer.Restart();
-        var bimData = builder.bdb.Build();
 
+        var bimData = builder.bdb.Data;
+        var dataSet = bimData.ToDataSet();
         var buildTime = timer.Elapsed;
 
-        var s1 = new SerializationHelper("JSON with indenting", "bimdata.json",
-            fs => { JsonSerializer.Serialize(fs, bimData, new JsonSerializerOptions() { WriteIndented = true }); });
-
-        var s2 = new SerializationHelper("Message pack with compression", "bimdata.mpz", fs =>
-        {
-            var options = MessagePackSerializerOptions.Standard
-                .WithResolver(ContractlessStandardResolver.Instance)
-                .WithCompression(MessagePackCompression.Lz4Block);
-            MessagePackSerializer.Serialize(fs, bimData, options);
-        });
-
-        OutputData(bimData, processingTime, buildTime, s1, s2);
+        var fp = new DirectoryPath(Path.GetTempPath()).RelativeFile("bimdata.parquet.zip");
+        Task.Run(() => dataSet.WriteParquetToZipAsync(fp)).GetAwaiter().GetResult();
+        OutputData(bimData, processingTime, buildTime, fp);
     }
 
-    public static void OutputData(BIMData bd, TimeSpan processingTime, TimeSpan buildTime, params SerializationHelper[] shs)
+    public static void OutputData(BimData bd, TimeSpan processingTime, TimeSpan buildTime, Ara3D.Utils.FilePath fp)
     {
         var text = $"Processed {bd.Documents.Count} documents\r\n" +
                    $"{bd.Entities.Count} entities\r\n" +
@@ -57,14 +50,14 @@ public class CommandExportBIMOpenSchema : NamedCommand
                    $"{bd.DoubleParameters.Count} double parameters\r\n" +
                    $"{bd.EntityParameters.Count} entity parameters\r\n" +
                    $"{bd.StringParameters.Count} string parameters\r\n" +
+                   $"{bd.PointParameters.Count} point parameters\r\n" +
                    $"{bd.Points.Count} points\r\n" +
                    $"{bd.Strings.Count} strings\r\n" +
-                   $"Processing took {processingTime.TotalSeconds:F} seconds\r\n";
+                   $"{bd.Relations.Count} relations\r\n" +
+                   $"Processing took {processingTime.TotalSeconds:F} seconds\r\n" + 
+                   $"Building took {buildTime.TotalSeconds:F} seconds\r\n" +
+                   $"Output size was {fp.GetFileSizeAsString()}";
 
-        foreach (var sh in shs)
-        {
-            text += $"{sh.Method} took {sh.Elapsed.TotalSeconds:F} seconds and output {sh.FileSize} data\r\n";
-        }
         MessageBox.Show(text);
     }
 }
