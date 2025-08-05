@@ -26,7 +26,7 @@ namespace Ara3D.Bowerbird.RevitSamples
     /// </summary>
     public static class GeometryAbstractSyntaxTree
     {
-        public static string ToExpr(this IList<XYZ> points)
+        public static string ToExpr(this IList<Autodesk.Revit.DB.XYZ> points)
             => $"Points({string.Join(", ", points.Select(xyz => xyz.ToExpr()))})";
 
         public static string ToExpr(this DoubleArray vals)
@@ -35,7 +35,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         public static string ToExpr(this CurveArray ca)
             => $"Curves({string.Join(", ", ca.OfType<Curve>().Select(x => x.ToExpr()))})";
 
-        public static string ToExpr(this XYZ xyz)
+        public static string ToExpr(this Autodesk.Revit.DB.XYZ xyz)
             => $"[{xyz.X},{xyz.Y},{xyz.Z}]";
 
         public static string ToExpr(this BoundingBoxXYZ bb)
@@ -101,7 +101,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                     // Does a symbol geometry even ever change? If so when?  
                     return $"{type}({gi.GetSymbolGeometry().ToExpr()})";
                 
-                case Mesh mesh:
+                case Autodesk.Revit.DB.Mesh mesh:
                     return $"{type}({mesh.NumTriangles}, {mesh.Vertices.Count}, {mesh.IsClosed})";
 
                 case PolyLine pl:

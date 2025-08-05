@@ -115,7 +115,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                 if (bb != null)
                 {
                     var extent = bb.Max - bb.Min;
-                    extent = new XYZ(Math.Abs(extent.X), Math.Abs(extent.Y), Math.Abs(extent.Z));
+                    extent = new Autodesk.Revit.DB.XYZ(Math.Abs(extent.X), Math.Abs(extent.Y), Math.Abs(extent.Z));
                     rd.BoundingArea = extent.X * extent.Y;
                     rd.BoundingVolume = extent.X * extent.Y * extent.Z;
                     rd.BoundingHeight = extent.Z;

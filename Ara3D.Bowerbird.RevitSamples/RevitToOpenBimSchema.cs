@@ -36,14 +36,14 @@ public class RevitToOpenBimSchema
     public bool TryGetEntity(DocumentIndex di, ElementId id, out EntityIndex index)
         => ProcessedEntities.TryGetValue((di, id.Value), out index);
 
-    public static (XYZ min, XYZ max)? GetBoundingBoxMinMax(Element element, View view = null)
+    public static (Autodesk.Revit.DB.XYZ min, Autodesk.Revit.DB.XYZ max)? GetBoundingBoxMinMax(Element element, View view = null)
     {
         if (element == null) return null;
         var bb = element.get_BoundingBox(view);
         return bb == null ? null : (bb.Min, bb.Max);
     }
 
-    public PointIndex AddPoint(BimDataBuilder bdb, XYZ xyz)
+    public PointIndex AddPoint(BimDataBuilder bdb, Autodesk.Revit.DB.XYZ xyz)
         => bdb.AddPoint(new(xyz.X, xyz.Y, xyz.Z));
 
     private DescriptorIndex _apiTypeDescriptor;
@@ -500,8 +500,8 @@ public class RevitToOpenBimSchema
 
     public static bool TryGetLocationEndpoints(
         LocationCurve lc,
-        out XYZ startPoint,
-        out XYZ endPoint)
+        out Autodesk.Revit.DB.XYZ startPoint,
+        out Autodesk.Revit.DB.XYZ endPoint)
     {
         startPoint = null;
         endPoint = null;

@@ -36,7 +36,7 @@ public class CommandExportBIMOpenSchema : NamedCommand
         var dataSet = bimData.ToDataSet();
         var buildTime = timer.Elapsed;
 
-        var fp = new DirectoryPath(Path.GetTempPath()).RelativeFile("bimdata.parquet.zip");
+        var fp = Path.ChangeExtension(doc.PathName, "bimdata.parquet.zip");
         Task.Run(() => dataSet.WriteParquetToZipAsync(fp)).GetAwaiter().GetResult();
         OutputData(bimData, processingTime, buildTime, fp);
     }

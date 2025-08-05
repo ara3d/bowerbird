@@ -1,19 +1,16 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
 using System.Windows;
 using Ara3D.Collections;
 using Ara3D.Utils;
-using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Newtonsoft.Json;
-using Ara3D.Domo;
-using System.Windows.Controls;
+using FilePath = Autodesk.Revit.DB.FilePath;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class CommandProcessBReps : NamedCommand
+    public class CommandExportBReps : NamedCommand
     {
         public override string Name => "Export faces and boundaries";
 
@@ -30,12 +27,17 @@ namespace Ara3D.Bowerbird.RevitSamples
             var doc = uiDoc.Document;
 
             var timer = Stopwatch.StartNew();
-            var dd = doc.ProcessDocument();
+            var dd = doc.ProcessDocumentBrep();
             var processingTime = timer.Elapsed;
             timer.Restart();
-            var outputFilePath = Path.Combine(Path.GetTempPath(), "brep.mp");
+            
+            var filePath = new Utils.FilePath(doc.PathName);
+            var outputFilePath = filePath.ChangeDirectoryAndExt(SpecialFolders.MyDocuments, "brep.json"); 
             var fs = File.Create(outputFilePath);
+            var options = new JsonSerializerOptions { WriteIndented = true, IncludeFields = true };
+            JsonSerializer.Serialize(fs, dd, options);
             fs.Close();
+            
             var serializationTime = timer.Elapsed;
 
             var docCount = dd.Documents.Count;
@@ -44,13 +46,16 @@ namespace Ara3D.Bowerbird.RevitSamples
 
             var totalSize = PathUtil.GetFileSizeAsString(outputFilePath);
 
-            var text = "Just created a BREP representation using MessagePack\r\n" + 
+            var text = "Just created a BREP representation using JSON\r\n" + 
                        $"Containing {elementCount} elements with geometry\r\n" +
                        $"with a total of {objectCount} geometric objects\r\n" +
                        $"across {docCount+1} documents\r\n" + 
                        $"Processing took {processingTime.TotalSeconds:F} seconds\r\n" + 
                        $"Serialization took {serializationTime.TotalSeconds:F} seconds\r\n" + 
-                       $"Generated file size is {totalSize}";
+                       $"Generated file size is {totalSize}\r\n" + 
+                       $"File saved as {outputFilePath}";
+
+            outputFilePath.GetDirectory().OpenFolderInExplorer();
             MessageBox.Show(text);
         }
     }

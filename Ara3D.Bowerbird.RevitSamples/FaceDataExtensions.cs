@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Diagnostics;
+using RevitMesh = Autodesk.Revit.DB.Mesh;
 
 namespace Ara3D.Bowerbird.RevitSamples;
 
@@ -100,7 +101,7 @@ public static class FaceDataExtensions
 
     public static List<XYZData> ToData(this IEnumerable<XYZ> self)
         => self.Select(ToData).ToList();
-    
+
     public static List<UVData> GetEdgePoints(this Face face, Edge edge)
         => edge.TessellateOnFace(face).Select(ToData).ToList();
 
@@ -154,12 +155,12 @@ public static class FaceDataExtensions
     {
         if (self.IsIdentity) return null;
         return new TransformData(
-            self.Origin.ToData(), 
-            self.BasisX.ToData(), 
-            self.BasisY.ToData(), 
-            self.BasisZ.ToData(), 
-            self.HasReflection, 
-            self.IsConformal, 
+            self.Origin.ToData(),
+            self.BasisX.ToData(),
+            self.BasisY.ToData(),
+            self.BasisZ.ToData(),
+            self.HasReflection,
+            self.IsConformal,
             self.IsTranslation);
     }
 
@@ -204,7 +205,7 @@ public static class FaceDataExtensions
         return data.Add(tmp);
     }
 
-    public static MeshData ToData(this Mesh mesh)
+    public static MeshData ToData(this RevitMesh mesh)
     {
         var numTris = mesh.NumTriangles;
         var points = mesh.Vertices.ToData();
@@ -220,7 +221,7 @@ public static class FaceDataExtensions
         return new MeshData(mesh.Id, points, indices);
     }
 
-    public static int ProcessMesh(this Mesh mesh, GeometryData data)
+    public static int ProcessMesh(this RevitMesh mesh, GeometryData data)
         => data.Add(mesh.ToData());
 
     public static void ProcessSymbolGeometry(this GeometryElement element, string id, GeometryData data)
@@ -258,7 +259,7 @@ public static class FaceDataExtensions
                 return ProcessGeometryElement(geometryElement, data);
             case GeometryInstance geometryInstance:
                 return ProcessGeometryInstance(geometryInstance, data);
-            case Mesh mesh:
+            case Autodesk.Revit.DB.Mesh mesh:
                 return ProcessMesh(mesh, data);
             case Point point:
                 return NotProcessedMessage(point);
@@ -284,8 +285,8 @@ public static class FaceDataExtensions
             var geo = e.get_Geometry(options);
             if (geo == null) return;
             var tmp = ProcessGeometryElement(geo, data);
-            var transform = e is Instance inst 
-                ? inst.GetTransform().ToData() 
+            var transform = e is Instance inst
+                ? inst.GetTransform().ToData()
                 : null;
             var ed = new ElementData(e.Id.Value, tmp, transform);
             data.Elements.Add(ed);
@@ -305,7 +306,7 @@ public static class FaceDataExtensions
         foreach (var e in collector)
             ProcessElement(e, data, options);
     }
-    
+
     public static void ProcessDocument(this Document doc, DocumentData data, Options options)
     {
         data.DocumentName = doc.PathName;
@@ -324,7 +325,7 @@ public static class FaceDataExtensions
         }
     }
 
-    public static DocumentData ProcessDocument(this Document doc)
+    public static DocumentData ProcessDocumentBrep(this Document doc)
     {
         var options = new Options
         {

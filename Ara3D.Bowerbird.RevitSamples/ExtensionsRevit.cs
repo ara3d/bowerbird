@@ -134,10 +134,10 @@ namespace Ara3D.Bowerbird.RevitSamples
         public static IEnumerable<Element> GetElements(this Document doc, IEnumerable<ElementId> ids)
             => ids.Select(doc.GetElement);
 
-        public static List<List<XYZ>> GetRoomBoundaryCoordinates(this Room room)
+        public static List<List<Autodesk.Revit.DB.XYZ>> GetRoomBoundaryCoordinates(this Room room)
         {
             // List to hold all boundary loops
-            var boundaries = new List<List<XYZ>>();
+            var boundaries = new List<List<Autodesk.Revit.DB.XYZ>>();
 
             // Create boundary options
             var options = new SpatialElementBoundaryOptions();
@@ -152,7 +152,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                 foreach (var segmentList in boundarySegments)
                 {
                     // List to hold points of the current boundary loop
-                    var boundaryPoints = new List<XYZ>();
+                    var boundaryPoints = new List<Autodesk.Revit.DB.XYZ>();
 
                     // Iterate over each segment in the boundary loop
                     foreach (var segment in segmentList)
@@ -315,7 +315,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                 ? value
                 : Enumerable.Empty<Opening>());
 
-        public static XYZ[] GetBaseBox(this Element e)
+        public static Autodesk.Revit.DB.XYZ[] GetBaseBox(this Element e)
         {
             var box = e.get_BoundingBox(null);
             if (box == null)
@@ -326,15 +326,15 @@ namespace Ara3D.Bowerbird.RevitSamples
             var maxX = box.Max.X;
             var maxY = box.Max.Y;
             return new[]
-                { new XYZ(minX, minY, z), new XYZ(maxX, minY, z), new XYZ(maxX, maxY, z), new XYZ(minX, maxY, z) };
+                { new Autodesk.Revit.DB.XYZ(minX, minY, z), new Autodesk.Revit.DB.XYZ(maxX, minY, z), new Autodesk.Revit.DB.XYZ(maxX, maxY, z), new Autodesk.Revit.DB.XYZ(minX, maxY, z) };
         }
 
-        public static IList<XYZ> GetBaseBox(this Opening opening)
+        public static IList<Autodesk.Revit.DB.XYZ> GetBaseBox(this Opening opening)
         {
             if (opening.IsRectBoundary)
                 return opening.BoundaryRect.ToArray();
 
-            var list = new List<XYZ>();
+            var list = new List<Autodesk.Revit.DB.XYZ>();
             foreach (var curve in opening.BoundaryCurves)
             {
                 if (curve is Line line)
@@ -352,15 +352,15 @@ namespace Ara3D.Bowerbird.RevitSamples
             return list;
         }
 
-        public static XYZ Current3DCameraPosition(this UIDocument uidoc)
+        public static Autodesk.Revit.DB.XYZ Current3DCameraPosition(this UIDocument uidoc)
         {
             var view = uidoc.ActiveView as View3D;
             if (view == null)
-                return XYZ.Zero;
+                return Autodesk.Revit.DB.XYZ.Zero;
             return view.GetOrientation().EyePosition;
         }
 
-        public static void Update3DCameraPosition(this UIDocument uidoc, XYZ pos)
+        public static void Update3DCameraPosition(this UIDocument uidoc, Autodesk.Revit.DB.XYZ pos)
         {
             var view = uidoc.ActiveView as View3D;
             if (view == null)
