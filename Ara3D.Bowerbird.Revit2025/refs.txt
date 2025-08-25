@@ -77,3 +77,4 @@ System.Drawing.Common.dll
 System.IO.Packaging.dll
 UIFramework.dll
 ZstdSharp.dll
+System.IO.Pipes.dll

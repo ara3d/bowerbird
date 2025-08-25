@@ -78,6 +78,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         public bool PauseProcessing { get; set; }
         public event EventHandler<Exception> ExceptionEvent;
         public readonly Stopwatch WorkStopwatch = new Stopwatch();
+        public event EventHandler OnHeartbeat;
         public int WorkProcessedCount = 0;
         private bool _enabled = false;
         public bool DoWorkDuringIdle { get; set; } = true;

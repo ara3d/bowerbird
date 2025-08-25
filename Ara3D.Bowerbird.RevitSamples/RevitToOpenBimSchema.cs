@@ -184,7 +184,7 @@ public class RevitToOpenBimSchema
         AddDesc(ref _materialClass, "rvt:Material:Class", ParameterType.String);
         AddDesc(ref _materialTransparency, "rvt:Material:Transparency", ParameterType.Double);
 
-        AddDesc(ref _worksetKind, "rvt:Workset:Kind", ParameterType.Double);
+        AddDesc(ref _worksetKind, "rvt:Workset:Kind", ParameterType.String);
 
         AddDesc(ref _layerIndex, "rvt:Layer:Index", ParameterType.Int);
         AddDesc(ref _layerFunction, "rvt:Layer:Function", ParameterType.String);

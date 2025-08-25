@@ -10,12 +10,7 @@ using System.Windows.Forms;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    public class BIMOpenSchemaExporterOptions
-    {
-        public bool ExportParquet; 
-    }
-
-    public partial class BIMOpenSchemaExporterForm : Form
+   public partial class BIMOpenSchemaExporterForm : Form
     {
         public BIMOpenSchemaExporterForm()
         {

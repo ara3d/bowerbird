@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Pipes;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 using Ara3D.Bowerbird.Demo;
@@ -70,6 +71,9 @@ namespace Ara3D.Bowerbird.Revit
 
         public Result OnStartup(UIControlledApplication application)
         {
+
+            var _ = typeof(NamedPipeServerStream);
+
             UicApp = application;
             Instance = this;
             EventBus = new EventBus(this);
