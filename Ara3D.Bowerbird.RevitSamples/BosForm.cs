@@ -20,11 +20,17 @@ namespace Ara3D.Bowerbird.RevitSamples
         public void SetIdle(string txt)
         {
             textBoxIdle.BeginInvoke(() => textBoxIdle.Text = txt);
-         }
+        }
 
         public void SetId(string txt)
         {
             textBoxIdle.BeginInvoke(() => textBoxId.Text = txt);
+        }
+
+        public event EventHandler OnReset
+        {
+            add => button1.Click += value;
+            remove => button1.Click -= value;
         }
     }
 }

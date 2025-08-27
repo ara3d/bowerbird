@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Autodesk.Revit.DB.Architecture;
+using Newtonsoft.Json;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
@@ -27,11 +29,26 @@ namespace Ara3D.Bowerbird.RevitSamples
             Dir.TryToCreateAndClearDirectory();
             Ids.Clear();
             Processor = new BackgroundProcessor<long>(Process, uiapp);
-            var collector1 = new FilteredElementCollector(Doc).WhereElementIsNotElementType();
-            var collector2 = new FilteredElementCollector(Doc).WhereElementIsNotElementType();
-            var ids = collector1.ToElementIds().Concat(collector2.ToElementIds());
+            
+            //var collector1 = new FilteredElementCollector(Doc).WhereElementIsNotElementType();
+            //var collector2 = new FilteredElementCollector(Doc).WhereElementIsNotElementType();
+            //var ids = collector1.ToElementIds().Concat(collector2.ToElementIds());
+
             StartPipe();
             Processor.OnHeartbeat += ProcessorOnOnHeartbeat;
+            BosForm.OnReset += BosFormOnOnReset;
+            
+            EnqueueWork();
+        }
+
+        private void BosFormOnOnReset(object sender, EventArgs e)
+        {
+            EnqueueWork();
+        }
+
+        public void EnqueueWork()
+        {
+            var ids = Doc.GetRooms().Select(r => r.Id);
             Processor.EnqueueWork(ids.Select(id => id.Value));
         }
 
@@ -48,14 +65,13 @@ namespace Ara3D.Bowerbird.RevitSamples
             Server = new NamedPipeServerStream(
                 PipeName,
                 PipeDirection.InOut,
-                maxNumberOfServerInstances: 1,
+                maxNumberOfServerInstances: NamedPipeServerStream.MaxAllowedServerInstances,
                 PipeTransmissionMode.Message,
                 PipeOptions.Asynchronous);
 
             Server.WaitForConnection();
             Writer = new BinaryWriter(Server);
-            Reader = new BinaryReader(Server);
-            Writer.Write("hello");
+            //Reader = new BinaryReader(Server);
             Writer.Flush();
         }
 
@@ -66,10 +82,15 @@ namespace Ara3D.Bowerbird.RevitSamples
 
         public void Process(long id)
         {
-            Writer.Write(id);
-
             if (BosForm != null)
                 BosForm.SetId(id.ToString());
+
+            if (Doc.GetElement(new ElementId(id)) is Room room)
+            {
+                var rd = room.GetRoomData();
+                var json = JsonConvert.SerializeObject(rd);
+                Writer.Write(json);
+            }
         }
 
         public Document Doc;

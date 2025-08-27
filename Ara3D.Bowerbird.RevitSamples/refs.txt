@@ -77,4 +77,4 @@ System.Drawing.Common.dll
 System.IO.Packaging.dll
 UIFramework.dll
 ZstdSharp.dll
-C:\Program Files\dotnet\shared\Microsoft.NETCore.App\7.0.0\System.IO.Pipes.dll
+C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.8\System.IO.Pipes.dll

@@ -105,16 +105,17 @@ namespace Ara3D.Bowerbird.RevitSamples
             Processor = processor;
             UIApp = uiApp;
             Attach();
-            //var ee = ApiContext.CreateEvent(On_ExternalEventHeartbeat, "Heartbeat");
+            var ee = ApiContext.CreateEvent(On_ExternalEventHeartbeat, "Heartbeat");
             PokeRevitThread = new Thread(() =>
             {
                 while (true)
                 {
                     Thread.Sleep(HeartBeatMsec);
-                    //ee.Raise();
+                    ee.Raise();
                     PokeRevit();
                 }
             });
+            PokeRevitThread.Start();
         }
 
         public void Detach()
@@ -202,7 +203,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                     if (!Queue.TryDequeue(out var item))
                         continue;
                     Processor(item);
-                    WorkProcessedCount++;
+                    WorkProcessedCount++;   
                     
                     var elapsedTime = WorkStopwatch.ElapsedMilliseconds - startedTime;
                     if (elapsedTime > MaxMSecPerBatch && !doAllNow)
@@ -220,7 +221,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         }
 
         // Technique described by 
-        // https://forums.autodesk.com/t5/revit-api-forum/how-to-trigger-onidle-event-or-execution-of-an-externalevent/td-p/6645286
+        // https://forums.autodesk.com/t5/revit-api-forum/how-to-trigger-onidle-event-or-execution-of-an-externalevent/td-p/6645286 
         public static void PokeRevit()
         {
             if (Revit?.HasExited == true || Revit == null)
