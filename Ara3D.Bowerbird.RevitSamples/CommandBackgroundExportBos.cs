@@ -35,7 +35,8 @@ namespace Ara3D.Bowerbird.RevitSamples
             //var ids = collector1.ToElementIds().Concat(collector2.ToElementIds());
 
             StartPipe();
-            Processor.OnHeartbeat += ProcessorOnOnHeartbeat;
+            Processor.OnHeartbeat += ProcessorOnHeartbeat;
+            Processor.OnIdle += ProcessorOnIdle;
             BosForm.OnReset += BosFormOnOnReset;
             
             EnqueueWork();
@@ -48,11 +49,19 @@ namespace Ara3D.Bowerbird.RevitSamples
 
         public void EnqueueWork()
         {
-            var ids = Doc.GetRooms().Select(r => r.Id);
+            //var ids = Doc.GetRooms().Select(r => r.Id);
+            var ids = Doc.GetElements().Select(e => e.Id);
+
             Processor.EnqueueWork(ids.Select(id => id.Value));
         }
 
-        private void ProcessorOnOnHeartbeat(object sender, EventArgs e)
+        private void ProcessorOnHeartbeat(object sender, EventArgs e)
+        {
+            if (BosForm != null)
+                BosForm.SetHeartBeat(DateTime.Now.ToShortTimeString());
+        }
+
+        private void ProcessorOnIdle(object sender, EventArgs e)
         {
             if (BosForm != null)
                 BosForm.SetIdle(DateTime.Now.ToShortTimeString());
@@ -85,12 +94,25 @@ namespace Ara3D.Bowerbird.RevitSamples
             if (BosForm != null)
                 BosForm.SetId(id.ToString());
 
-            if (Doc.GetElement(new ElementId(id)) is Room room)
+            var el = Doc.GetElement(new ElementId(id));
+            if (el is Room room)
             {
                 var rd = room.GetRoomData();
-                var json = JsonConvert.SerializeObject(rd);
+                var json = JsonConvert.SerializeObject(rd, Formatting.Indented);
                 Writer.Write(json);
             }
+            else
+            {
+                var ed = new ElementData() { Id = id, Name = el.Name };
+                var json = JsonConvert.SerializeObject(ed, Formatting.Indented);
+                Writer.Write(json);
+            }
+        }
+
+        public class ElementData
+        {
+            public long Id { get; set; }
+            public string Name { get; set; }
         }
 
         public Document Doc;

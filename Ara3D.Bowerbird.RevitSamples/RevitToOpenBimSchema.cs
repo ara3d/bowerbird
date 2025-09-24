@@ -9,9 +9,11 @@ namespace Ara3D.Bowerbird.RevitSamples;
 
 public class RevitToOpenBimSchema
 {
-    public RevitToOpenBimSchema(Document rootDocument, bool includeLinks) 
+    public RevitToOpenBimSchema(Document rootDocument, bool includeLinks, bool includeGeometry) 
     {
         IncludeLinks = includeLinks;
+        IncludeGeometry = includeGeometry;
+        GeometryOptions = new Options() { DetailLevel = ViewDetailLevel.Fine };
         CreateCommonDescriptors();
         ProcessDocument(rootDocument);
     }
@@ -27,6 +29,8 @@ public class RevitToOpenBimSchema
 
     public BimDataBuilder bdb = new();
     public bool IncludeLinks;
+    public bool IncludeGeometry;
+    public Options GeometryOptions;
     public Document CurrentDocument;
     public DocumentIndex CurrentDocumentIndex;
     public Dictionary<(DocumentIndex, long), EntityIndex> ProcessedEntities = new();
@@ -513,6 +517,14 @@ public class RevitToOpenBimSchema
         return true;
     }
 
+    public void ProcessGeometry(Element e)
+    {
+        if (!IncludeGeometry)
+            return;
+        var g = e.get_Geometry(GeometryOptions);
+        
+    }
+
     public EntityIndex ProcessElement(Element e)
     {
         if (e == null || !e.IsValidObject)
@@ -627,6 +639,8 @@ public class RevitToOpenBimSchema
 
         if (e is FamilyInstance familyInstance)
             ProcessFamilyInstance(entityIndex, familyInstance);
+
+        ProcessGeometry(e);
 
         return entityIndex;
     }

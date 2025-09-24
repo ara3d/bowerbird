@@ -11,9 +11,9 @@ namespace Ara3D.Bowerbird.RevitSamples;
 
 public class RevitModelBuilder
 {
-    public SerializableModel3D Build()
+    public BimOpenGeometry Build()
     {
-        var bldr = new SerializableModel3DBuilder();
+        var bldr = new BimGeometryBuilder();
         foreach (var g in DocumentMeshGroups.Values)
         {
             bldr.Add(-1, g.Transform, g);
@@ -247,7 +247,7 @@ public class RevitModelBuilder
                 return ProcessFace(face);
         }
 
-        // Things like: lines, curves, profiles, etc. return null
+        // Things like lines, curves, profiles, etc. all return null
         return null;
     }
 

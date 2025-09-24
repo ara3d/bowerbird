@@ -1,47 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 using Ara3D.Models;
 using Ara3D.Utils;
-using Matrix4x4 = System.Numerics.Matrix4x4;
 
 namespace Ara3D.Bowerbird.RevitSamples;
-
-public class SerializableModel3D
-{
-    // Element data
-    public List<int> ElementObjectIds = new();
-    public List<int> ElementMaterialIndices = new();
-    public List<int> ElementMeshIndices = new();
-    public List<int> ElementTransforms = new();
-
-    // Point data
-    public List<float> PointXData = new();
-    public List<float> PointYData = new();
-    public List<float> PointZData = new();
-    
-    // Index data 
-    public List<int> IndexData = new();
-    
-    // Mesh data 
-    public List<int> MeshPointOffset = new();
-    public List<int> MeshIndexOffset = new();
-    
-    // Material data 
-    public List<float> MaterialColorRed = new();
-    public List<float> MaterialColorGreen = new();
-    public List<float> MaterialColorBlue = new();
-    public List<float> MaterialColorAlpha = new();
-    public List<float> MaterialRoughness = new();
-    public List<float> MaterialMetallic = new();
-    
-    // Transform data 
-    public List<float> TransformData = new();
-
-    // Helper functions 
-    public int GetNumMatrices() => TransformData.Count / 16;
-    public int GetNumMaterials() => MaterialColorRed.Count;
-    public int GetNumMeshes() => MeshPointOffset.Count;
-    public int GetNumElements() => ElementObjectIds.Count;
-}
 
 public class Mesh
 {
@@ -68,7 +30,7 @@ public class MeshGroup
     public List<MeshWithMaterial> Meshes { get; } = new();
 }
 
-public class SerializableModel3DBuilder
+public class BimGeometryBuilder
 {
     public List<ElementStruct> Elements = new();
     public IndexedSet<Mesh> Meshes = new();
@@ -97,38 +59,39 @@ public class SerializableModel3DBuilder
         }
     }
 
-    public SerializableModel3D BuildModel()
+    public BimOpenGeometry BuildModel()
     {
-        var r = new SerializableModel3D();
+        var r = new BimOpenGeometry();
         foreach (var es in Elements)
         {
-            r.ElementObjectIds.Add(es.ElementIndex);
+            r.ElementEntityIds.Add(es.ElementIndex);
             r.ElementMaterialIndices.Add(es.MaterialIndex);
             r.ElementMeshIndices.Add(es.MeshIndex);
-            r.ElementTransforms.Add(es.TransformIndex);
+            r.ElementTransformIndices.Add(es.TransformIndex);
         }
 
         foreach (var m in Meshes.OrderedMembers())
         {
             if (m == null)
                 continue;
-            r.MeshPointOffset.Add(r.PointXData.Count);
-            r.MeshIndexOffset.Add(r.IndexData.Count);
+            r.MeshVertexOffset.Add(r.VertexXData.Count);
+            r.MeshIndexOffset.Add(r.FaceIndexData.Count);
 
-            r.PointXData.AddRange(m.PointXData);
-            r.PointYData.AddRange(m.PointYData);
-            r.PointZData.AddRange(m.PointZData);
-            r.IndexData.AddRange(m.IndexData);
+            r.VertexXData.AddRange(m.PointXData);
+            r.VertexYData.AddRange(m.PointYData);
+            r.VertexZData.AddRange(m.PointZData);
+
+            r.FaceIndexData.AddRange(m.IndexData);
         }
 
         foreach (var m in Materials.OrderedMembers())
         {
             if (m == null)
                 continue;
-            r.MaterialColorRed.Add(m.Color.R);
-            r.MaterialColorGreen.Add(m.Color.G);
-            r.MaterialColorBlue.Add(m.Color.B);
-            r.MaterialColorAlpha.Add(m.Color.A);
+            r.MaterialRed.Add(m.Color.R);
+            r.MaterialGreen.Add(m.Color.G);
+            r.MaterialBlue.Add(m.Color.B);
+            r.MaterialAlpha.Add(m.Color.A);
             r.MaterialRoughness.Add(m.Roughness);
             r.MaterialMetallic.Add(m.Metallic);
         }

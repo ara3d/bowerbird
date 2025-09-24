@@ -27,7 +27,7 @@ public class CommandExportBIMOpenSchema : NamedCommand
         var doc = uiDoc.Document;
 
         var timer = Stopwatch.StartNew();
-        var builder = new RevitToOpenBimSchema(doc, true);
+        var builder = new RevitToOpenBimSchema(doc, true, true);
 
         var processingTime = timer.Elapsed;
         timer.Restart();

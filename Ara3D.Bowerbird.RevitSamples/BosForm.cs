@@ -22,9 +22,19 @@ namespace Ara3D.Bowerbird.RevitSamples
             textBoxIdle.BeginInvoke(() => textBoxIdle.Text = txt);
         }
 
+        public void SetHeartBeat(string txt)
+        {
+            textBoxIdle.BeginInvoke(() => textBoxIdle.Text = txt);
+        }
+
         public void SetId(string txt)
         {
             textBoxIdle.BeginInvoke(() => textBoxId.Text = txt);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
 
         public event EventHandler OnReset

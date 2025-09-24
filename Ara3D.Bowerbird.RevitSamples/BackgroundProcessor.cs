@@ -9,53 +9,10 @@ using System.Threading;
 using Ara3D.Utils;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
-using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
 namespace Ara3D.Bowerbird.RevitSamples
 {
-    /// <summary>
-    /// This allows you to execute arbitrary Revit code within a valid UI context. 
-    /// </summary>
-    public static class ApiContext
-    {
-        [DllImport("USER32.DLL")]
-        public static extern bool PostMessage(IntPtr hWnd, uint msg, uint wParam, uint lParam);
-
-        public class ExternalEventHandler : IExternalEventHandler
-        {
-            public readonly Action<UIApplication> Action;
-            public readonly string Name;
-
-            public ExternalEventHandler(Action<UIApplication> action, string name)
-            {
-                Action = action ?? throw new ArgumentNullException(nameof(action));
-                Name = name;
-            }
-
-            public void Execute(UIApplication app)
-            {
-                try
-                {
-                    Action(app);
-                }
-                catch (Exception ex)
-                {
-                    TaskDialog.Show("Error", ex.Message);
-                }
-            }
-
-            public string GetName()
-                => Name;
-        }
-
-        public static ExternalEvent CreateEvent(Action<UIApplication> action, string name)
-        {
-            var eeh = new ExternalEventHandler(action, name);
-            return ExternalEvent.Create(eeh);
-        }
-    }
-
     /// <summary>
     /// The background processor does arbitrary work in the background while Revit is Idle.
     /// It contains a queue of work items (of any user defined type) for later processing.
@@ -70,7 +27,7 @@ namespace Ara3D.Bowerbird.RevitSamples
     {
         public ConcurrentQueue<T> Queue { get; private set; } = new ConcurrentQueue<T>();
         public int MaxMSecPerBatch { get; set; } = 100;
-        public int HeartBeatMsec { get; set; } = 125;
+        public int HeartBeatMsec { get; set; } = 500;
         public bool ExecuteNextIdleImmediately { get; set; }
         public readonly Action<T> Processor;
         public readonly UIApplication UIApp;
@@ -78,14 +35,16 @@ namespace Ara3D.Bowerbird.RevitSamples
         public bool PauseProcessing { get; set; }
         public event EventHandler<Exception> ExceptionEvent;
         public readonly Stopwatch WorkStopwatch = new Stopwatch();
-        public event EventHandler OnHeartbeat;
         public int WorkProcessedCount = 0;
         private bool _enabled = false;
         public bool DoWorkDuringIdle { get; set; } = true;
         public bool DoWorkDuringProgress { get; set; } = true;
         public bool DoWorkDuringExternal { get; set; } = true;
-        public static Process Revit = Process.GetCurrentProcess();
-        public Thread PokeRevitThread; 
+        public static readonly Process Revit = Process.GetCurrentProcess();
+        public Thread PokeRevitThread;
+
+        public event EventHandler OnHeartbeat;
+        public event EventHandler OnIdle;
 
         public bool Enabled
         {
@@ -111,7 +70,7 @@ namespace Ara3D.Bowerbird.RevitSamples
                 while (true)
                 {
                     Thread.Sleep(HeartBeatMsec);
-                    ee.Raise();
+                    //ee.Raise();
                     PokeRevit();
                 }
             });
@@ -154,6 +113,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         {
             if (!DoWorkDuringExternal || PauseProcessing)
                 return;
+            OnHeartbeat?.Invoke(this, EventArgs.Empty);
             ProcessWork();
         }
 
@@ -161,6 +121,7 @@ namespace Ara3D.Bowerbird.RevitSamples
         {
             if (!DoWorkDuringIdle || PauseProcessing || !HasWork)
                 return;
+            OnIdle?.Invoke(this, EventArgs.Empty);
             ProcessWork();
             if (ExecuteNextIdleImmediately && HasWork)
                 e.SetRaiseWithoutDelay();
